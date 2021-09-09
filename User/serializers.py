@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from User.models import Account
+from User.models import Account, TblUsers, TblAdmin, TblRoles, TblPermissions
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -33,3 +33,62 @@ class RegistrationSerializer(serializers.ModelSerializer):
         # Saving the instance to the database, and return it.
         account.save()
         return account
+
+
+class TblUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblUsers
+        fields = ['institute_id',
+                  'department_id',
+                  'user_name',
+                  'user_mobile_number',
+                  'user_email',
+                  'user_enrollment_number',
+                  'user_password',
+                  'is_verified_email',
+                  'is_verified_mobile',
+                  'is_active',
+                  'is_delete',
+                  'insert_date_time',
+                  'update_date_time',
+                  'user_device_id']
+
+
+class TblAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblAdmin
+        fields = ['admin_name',
+                  'admin_email',
+                  'admin_password',
+                  'admin_contact_number',
+                  'admin_image',
+                  'is_active',
+                  'is_delete',
+                  'insert_date_time',
+                  'update_date_time']
+
+
+class TblRolesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblRoles
+        fields = ['admin_id',
+                  'role_name',
+                  'is_active',
+                  'is_delete',
+                  'insert_date_time',
+                  'update_date_time']
+
+
+class TblPermissionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TblPermissions
+        fields = ['role_id',
+                  'admin_id',
+                  'can_view',
+                  'can_edit',
+                  'can_insert',
+                  'can_delete',
+                  'is_active',
+                  'is_delete',
+                  'insert_date_time',
+                  'update_date_time']
