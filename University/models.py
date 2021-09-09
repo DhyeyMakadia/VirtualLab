@@ -44,7 +44,6 @@ class tbl_departments(models.Model):
 
 class tbl_courses(models.Model):
     department_id = models.ForeignKey(tbl_departments,related_name="courses_department_id",on_delete=models.CASCADE,blank=True,null=True)
-    institute_id = models.ForeignKey(tbl_institutes,related_name="courses_institute_id",on_delete=models.CASCADE,blank=True,null=True)
     courses_name = models.CharField("Courses Name",default="",null=True,blank=True,max_length=100)
     courses_code = models.CharField("Courses Code",default="",null=True,blank=True,max_length=100)
     courses_syllabus = models.TextField("Syllabus",default="",blank=True,null=True)
