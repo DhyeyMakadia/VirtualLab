@@ -51,6 +51,7 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+
 class tbl_users(models.Model):
     institute_id = models.ForeignKey(tbl_institutes,related_name="users_institute_id",on_delete=models.CASCADE,blank=True,null=True)
     department_id = models.ForeignKey(tbl_departments,related_name="users_department_id",on_delete=models.CASCADE,blank=True,null=True)
@@ -67,6 +68,7 @@ class tbl_users(models.Model):
     update_date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     user_device_id = models.CharField("user_device_id",default="",blank=True,null=True,max_length=100)
 
+
 class tbl_admin(models.Model):
     admin_name = models.CharField("Admin Name",default="Admin",blank=True,null=True,max_length=50)
     admin_email = models.EmailField("Admin Email",default="")
@@ -78,6 +80,7 @@ class tbl_admin(models.Model):
     insert_date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     update_date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
+
 class tbl_roles(models.Model):
     admin_id = models.ForeignKey(tbl_admin,related_name="roles_admin_id",on_delete=models.CASCADE,blank=True,null=True)
     role_name = models.CharField("Role",default="",blank=True,null=True,max_length=50)
@@ -85,6 +88,7 @@ class tbl_roles(models.Model):
     is_delete = models.BooleanField("is_delete",default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     update_date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+
 
 class tbl_permissions(models.Model):
     role_id = models.ForeignKey(tbl_roles,related_name="permissions_role_id",on_delete=models.CASCADE,blank=True,null=True)
