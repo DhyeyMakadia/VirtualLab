@@ -1,4 +1,1 @@
-/VirtualLab/settings.py
-db.sqlite3
-/.idea
-media/
+VirtualLab/settings.py
