@@ -6,6 +6,7 @@ from django.db.models.base import Model
 
 # Create your models here.
 
+
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
