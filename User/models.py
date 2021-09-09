@@ -26,6 +26,13 @@ class Account(AbstractBaseUser):
     """    0 means not approved 1 means approved    """
     
     email = models.EmailField('email', max_length=60, unique=True)
+    is_approved = models.BooleanField(default=False)
+    date_joined = models.DateTimeField('date joined', auto_now_add=True, editable=False)
+    last_login = models.DateTimeField('last login', auto_now=True, editable=False)
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
 
