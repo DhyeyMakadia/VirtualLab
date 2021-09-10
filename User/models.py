@@ -1,4 +1,3 @@
-from django.db.models.expressions import F
 from University.models import TblDepartments, TblInstitutes
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
