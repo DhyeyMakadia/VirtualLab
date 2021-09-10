@@ -1,7 +1,6 @@
 from University.models import TblDepartments, TblInstitutes
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.db.models.base import Model
 
 
 # Create your models here.
@@ -61,7 +60,7 @@ class TblUsers(models.Model):
     user_mobile_number = models.PositiveIntegerField("Mobile No.", default=0)
     user_email = models.EmailField("Email", default="")
     user_enrollment_number = models.PositiveIntegerField("Enrollment No.", default=0)
-    user_password = models.CharField("Password", default="", blank=True, null=True, max_length=200)
+    # user_password = models.CharField("Password", default="", blank=True, null=True, max_length=200)
     is_approved = models.BooleanField(default=False)
     is_verified_email = models.BooleanField("is_verified_email", default=False)
     is_verified_mobile = models.BooleanField("is_verified_mobile", default=False)
@@ -76,7 +75,7 @@ class TblAdmin(models.Model):
     account_id = models.ForeignKey(Account, on_delete=models.CASCADE, blank=False, null=False)
     admin_name = models.CharField("Admin Name", default="Admin", blank=True, null=True, max_length=50)
     admin_email = models.EmailField("Admin Email", default="")
-    admin_password = models.CharField("Password", default="", blank=True, null=True, max_length=200)
+    # admin_password = models.CharField("Password", default="", blank=True, null=True, max_length=200)
     admin_contact_number = models.PositiveIntegerField("Contact No.", default=0)
     admin_image = models.ImageField(upload_to="User/Admin_Images", default="", max_length=200, blank=True, null=True)
     is_active = models.BooleanField("is_active", default=True)
