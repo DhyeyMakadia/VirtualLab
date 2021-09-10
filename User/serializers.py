@@ -21,7 +21,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         # university = University.objects.get(id=self.validated_data['university'])
         account = Account(
             email=self.validated_data['email'],
-            is_admin=self.validated_data['is_admin']
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
@@ -38,13 +37,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class TblUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = TblUsers
-        fields = ['institute_id',
+        fields = ['account_id',
+                  'institute_id',
                   'department_id',
                   'user_name',
                   'user_mobile_number',
-                  'user_email',
+                  # 'user_email',
                   'user_enrollment_number',
-                  'user_password',
+                  # 'user_password',
                   'is_verified_email',
                   'is_verified_mobile',
                   'is_active',
@@ -57,9 +57,10 @@ class TblUserSerializer(serializers.ModelSerializer):
 class TblAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = TblAdmin
-        fields = ['admin_name',
-                  'admin_email',
-                  'admin_password',
+        fields = ['account_id',
+                  'admin_name',
+                  # 'admin_email',
+                  # 'admin_password',
                   'admin_contact_number',
                   'admin_image',
                   'is_active',

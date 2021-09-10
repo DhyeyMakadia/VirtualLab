@@ -51,7 +51,7 @@ class Account(AbstractBaseUser):
 
 
 class TblUsers(models.Model):
-    account_id = models.ForeignKey(Account, on_delete=models.CASCADE, blank=False, null=False)
+    account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
     institute_id = models.ForeignKey(TblInstitutes, related_name="users_institute_id", on_delete=models.CASCADE,
                                      blank=True, null=True)
     department_id = models.ForeignKey(TblDepartments, related_name="users_department_id", on_delete=models.CASCADE,
@@ -72,7 +72,7 @@ class TblUsers(models.Model):
 
 
 class TblAdmin(models.Model):
-    account_id = models.ForeignKey(Account, on_delete=models.CASCADE, blank=False, null=False)
+    account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
     admin_name = models.CharField("Admin Name", default="Admin", blank=True, null=True, max_length=50)
     # admin_email = models.EmailField("Admin Email", default="")
     # admin_password = models.CharField("Password", default="", blank=True, null=True, max_length=200)
