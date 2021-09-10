@@ -43,7 +43,7 @@ class TblDepartments(models.Model):
     update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
-        return self.dept_name
+        return self.department_name
 
 
 class TblCourses(models.Model):
@@ -55,3 +55,6 @@ class TblCourses(models.Model):
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.courses_name
