@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | University</title>
+{% endblock title1 %}
+
+{% block Name %}
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>University</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">university</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+{% endblock %}
+
+{% block edit %}
+{% endblock edit %}
+
+{% block NewContent %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      
+        <div class="col-12">
+          <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <table class="table">
+                <thead>
+                  <tr style="text-align: center;">
+                    <th>SR no.</th>
+                    <th>University</th>
+                    <th>University Code</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                
+                  {% for i in univ %}
+                  <tbody>
+                    <tr style="text-align: center;">
+                      <td>{{forloop.counter}}.</td>
+                      <td><a href="#"><b style="color: black;">{{ i.university_name }}</b></a></td>
+                      <td><b>{{ i.university_unique_num }}</b></td>
+                      <td>{{ i.update_date_time }}</td>
+                      <td><a href="#"><span class="btn btn-primary">Edit</span></a>
+                          <a href="#"><span class="btn btn-danger">Delete</span></a></td>
+                    </tr>
+                  </tbody>
+                  {% endfor %}
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div><div class="btn btn-success">Add University</div>
+          <!-- /.card -->
+        </div>
+      
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from University.views import *
 
 # modules for rest api
 from rest_framework.response import Response
@@ -13,6 +14,85 @@ from User.models import Account, TblUsers
 
 # Create your views here.
 
+
+# ========================= Admin Panel views ==============================
+
+def login(request):
+    err = ''
+    if request.POST:
+        em = request.POST['em1']
+        pwd = request.POST['pass']
+
+        try:
+            obj = Account.objects.get(email=em)
+            if obj.check_password(pwd):
+                request.session['admin_session'] = obj.id
+                return redirect('dashboard')
+            else:
+                err = 'Wrong Password'
+        except:
+            err = 'Wrong Email'
+    return render(request,'login.html',{'error':err})
+
+def profile(request):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        role = TblRoles.objects.get(admin_id = User_Admin)
+        perm = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        if request.POST:
+            nm = request.POST['nm1']
+            cno = request.POST['cno1']
+            prof1 = request.FILES.get('prof1')
+
+            User_Admin.admin_name = nm
+            User_Admin.admin_contact_number = cno
+            if prof1 != None:
+                User_Admin.admin_image = prof1
+            User_Admin.save()
+        return render(request,'profile.html',{'Users':User,'univ':univ,'admin':User_Admin,'role':role,'perm':perm})
+    else:
+        return redirect('login')
+
+def changepassword(request):
+    err = suc = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        univ = TblUniversity.objects.all()
+        if request.POST:
+            pwd = request.POST['pwd']
+            pwd1 = request.POST['pwd1']
+            pwd2 = request.POST['pwd2']
+
+            if User.check_password(pwd):
+                if pwd1 == pwd2:
+                    print('1')
+                    serializer = RegistrationSerializer(User,data={'email':User.email,'password':pwd1,'password2':pwd2},partial=True)
+                    print(2)
+                    if serializer.is_valid():
+                        print(3)
+                        account = serializer.save()
+                        suc = 'Password Changed Successfully'
+                    else:
+                        err = "Invalid Input"
+                        print(serializer.errors)
+                else:
+                    err = 'Password Must Match !!'
+            else:
+                err = 'Wrong Password'
+
+        return render(request,'changepassword.html',{'Users':User,'univ':univ,'admin':User_Admin,'error':err,'success':suc})
+    else:
+        return redirect('login')
+
+def logout(request):
+    if 'admin_session' in request.session.keys():
+        del request.session['admin_session']
+        return redirect('login')
+    else:
+        print('session not found')
 
 # ========================= rest api views ==============================
 

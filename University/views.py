@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from User.views import *
+from User.models import *
 
 from University.models import TblUniversity, TblInstitutes, TblDepartments, TblCourses
 from University.serializers import TblUniversitySerializer, TblInstitutesSerializer, TblDepartmentsSerializer, TblCoursesSerializer
@@ -8,8 +10,17 @@ from rest_framework.decorators import api_view
 
 # Create your views here.
 
+# ========================= Admin Panel views ==============================
+def dashboard(request):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        univ = TblUniversity.objects.all()
+        print(User)
+        return render(request, 'dashboard.html', {'Users': User,'univ':univ})
+    else:
+        return redirect('login')
 
-# REST API View
+# ========================= rest api views ==============================
 
 @api_view(['GET'])
 def fetch_universities(request):
