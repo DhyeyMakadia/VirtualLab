@@ -68,16 +68,9 @@ def changepassword(request):
 
             if User.check_password(pwd):
                 if pwd1 == pwd2:
-                    print('1')
-                    serializer = RegistrationSerializer(User,data={'email':User.email,'password':pwd1,'password2':pwd2},partial=True)
-                    print(2)
-                    if serializer.is_valid():
-                        print(3)
-                        account = serializer.save()
-                        suc = 'Password Changed Successfully'
-                    else:
-                        err = "Invalid Input"
-                        print(serializer.errors)
+                    User.set_password(pwd1)
+                    User.save()
+                    suc = 'Password Changed Successfully'
                 else:
                     err = 'Password Must Match !!'
             else:

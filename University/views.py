@@ -14,9 +14,11 @@ from rest_framework.decorators import api_view
 def dashboard(request):
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+
         univ = TblUniversity.objects.all()
         print(User)
-        return render(request, 'dashboard.html', {'Users': User,'univ':univ})
+        return render(request, 'dashboard.html', {'Users': User,'admin':User_Admin,'univ':univ})
     else:
         return redirect('login')
 

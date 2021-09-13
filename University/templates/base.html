@@ -52,7 +52,7 @@
     
                 <!-- <h3 class="profile-username text-center">{{ Users.first_name }} {{ Users.last_name }}</h3> -->
     
-                <p class="text-muted text-center">{{ Users.email }}</p>
+                <p class="text-muted text-center">{{ admin.admin_name }}</p>
               </div>
             <!-- Message End -->
               
@@ -97,7 +97,7 @@
           
         </div>
         <div class="info">
-          <a href="{% url 'profile' %}" class="d-block">{{ Users.email }}</a>
+          <a href="{% url 'profile' %}" class="d-block">{{ admin.admin_name }}</a>
         </div>
       </div>
 
