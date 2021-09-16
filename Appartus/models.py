@@ -8,7 +8,7 @@ class TblAppartusCategory(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.appartus_category_name
@@ -20,7 +20,7 @@ class TblAppartusSubcategory(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.appartus_subcategory_name
@@ -33,7 +33,7 @@ class TblAppartus(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.appartus_name

@@ -43,8 +43,8 @@
                     <th>SR no.</th>
                     <th>University</th>
                     <th>University Code</th>
-                    <th>Date</th>
-                    <th>Status</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 
@@ -55,7 +55,7 @@
                       <td><a href="#"><b style="color: black;">{{ i.university_name }}</b></a></td>
                       <td><b>{{ i.university_unique_num }}</b></td>
                       <td>{{ i.update_date_time }}</td>
-                      <td><a href="#" class="badge bg-primary">Update</a></span>
+                      <td><a href="{% url 'update_university' i.id %}" class="badge bg-primary">Update</a></span>
                         <a href="{% url 'delete_university' i.id %}" class="badge bg-danger">Delete</a></span></td>
                     </tr>
                   </tbody>
@@ -64,7 +64,7 @@
             </div>
             <!-- /.card-body -->
           </div>
-          <a href="#"><div class="btn btn-success">Add University</div></a>
+          <a href="{% url 'add_university' %}"><div class="btn btn-success">Add University</div></a>
           <!-- /.card -->
         </div>
       

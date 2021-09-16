@@ -12,7 +12,7 @@ class TblUniversity(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.university_name
@@ -26,7 +26,7 @@ class TblInstitutes(models.Model):
     institute_city = models.CharField("City", default="", null=True, blank=True, max_length=50)
     institute_state = models.CharField("State", default="", null=True, blank=True, max_length=50)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.institute_name
@@ -40,7 +40,7 @@ class TblDepartments(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.department_name
@@ -54,7 +54,7 @@ class TblCourses(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.courses_name

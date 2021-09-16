@@ -4,6 +4,8 @@ from University.views import fetch_universities, fetch_institutes, fetch_departm
 
 urlpatterns = [
     path('dashboard/',dashboard,name='dashboard'),
+    path('add_university/',add_university,name='add_university'),
+    path('update_university/<int:id>',update_university,name='update_university'),
     path('delete_university/<int:id>',delete_university,name='delete_university'),
 
 

@@ -10,7 +10,7 @@ class TblInputParameter(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class TblOutputParameter(models.Model):
@@ -18,7 +18,7 @@ class TblOutputParameter(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class TblFixedInputParameter(models.Model):
@@ -27,7 +27,7 @@ class TblFixedInputParameter(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class TblFixedOutputParameter(models.Model):
@@ -36,7 +36,7 @@ class TblFixedOutputParameter(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class TblPractical(models.Model):
@@ -51,7 +51,7 @@ class TblPractical(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class TblMultiplePracticalImages(models.Model):

@@ -68,7 +68,7 @@ class TblUsers(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     user_device_id = models.CharField("user_device_id", default="", blank=True, null=True, max_length=100)
 
     def __str__(self):
@@ -85,7 +85,7 @@ class TblAdmin(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.admin_name
@@ -98,7 +98,7 @@ class TblRoles(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.role_name
@@ -116,7 +116,7 @@ class TblPermissions(models.Model):
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         name = self.admin_id.admin_name
