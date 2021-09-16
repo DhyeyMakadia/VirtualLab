@@ -94,7 +94,9 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          
+          {% if admin.admin_image %}
+          <img src="{{ admin.admin_image.url }}" class="img-circle elevation-2" alt="User Image">
+          {% endif %}
         </div>
         <div class="info">
           <a href="{% url 'profile' %}" class="d-block">{{ admin.admin_name }}</a>
@@ -140,14 +142,14 @@
             <ul class="nav nav-treeview">
               {% if Users.is_superuser %}
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'register_admin' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Register Admin</p>
                 </a>
               </li>
               {% endif %}
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'view_admin' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Admin(s)</p>
                 </a>

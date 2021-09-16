@@ -10,7 +10,7 @@ from .serializers import RegistrationSerializer, TblUserSerializer
 
 
 from University.models import TblDepartments
-from User.models import Account, TblUsers
+from User.models import *
 
 # Create your views here.
 
@@ -38,9 +38,9 @@ def profile(request):
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        univ = TblUniversity.objects.all()
         role = TblRoles.objects.get(admin_id = User_Admin)
         perm = TblPermissions.objects.get(admin_id = User_Admin)
-        univ = TblUniversity.objects.all()
         if request.POST:
             nm = request.POST['nm1']
             cno = request.POST['cno1']
@@ -77,6 +77,76 @@ def changepassword(request):
                 err = 'Wrong Password'
 
         return render(request,'changepassword.html',{'Users':User,'univ':univ,'admin':User_Admin,'error':err,'success':suc})
+    else:
+        return redirect('login')
+
+def register_admin(request):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        univ = TblUniversity.objects.all()
+        if request.POST:
+            em = request.POST['em1']
+            pwd = request.POST['pass1']
+            nm = request.POST['nm1']
+            cno = request.POST['cno1']
+            prof1 = request.FILES.get('prof1')
+
+            # ACCOUNT
+            serializer = RegistrationSerializer(data={'email':em,'password':pwd,'password2':pwd,'is_admin':True},partial=True)
+            if serializer.is_valid():
+                account = serializer.save()
+            else:
+                err = "Invalid Input"
+
+            # ADMIN
+            obj_account = Account.objects.get(email = em)
+            obj_account.is_admin = True
+            obj_account.is_staff = True
+            obj_account.save()
+            New_Admin = TblAdmin()
+            New_Admin.account_id = obj_account
+            New_Admin.admin_name = nm
+            New_Admin.admin_contact_number = cno
+            if prof1 != None:
+                New_Admin.admin_image = prof1
+            New_Admin.save()
+
+            #ROLE
+            obj_admin = TblAdmin.objects.get(account_id=obj_account)
+            New_Role = TblRoles()
+            New_Role.admin_id = obj_admin
+            New_Role.role_name = str(obj_admin.admin_name) + "(admin)"
+            New_Role.save()
+
+            # PERMISSIONS
+            obj_role = TblRoles.objects.get(admin_id=obj_admin)
+            New_Permissions = TblPermissions()
+            New_Permissions.admin_id = obj_admin
+            New_Permissions.role_id = obj_role
+            New_Permissions.save()
+            return redirect('view_admin')
+
+        return render(request, 'register_admin.html', {'Users': User,'admin':User_Admin,'univ':univ})
+    else:
+        return redirect('login')
+
+def view_admin(request):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        univ = TblUniversity.objects.all()
+        All_Admin = TblPermissions.objects.all()
+
+        return render(request, 'view_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'all_admin':All_Admin})
+    else:
+        return redirect('login')
+
+def delete_admin(request,id):
+    if 'admin_session' in request.session.keys():
+        Del_Admin = Account.objects.get(id = id)
+        Del_Admin.delete()
+        return redirect('view_admin')
     else:
         return redirect('login')
 

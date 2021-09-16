@@ -15,13 +15,19 @@ def dashboard(request):
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
-
         univ = TblUniversity.objects.all()
         print(User)
         return render(request, 'dashboard.html', {'Users': User,'admin':User_Admin,'univ':univ})
     else:
         return redirect('login')
 
+def delete_university(request,id):
+    if 'admin_session' in request.session.keys():
+        Del_Univ = TblUniversity.objects.get(id = id)
+        Del_Univ.delete()
+        return redirect('dashboard')
+    else:
+        return redirect('login')
 # ========================= rest api views ==============================
 
 @api_view(['GET'])

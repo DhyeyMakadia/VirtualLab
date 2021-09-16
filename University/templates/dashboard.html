@@ -36,7 +36,7 @@
         <div class="col-12">
           <div class="card">
             <!-- /.card-header -->
-            <div class="card-body p-0">
+            <div class="card-body table-responsive p-0">
               <table class="table">
                 <thead>
                   <tr style="text-align: center;">
@@ -55,15 +55,16 @@
                       <td><a href="#"><b style="color: black;">{{ i.university_name }}</b></a></td>
                       <td><b>{{ i.university_unique_num }}</b></td>
                       <td>{{ i.update_date_time }}</td>
-                      <td><a href="#"><span class="btn btn-primary">Edit</span></a>
-                          <a href="#"><span class="btn btn-danger">Delete</span></a></td>
+                      <td><a href="#" class="badge bg-primary">Update</a></span>
+                        <a href="{% url 'delete_university' i.id %}" class="badge bg-danger">Delete</a></span></td>
                     </tr>
                   </tbody>
                   {% endfor %}
               </table>
             </div>
             <!-- /.card-body -->
-          </div><div class="btn btn-success">Add University</div>
+          </div>
+          <a href="#"><div class="btn btn-success">Add University</div></a>
           <!-- /.card -->
         </div>
       

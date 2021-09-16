@@ -1,3 +1,4 @@
+from django.contrib.admin.decorators import display
 from University.models import TblDepartments, TblInstitutes
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -120,4 +121,5 @@ class TblPermissions(models.Model):
     def __str__(self):
         name = self.admin_id.admin_name
         role = self.role_id.role_name
-        return name+" ("+role+")"
+        display1 = name+" ("+role+")"
+        return display1

@@ -4,8 +4,14 @@ from .models import Account, TblUsers, TblAdmin, TblRoles, TblPermissions
 
 # Register your models here.
 
-admin.site.register(Account)
+@admin.register(Account)
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ['email','is_admin','is_active','is_staff','is_superuser']
+    
 admin.site.register(TblUsers)
 admin.site.register(TblAdmin)
 admin.site.register(TblRoles)
-admin.site.register(TblPermissions)
+
+@admin.register(TblPermissions)
+class TblPemissionsAdmin(admin.ModelAdmin):
+    list_display = ['admin_id','can_view','can_insert','can_edit','can_delete']

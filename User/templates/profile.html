@@ -31,7 +31,7 @@
 
         <!-- Profile Image -->
         <div class="card card-primary card-outline">
-          <div class="card-body box-profile">
+          <div class="card-body box-profile table-responsive">
             <div class="text-center">
               Logged in as<br><br>
             </div>
@@ -45,7 +45,7 @@
               <p class="text-muted text-center">({{ role.role_name }})</p>
               {% endif %}
             
-            <div class="card-body">
+            <div class="card-body table-responsive">
 
               <hr>
 
@@ -112,13 +112,13 @@
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">Admin Name</label>
                     <div class="col-sm-10">
-                      <input type="text" name="nm1" class="form-control" id="inputName" value="{{ admin.admin_name }}" placeholder="Admin Name">
+                      <input type="text" name="nm1" class="form-control form-control-border" id="inputName" value="{{ admin.admin_name }}" placeholder="Admin Name">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
                     <div class="col-sm-10">
-                      <input type="text" name="cno1" class="form-control" id="inputName" value="{{ admin.admin_contact_number }}" placeholder="Contact No.">
+                      <input type="text" name="cno1" class="form-control form-control-border" id="inputName" value="{{ admin.admin_contact_number }}" placeholder="Contact No.">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -129,7 +129,7 @@
                           <img src="{{admin.admin_image.url}}" width="100px">
                         {% endif %}
                       </div>
-                      <input type="file" name="prof1" class="form-control" id="inputSkills" placeholder="Profile">
+                      <input type="file" name="prof1" class="form-control form-control-border" id="inputSkills" placeholder="Profile">
                     </div>
                   </div>
                   <div class="form-group row">
