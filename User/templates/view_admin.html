@@ -76,7 +76,7 @@
                     {% else %}
                       <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
                     {% endif %}
-                    <td><a href="#" class="badge bg-primary">Update</a></span>
+                    <td><a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary">Update</a></span>
                       <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger">Delete</a></span></td>
                 </tr>
               {% endfor %}

@@ -40,7 +40,7 @@ def profile(request):
         User_Admin = TblAdmin.objects.get(account_id=User)
         univ = TblUniversity.objects.all()
         role = TblRoles.objects.get(admin_id = User_Admin)
-        perm = TblPermissions.objects.get(admin_id = User_Admin)
+        permissions = TblPermissions.objects.get(admin_id = User_Admin)
         if request.POST:
             nm = request.POST['nm1']
             cno = request.POST['cno1']
@@ -51,7 +51,7 @@ def profile(request):
             if prof1 != None:
                 User_Admin.admin_image = prof1
             User_Admin.save()
-        return render(request,'profile.html',{'Users':User,'univ':univ,'admin':User_Admin,'role':role,'perm':perm})
+        return render(request,'profile.html',{'Users':User,'univ':univ,'admin':User_Admin,'role':role,'perm':permissions})
     else:
         return redirect('login')
 
@@ -139,6 +139,54 @@ def view_admin(request):
         All_Admin = TblPermissions.objects.all()
 
         return render(request, 'view_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'all_admin':All_Admin})
+    else:
+        return redirect('login')
+
+def update_admin(request,id):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        univ = TblUniversity.objects.all()
+        Update_Admin = TblAdmin.objects.get(id = id)
+        Update_Permissions = TblPermissions.objects.get(admin_id = Update_Admin)
+        if request.POST:
+            nm = request.POST['nm1']
+            cno = request.POST['cno1']
+            prof1 = request.FILES.get('prof1')
+            can_view = request.POST['can_view']
+            can_insert = request.POST['can_insert']
+            can_edit = request.POST['can_edit']
+            can_delete = request.POST['can_delete']
+
+            Update_Admin.admin_name = nm
+            Update_Admin.admin_contact_number = cno
+            if prof1 != None:
+                Update_Admin.admin_image = prof1
+
+            if can_view == "true":
+                Update_Permissions.can_view = True
+            elif can_view == "false":
+                Update_Permissions.can_view = False
+
+            if can_insert == "true":
+                Update_Permissions.can_insert = True
+            elif can_insert == "false":
+                Update_Permissions.can_insert = False
+
+            if can_edit == "true":
+                Update_Permissions.can_edit = True
+            elif can_edit == "false":
+                Update_Permissions.can_edit = False
+
+            if can_delete == "true":
+                Update_Permissions.can_delete = True
+            elif can_delete == "false":
+                Update_Permissions.can_delete = False
+
+            Update_Permissions.save()
+            Update_Admin.save()
+
+        return render(request, 'update_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'update_admin':Update_Admin,'update_permissions':Update_Permissions})
     else:
         return redirect('login')
 
