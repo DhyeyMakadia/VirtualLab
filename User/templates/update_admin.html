@@ -19,17 +19,19 @@
         </ol>
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
 </section>
 {% endblock %}
 
 {% block NewContent %}
 <section class="content">
   <div class="container-fluid">
+    {% if error %}
+      <div class="text-danger">{{ error }}</div>
+    {% endif %}
     <div class="row">
       <div class="col-md-3">
 
-        <!-- Profile Image -->
         <div class="card card-primary card-outline">
           <div class="card-body box-profile table-responsive">
             <div class="text-center">
@@ -93,14 +95,13 @@
           </div>
         </div>
       </div>
-      <!-- /.col -->
       <div class="col-md-9">
         <div class="card card-primary">
           <div class="card-header">
             <div class="nav nav-pills">
               <span class="nav-item">Update Profile</span>
             </div>
-          </div><!-- /.card-header -->
+          </div>
           <div class="card-body">
             <div class="tab-content">
                 <form method="POST" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
@@ -203,14 +204,10 @@
                     </div>
                   </div>
                 </form>
-              <!-- /.tab-pane -->
             </div>
-            <!-- /.tab-content -->
-          </div><!-- /.card-body -->
+          </div>
         </div>
-        <!-- /.card -->
-      </div>  
-      <!-- /.col -->
+      </div>
     </div>
   </div>
 </section>

@@ -19,18 +19,20 @@
         </ol>
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
 </section>
 {% endblock %}
 
 {% block NewContent %}
 <form method="POST" autocomplete="off" enctype="multipart/form-data">
   {% csrf_token %}
+  {% if error %}
+    <div class="text-danger">{{ error }}</div>
+  {% endif %}
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Register Admin</h3>
     </div>
-    <!-- /.card-header -->
     <div class="card-body table-responsive">
       <div class="tab-content">
             <div class="form-group row">
@@ -68,12 +70,9 @@
                 <button type="submit" class="btn btn-success">Register</button>
               </div>
             </div>
-        <!-- /.tab-pane -->
+
       </div>
-      <!-- /.tab-content -->
     </div>
-    <!-- /.card-body -->
   </div>
-  <!-- /.card -->
 </form>
 {% endblock %}

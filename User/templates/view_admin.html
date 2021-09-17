@@ -19,17 +19,19 @@
         </ol>
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
 </section>
 {% endblock %}
 
 {% block NewContent %}
 <div class="col-md-12">
+  {% if error %}
+  <div class="text-danger">{{ error }}</div>
+  {% endif %}
     <div class="card">
       <div class="card-header">
         <h3 class="card-title"><b>Admin List:</b></h3>
       </div>
-      <!-- /.card-header -->
       <div class="card-body table-responsive p-0">
         <table class="table">
           <thead>
@@ -76,17 +78,16 @@
                     {% else %}
                       <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
                     {% endif %}
-                    <td><a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary">Update</a></span>
-                      <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger">Delete</a></span></td>
+                    <td>
+                      <a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary">Update</a>
+                      <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger">Delete</a>
+                    </td>
                 </tr>
               {% endfor %}
           </tbody>
         </table>
       </div>
-      <!-- /.card-body -->
     </div>
-    {% if Users.is_superuser %}
       <a href="{% url 'register_admin' %}"><div class="btn btn-success">Register New Admin</div></a>
-    {% endif %}
 </div>
 {% endblock %}

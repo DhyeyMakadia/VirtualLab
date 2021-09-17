@@ -6,7 +6,6 @@
 {% endblock title1 %}
 
 {% block Name %}
-
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
@@ -20,22 +19,23 @@
         </ol>
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
 </section>
-
 {% endblock %}
 
-{% block edit %}
-{% endblock edit %}
+<!-- {% block edit %}
+{% endblock edit %} -->
 
 {% block NewContent %}
 <section class="content">
   <div class="container-fluid">
+    {% if error %}
+      <div class="text-danger">{{ error }}</div>
+    {% endif %}
+    {% if permissions.can_view %}
     <div class="row">
-      
         <div class="col-12">
           <div class="card">
-            <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
               <table class="table">
                 <thead>
@@ -55,20 +55,20 @@
                       <td><a href="#"><b style="color: black;">{{ i.university_name }}</b></a></td>
                       <td><b>{{ i.university_unique_num }}</b></td>
                       <td>{{ i.update_date_time }}</td>
-                      <td><a href="{% url 'update_university' i.id %}" class="badge bg-primary">Update</a></span>
-                        <a href="{% url 'delete_university' i.id %}" class="badge bg-danger">Delete</a></span></td>
+                      <td>
+                        <a href="{% url 'update_university' i.id %}" class="badge bg-primary">Update</a>
+                        <a href="{% url 'delete_university' i.id %}" class="badge bg-danger">Delete</a>
+                      </td>
                     </tr>
                   </tbody>
                   {% endfor %}
               </table>
             </div>
-            <!-- /.card-body -->
           </div>
           <a href="{% url 'add_university' %}"><div class="btn btn-success">Add University</div></a>
-          <!-- /.card -->
         </div>
-      
     </div>
+    {% endif %}
   </div>
 </section>
 

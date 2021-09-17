@@ -19,20 +19,22 @@
         </ol>
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
 </section>
 {% endblock %}
 
 {% block NewContent %}
 <section class="content">
   <div class="container-fluid">
+    {% if error %}
+      <div class="text-danger">{{ error }}</div>
+    {% endif %}
     <div class="row">
-      <!-- /.col -->
       <div class="col-md-12">
         <div class="card card-primary">
           <div class="card-header">
               <h3 class="card-title">Update University</h3>
-          </div><!-- /.card-header -->
+          </div>
           <div class="card-body table-responsive">
             <div class="tab-content">
                 <form method="POST" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
@@ -73,14 +75,10 @@
                     </div>
                   </div>
                 </form>
-              <!-- /.tab-pane -->
             </div>
-            <!-- /.tab-content -->
-          </div><!-- /.card-body -->
+          </div>
         </div>
-        <!-- /.card -->
       </div>
-      <!-- /.col -->
     </div>
   </div>
 </section>

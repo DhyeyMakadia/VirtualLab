@@ -19,17 +19,19 @@
         </ol>
       </div>
     </div>
-  </div><!-- /.container-fluid -->
+  </div>
 </section>
 {% endblock %}
 
 {% block NewContent %}
 <section class="content">
   <div class="container-fluid">
+    {% if error %}
+      <div class="text-danger">{{ error }}</div>
+    {% endif %}
     <div class="row">
       <div class="col-md-3">
 
-        <!-- Profile Image -->
         <div class="card card-primary card-outline">
           <div class="card-body box-profile table-responsive">
             <div class="text-center">
@@ -61,35 +63,31 @@
 
               <hr>
               
-              {% if perm %}
+              {% if permissions %}
               <strong># Permissions</strong><br>
               {% endif %}
 
-              {% if perm.can_view %}
+              {% if permissions.can_view %}
               <span class="badge bg-success">View</span>
-              {% endif %}
-              {% if not perm.can_view %}
+              {% else %}
               <span class="badge bg-danger">View</span>
               {% endif %}
-
-              {% if perm.can_edit %}
-              <span class="badge bg-success">Edit</span>
-              {% endif %}
-              {% if not perm.can_edit %}
-              <span class="badge bg-danger">Edit</span>
-              {% endif %}
-
-              {% if perm.can_insert %}
+              
+              {% if permissions.can_insert %}
               <span class="badge bg-success">Insert</span>
-              {% endif %}
-              {% if not perm.can_insert %}
+              {% else %}
               <span class="badge bg-danger">Insert</span>
               {% endif %}
 
-              {% if perm.can_delete %}
-              <span class="badge bg-success">Delete</span>
+              {% if permissions.can_edit %}
+              <span class="badge bg-success">Update</span>
+              {% else %}
+              <span class="badge bg-danger">Update</span>
               {% endif %}
-              {% if not perm.can_delete %}
+
+              {% if permissions.can_delete %}
+              <span class="badge bg-success">Delete</span>
+              {% else %}
               <span class="badge bg-danger">Delete</span>
               {% endif %}
 
@@ -97,14 +95,13 @@
           </div>
         </div>
       </div>
-      <!-- /.col -->
       <div class="col-md-9">
         <div class="card card-primary">
           <div class="card-header">
             <div class="nav nav-pills">
               <span class="nav-item">Update Profile</span>
             </div>
-          </div><!-- /.card-header -->
+          </div>
           <div class="card-body">
             <div class="tab-content">
                 <form method="POST" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
@@ -138,14 +135,10 @@
                     </div>
                   </div>
                 </form>
-              <!-- /.tab-pane -->
             </div>
-            <!-- /.tab-content -->
-          </div><!-- /.card-body -->
+          </div>
         </div>
-        <!-- /.card -->
-      </div>  
-      <!-- /.col -->
+      </div>
     </div>
   </div>
 </section>

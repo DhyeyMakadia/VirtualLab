@@ -12,19 +12,29 @@ from rest_framework.decorators import api_view
 
 # ========================= Admin Panel views ==============================
 def dashboard(request):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
-        return render(request, 'dashboard.html', {'Users': User,'admin':User_Admin,'univ':univ})
+
+        return render(request, 'dashboard.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err})
     else:
         return redirect('login')
 
 def add_university(request):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
+
+        # PERMISSION TO INSERT
+        if not User_Permissions.can_insert:
+            return redirect('dashboard')
+
         if request.POST:
             univ1 = request.POST['univ1']
             unique_no = request.POST['uno1']
@@ -41,16 +51,23 @@ def add_university(request):
             Add_Univ.save()
             return redirect('dashboard')
 
-        return render(request, 'add_university.html', {'Users': User,'admin':User_Admin,'univ':univ})
+        return render(request, 'add_university.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err})
     else:
         return redirect('login')
 
 def update_university(request,id):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
         Update_Univ = TblUniversity.objects.get(id = id)
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('dashboard')
+
         if request.POST:
             univ1 = request.POST['univ1']
             unique_no = request.POST['uno1']
@@ -63,18 +80,26 @@ def update_university(request,id):
             Update_Univ.university_address = add1
             Update_Univ.university_city = city
             Update_Univ.university_state = state
-            # Update_Univ.update_date_time = True
             Update_Univ.save()
             return redirect('dashboard')
-        return render(request, 'update_university.html', {'Users': User,'admin':User_Admin,'univ':univ,'Update_Univ':Update_Univ})
+
+        return render(request, 'update_university.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'Update_Univ':Update_Univ})
     else:
         return redirect('login')
 
 def delete_university(request,id):
     if 'admin_session' in request.session.keys():
-        Del_Univ = TblUniversity.objects.get(id = id)
-        Del_Univ.delete()
-        return redirect('dashboard')
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('dashboard')
+        else:
+            Del_Univ = TblUniversity.objects.get(id = id)
+            Del_Univ.delete()
+            return redirect('dashboard')
     else:
         return redirect('login')
 # ========================= rest api views ==============================

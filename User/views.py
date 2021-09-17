@@ -35,12 +35,13 @@ def login(request):
     return render(request,'login.html',{'error':err})
 
 def profile(request):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
         role = TblRoles.objects.get(admin_id = User_Admin)
-        permissions = TblPermissions.objects.get(admin_id = User_Admin)
         if request.POST:
             nm = request.POST['nm1']
             cno = request.POST['cno1']
@@ -51,7 +52,7 @@ def profile(request):
             if prof1 != None:
                 User_Admin.admin_image = prof1
             User_Admin.save()
-        return render(request,'profile.html',{'Users':User,'univ':univ,'admin':User_Admin,'role':role,'perm':permissions})
+        return render(request,'profile.html',{'Users':User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'role':role,'error':err})
     else:
         return redirect('login')
 
@@ -60,6 +61,7 @@ def changepassword(request):
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
         if request.POST:
             pwd = request.POST['pwd']
@@ -76,15 +78,22 @@ def changepassword(request):
             else:
                 err = 'Wrong Password'
 
-        return render(request,'changepassword.html',{'Users':User,'univ':univ,'admin':User_Admin,'error':err,'success':suc})
+        return render(request,'changepassword.html',{'Users':User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'success':suc})
     else:
         return redirect('login')
 
 def register_admin(request):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
+
+        # PERMISSION TO INSERT(ONLY TO SUPERUSER)
+        if not User.is_superuser:
+            return redirect('view_admin')
+
         if request.POST:
             em = request.POST['em1']
             pwd = request.POST['pass1']
@@ -127,28 +136,45 @@ def register_admin(request):
             New_Permissions.save()
             return redirect('view_admin')
 
-        return render(request, 'register_admin.html', {'Users': User,'admin':User_Admin,'univ':univ})
+        return render(request, 'register_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err})
     else:
         return redirect('login')
 
 def view_admin(request):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
         All_Admin = TblPermissions.objects.all()
 
-        return render(request, 'view_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'all_admin':All_Admin})
+        # PERMISSION TO VIEW
+        if not User_Permissions.can_view:
+            return redirect('dashboard')
+
+        return render(request, 'view_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'all_admin':All_Admin})
     else:
         return redirect('login')
 
 def update_admin(request,id):
+    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
         univ = TblUniversity.objects.all()
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         Update_Admin = TblAdmin.objects.get(id = id)
         Update_Permissions = TblPermissions.objects.get(admin_id = Update_Admin)
+
+        # RESTRICTED TO UPDATE OWN PROFILE
+        if User_Admin.id == id:
+            return redirect('view_admin')
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('view_admin')
+
         if request.POST:
             nm = request.POST['nm1']
             cno = request.POST['cno1']
@@ -186,15 +212,27 @@ def update_admin(request,id):
             Update_Permissions.save()
             Update_Admin.save()
 
-        return render(request, 'update_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'update_admin':Update_Admin,'update_permissions':Update_Permissions})
+        return render(request, 'update_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'update_admin':Update_Admin,'update_permissions':Update_Permissions,'error':err})
     else:
         return redirect('login')
 
 def delete_admin(request,id):
     if 'admin_session' in request.session.keys():
-        Del_Admin = Account.objects.get(id = id)
-        Del_Admin.delete()
-        return redirect('view_admin')
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+
+        # CAN'T DELETE OWN PROFILE
+        if User.id == id:
+            return redirect('view_admin')
+        
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('view_admin')
+        else:
+            Del_Admin = Account.objects.get(id = id)
+            Del_Admin.delete()
+            return redirect('view_admin')
     else:
         return redirect('login')
 
@@ -203,7 +241,7 @@ def logout(request):
         del request.session['admin_session']
         return redirect('login')
     else:
-        print('session not found')
+        return redirect('login')
 
 # ========================= rest api views ==============================
 
