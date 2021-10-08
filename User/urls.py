@@ -29,4 +29,6 @@ urlpatterns = [
     # ========================Application===========================
     path('login/', obtain_auth_token),
     path('register/', registration),
+    path('fetchUserApproval/', fetch_user_approval),
+    path('fetchUserInfo/', fetch_user_info),
 ]
