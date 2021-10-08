@@ -43,8 +43,8 @@
             </div>
             {% endif %}
             <h3 class="profile-username text-center">{{ update_admin.admin_name }}</h3>
-              {% if role %}
-              <p class="text-muted text-center">({{ update_admin.roles_admin_id.role_name }})</p>
+              {% if update_admin.permissions_admin_id %}
+                <p class="text-muted text-center">({{ update_admin.permissions_admin_id.role }})</p>
               {% endif %}
             
             <div class="card-body table-responsive">

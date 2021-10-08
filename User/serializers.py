@@ -69,8 +69,7 @@ class TblAdminSerializer(serializers.ModelSerializer):
 class TblPermissionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TblPermissions
-        fields = ['role_id',
-                  'admin_id',
+        fields = ['admin_id',
                   'role',
                   'can_view',
                   'can_edit',

@@ -90,7 +90,7 @@ class TblAdmin(models.Model):
 class TblPermissions(models.Model):
     admin_id = models.ForeignKey(TblAdmin, related_name="permissions_admin_id", on_delete=models.CASCADE, blank=True,
                                  null=True)
-    role = models.CharField("Role",default='',blank=True,null=True,max_length=100)
+    role = models.CharField("Role",default='Admin',blank=True,null=True,max_length=100)
     can_view = models.BooleanField("can_view", default=True)
     can_edit = models.BooleanField("can_edit", default=False)
     can_insert = models.BooleanField("can_insert", default=False)

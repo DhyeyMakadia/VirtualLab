@@ -41,7 +41,6 @@ def profile(request):
         User_Admin = TblAdmin.objects.get(account_id=User)
         User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         univ = TblUniversity.objects.all()
-        role = TblRoles.objects.get(admin_id = User_Admin)
         if request.POST:
             nm = request.POST['nm1']
             cno = request.POST['cno1']
@@ -52,7 +51,7 @@ def profile(request):
             if prof1 != None:
                 User_Admin.admin_image = prof1
             User_Admin.save()
-        return render(request,'profile.html',{'Users':User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'role':role,'error':err})
+        return render(request,'profile.html',{'Users':User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err})
     else:
         return redirect('login')
 
@@ -98,6 +97,7 @@ def register_admin(request):
             em = request.POST['em1']
             pwd = request.POST['pass1']
             nm = request.POST['nm1']
+            role = request.POST['role1']
             cno = request.POST['cno1']
             prof1 = request.FILES.get('prof1')
 
@@ -121,18 +121,11 @@ def register_admin(request):
                 New_Admin.admin_image = prof1
             New_Admin.save()
 
-            #ROLE
-            obj_admin = TblAdmin.objects.get(account_id=obj_account)
-            New_Role = TblRoles()
-            New_Role.admin_id = obj_admin
-            New_Role.role_name = str(obj_admin.admin_name) + "(admin)"
-            New_Role.save()
-
             # PERMISSIONS
-            obj_role = TblRoles.objects.get(admin_id=obj_admin)
+            obj_admin = TblAdmin.objects.get(account_id=obj_account)
             New_Permissions = TblPermissions()
+            New_Permissions.role = role
             New_Permissions.admin_id = obj_admin
-            New_Permissions.role_id = obj_role
             New_Permissions.save()
             return redirect('view_admin')
 

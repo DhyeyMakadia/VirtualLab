@@ -43,8 +43,8 @@
             </div>
             {% endif %}
             <h3 class="profile-username text-center">{{ admin.admin_name }}</h3>
-              {% if role %}
-              <p class="text-muted text-center">({{ role.role_name }})</p>
+              {% if permissions.role %}
+              <p class="text-muted text-center">({{ permissions.role }})</p>
               {% endif %}
             
             <div class="card-body table-responsive">
