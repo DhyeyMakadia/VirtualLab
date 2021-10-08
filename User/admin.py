@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Account, TblUsers, TblAdmin, TblRoles, TblPermissions
+from .models import Account, TblUsers, TblAdmin, TblPermissions
 
 # Register your models here.
 
@@ -13,7 +13,6 @@ admin.site.register(TblUsers)
 @admin.register(TblAdmin)
 class TblAdminAdmin(admin.ModelAdmin):
     list_display = ['admin_name','admin_contact_number','is_active','is_delete']
-admin.site.register(TblRoles)
 
 @admin.register(TblPermissions)
 class TblPemissionsAdmin(admin.ModelAdmin):
