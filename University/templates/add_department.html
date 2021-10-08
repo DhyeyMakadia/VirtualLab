@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | Add Department</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Add Department</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">add_department</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<form method="POST" autocomplete="off" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if error %}
+    <div class="text-danger" style="margin-left: 10px;">{{ error }}</div>
+  {% endif %}
+
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Add Department</h3>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Department Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="dept1" class="form-control" id="inputName" placeholder="Department Name" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Contact Person</label>
+              <div class="col-sm-10">
+                <input type="text" name="person1" class="form-control" id="inputName" placeholder="Department Contact Person" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Contact No</label>
+              <div class="col-sm-10">
+                <input type="number" name="cno1" class="form-control" id="inputName" placeholder="Department Contact" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Add Department</button>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -11,6 +11,9 @@ from rest_framework.decorators import api_view
 # Create your views here.
 
 # ========================= Admin Panel views ==============================
+
+# --------------------------------University-----------------------------------
+# --------------------------------Courses-----------------------------------
 def dashboard(request):
     err = ''
     if 'admin_session' in request.session.keys():
@@ -103,6 +106,7 @@ def delete_university(request,id):
     else:
         return redirect('login')
 
+# --------------------------------Institute-----------------------------------
 def view_institute(request,id):
     err = ''
     if 'admin_session' in request.session.keys():
@@ -198,6 +202,98 @@ def delete_institute(request,id):
         else:
             Del_Institute.delete()
             return redirect('view_institute',id = parent_univ.id)
+    else:
+        return redirect('login')
+
+# --------------------------------Department-----------------------------------
+
+def view_department(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        department = TblDepartments.objects.filter(institute_id=id)
+        parent_institute = TblInstitutes.objects.get(id = id)
+
+        return render(request, 'department.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'department':department,'parent_institute':parent_institute})
+    else:
+        return redirect('login')
+
+def add_department(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        parent_institute = TblInstitutes.objects.get(id = id)
+
+        # PERMISSION TO INSERT
+        if not User_Permissions.can_insert:
+            return redirect('view_department',id=parent_institute.id)
+
+        if request.POST:
+            dept1 = request.POST['dept1']
+            contactperson1 = request.POST['person1']
+            cno1 = request.POST['cno1']
+
+            Add_Department = TblDepartments()
+            Add_Department.institute_id = parent_institute
+            Add_Department.department_name = dept1
+            Add_Department.department_contact_person = contactperson1
+            Add_Department.department_contact = cno1
+            Add_Department.save()
+            return redirect('view_department',id=parent_institute.id)
+
+        return render(request, 'add_department.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'parent_institute':parent_institute})
+    else:
+        return redirect('login')
+
+def update_department(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        Update_Department = TblDepartments.objects.get(id = id)
+        parent_institute = Update_Department.institute_id
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('view_department',id=parent_institute.id)
+
+        if request.POST:
+            dept1 = request.POST['dept1']
+            contactperson1 = request.POST['person1']
+            cno1 = request.POST['cno1']
+
+            Update_Department.department_name = dept1
+            Update_Department.department_contact_person = contactperson1
+            Update_Department.department_contact = cno1
+            Update_Department.save()
+            return redirect('view_department',id=parent_institute.id)
+
+        return render(request, 'update_department.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'update_department':Update_Department,'parent_institute':parent_institute})
+    else:
+        return redirect('login')
+
+def delete_department(request,id):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        Del_Department = TblDepartments.objects.get(id = id)
+        parent_institute = Del_Department.institute_id
+
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('view_department',id = parent_institute.id)
+        else:
+            Del_Department.delete()
+            return redirect('view_department',id = parent_institute.id)
     else:
         return redirect('login')
 # ========================= rest api views ==============================
