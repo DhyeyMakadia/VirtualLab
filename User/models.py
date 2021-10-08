@@ -105,7 +105,4 @@ class TblPermissions(models.Model):
     update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        name = self.admin_id.admin_name
-        role = self.role_id.role_name
-        display1 = name+" ("+role+")"
-        return display1
+        return self.role
