@@ -5,40 +5,6 @@ from django.db import models
 
 # Create your models here.
 
-class TblInputParameter(models.Model):
-    input_parameter_name = models.CharField("Input Parameter", default="", blank=True, null=True, max_length=50)
-    is_active = models.BooleanField("is_active", default=True)
-    is_delete = models.BooleanField("is_delete", default=False)
-    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-
-class TblOutputParameter(models.Model):
-    output_parameter_name = models.CharField("Output Parameter", default="", blank=True, null=True, max_length=50)
-    is_active = models.BooleanField("is_active", default=True)
-    is_delete = models.BooleanField("is_delete", default=False)
-    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-
-class TblFixedInputParameter(models.Model):
-    fixed_input_parameter_name = models.CharField("Fixed Input Parameter", default="", blank=True, null=True,
-                                                  max_length=50)
-    is_active = models.BooleanField("is_active", default=True)
-    is_delete = models.BooleanField("is_delete", default=False)
-    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-
-class TblFixedOutputParameter(models.Model):
-    fixed_output_parameter_name = models.CharField("Fixed Output Parameter", default="", blank=True, null=True,
-                                                   max_length=50)
-    is_active = models.BooleanField("is_active", default=True)
-    is_delete = models.BooleanField("is_delete", default=False)
-    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-
 class TblPractical(models.Model):
     course_id = models.ForeignKey(TblCourses, on_delete=models.CASCADE, blank=True, null=True)
     practical_name = models.CharField("Practical Name", default="", blank=True, null=True, max_length=100)
@@ -48,6 +14,44 @@ class TblPractical(models.Model):
     practical_application = models.TextField("Application", default="", null=True, blank=True)
     practical_advantages = models.TextField("Advantages", default="", null=True, blank=True)
     practical_conclusion = models.TextField("Conclusion", default="", null=True, blank=True)
+    is_active = models.BooleanField("is_active", default=True)
+    is_delete = models.BooleanField("is_delete", default=False)
+    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class TblInputParameter(models.Model):
+    practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
+    input_parameter_name = models.CharField("Input Parameter", default="", blank=True, null=True, max_length=50)
+    is_active = models.BooleanField("is_active", default=True)
+    is_delete = models.BooleanField("is_delete", default=False)
+    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class TblOutputParameter(models.Model):
+    practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
+    output_parameter_name = models.CharField("Output Parameter", default="", blank=True, null=True, max_length=50)
+    is_active = models.BooleanField("is_active", default=True)
+    is_delete = models.BooleanField("is_delete", default=False)
+    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class TblFixedInputParameter(models.Model):
+    practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
+    fixed_input_parameter_name = models.CharField("Fixed Input Parameter", default="", blank=True, null=True,
+                                                  max_length=50)
+    is_active = models.BooleanField("is_active", default=True)
+    is_delete = models.BooleanField("is_delete", default=False)
+    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class TblFixedOutputParameter(models.Model):
+    practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
+    fixed_output_parameter_name = models.CharField("Fixed Output Parameter", default="", blank=True, null=True,
+                                                   max_length=50)
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
