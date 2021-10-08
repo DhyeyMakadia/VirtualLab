@@ -60,7 +60,7 @@ class TblFixedOutputParameter(models.Model):
 
 class TblMultiplePracticalImages(models.Model):
     practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
-    image_path = models.CharField("Practical/Multiple-Practical-Images/{practical_id.practical_name}", default="",
+    image_path = models.ImageField("Practical/Multiple-Practical-Images/{practical_id.practical_name}", default="",
                                   blank=True, null=True, max_length=200)
 
 

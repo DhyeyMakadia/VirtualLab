@@ -91,24 +91,10 @@ class TblAdmin(models.Model):
         return self.admin_name
 
 
-class TblRoles(models.Model):
-    admin_id = models.ForeignKey(TblAdmin, related_name="roles_admin_id", on_delete=models.CASCADE, blank=True,
-                                 null=True)
-    role_name = models.CharField("Role", default="", blank=True, null=True, max_length=50)
-    is_active = models.BooleanField("is_active", default=True)
-    is_delete = models.BooleanField("is_delete", default=False)
-    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.role_name
-
-
 class TblPermissions(models.Model):
-    role_id = models.ForeignKey(TblRoles, related_name="permissions_role_id", on_delete=models.CASCADE, blank=True,
-                                null=True)
     admin_id = models.ForeignKey(TblAdmin, related_name="permissions_admin_id", on_delete=models.CASCADE, blank=True,
                                  null=True)
+    role = models.CharField("Role",default='',blank=True,null=True,max_length=100)
     can_view = models.BooleanField("can_view", default=True)
     can_edit = models.BooleanField("can_edit", default=False)
     can_insert = models.BooleanField("can_insert", default=False)
