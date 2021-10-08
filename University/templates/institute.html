@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title1 %}
-  <title>LJ VirtualLab | University</title>
+  <title>LJ VirtualLab | Institute</title>
 {% endblock title1 %}
 
 {% block Name %}
@@ -10,12 +10,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>University</h1>
+        <h1>Institute(s)</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
-          <li class="breadcrumb-item active">university</li>
+          <li class="breadcrumb-item active">institute</li>
         </ol>
       </div>
     </div>
@@ -32,7 +32,6 @@
     {% if error %}
       <div class="text-danger">{{ error }}</div>
     {% endif %}
-    {% if permissions.can_view %}
     <div class="row">
         <div class="col-12">
           <div class="card">
@@ -41,23 +40,23 @@
                 <thead>
                   <tr style="text-align: center;">
                     <th>SR no.</th>
-                    <th>University</th>
-                    <th>University Code</th>
+                    <th style="text-align: left;">Institute</th>
+                    <th style="text-align: left;">Institute Code</th>
                     <th>Last Updated</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 
-                  {% for i in univ %}
+                  {% for i in institute %}
                   <tbody>
                     <tr style="text-align: center;">
                       <td>{{forloop.counter}}.</td>
-                      <td><a href="{% url 'view_institute' i.id %}"><b style="color: black;">{{ i.university_name }}</b></a></td>
-                      <td><b>{{ i.university_unique_num }}</b></td>
+                      <td style="text-align: left;"><a href="#"><b style="color: black;">{{ i.institute_name }}</b></a></td>
+                      <td style="text-align: left;"><b>{{ i.institute_code }}</b></td>
                       <td>{{ i.update_date_time }}</td>
                       <td>
-                        <a href="{% url 'update_university' i.id %}" class="badge bg-primary">Update</a>
-                        <a href="{% url 'delete_university' i.id %}" class="badge bg-danger">Delete</a>
+                        <a href="{% url 'update_institute' i.id %}" class="badge bg-primary">Update</a>
+                        <a href="{% url 'delete_institute' i.id %}" class="badge bg-danger">Delete</a>
                       </td>
                     </tr>
                   </tbody>
@@ -65,10 +64,9 @@
               </table>
             </div>
           </div>
-          <a href="{% url 'add_university' %}"><div class="btn btn-success">Add University</div></a>
+          <a href="{% url 'add_institute' parent_univ.id %}"><div class="btn btn-success">Add Institute</div></a>
         </div>
     </div>
-    {% endif %}
   </div>
 </section>
 

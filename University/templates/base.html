@@ -105,7 +105,7 @@
             <ul class="nav nav-treeview">
               {% for i in univ %}
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'view_institute' i.id %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{ i.university_name }}</p>
                 </a>

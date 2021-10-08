@@ -102,6 +102,104 @@ def delete_university(request,id):
             return redirect('dashboard')
     else:
         return redirect('login')
+
+def view_institute(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        institute = TblInstitutes.objects.filter(university_id=id)
+        parent_univ = TblUniversity.objects.get(id = id)
+
+        return render(request, 'institute.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'institute':institute,'parent_univ':parent_univ})
+    else:
+        return redirect('login')
+
+def add_institute(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        parent_univ = TblUniversity.objects.get(id = id)
+
+        # PERMISSION TO INSERT
+        if not User_Permissions.can_insert:
+            return redirect('view_institute',id=parent_univ.id)
+
+        if request.POST:
+            institute1 = request.POST['institute1']
+            code1 = request.POST['code1']
+            add1 = request.POST['add1']
+            city = request.POST['city1']
+            state = request.POST['state1']
+
+            Add_Institute = TblInstitutes()
+            Add_Institute.university_id = parent_univ
+            Add_Institute.institute_name = institute1
+            Add_Institute.institute_code = code1
+            Add_Institute.institute_address = add1
+            Add_Institute.institute_city = city
+            Add_Institute.institute_state = state
+            Add_Institute.save()
+            return redirect('view_institute',id=parent_univ.id)
+
+        return render(request, 'add_institute.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'parent_univ':parent_univ})
+    else:
+        return redirect('login')
+
+def update_institute(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        Update_Institute = TblInstitutes.objects.get(id = id)
+        parent_univ = Update_Institute.university_id
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('view_institute',id=parent_univ.id)
+
+        if request.POST:
+            institute1 = request.POST['institute1']
+            code1 = request.POST['code1']
+            add1 = request.POST['add1']
+            city = request.POST['city1']
+            state = request.POST['state1']
+
+            Update_Institute.institute_name = institute1
+            Update_Institute.institute_code = code1
+            Update_Institute.institute_address = add1
+            Update_Institute.institute_city = city
+            Update_Institute.institute_state = state
+            Update_Institute.save()
+            return redirect('view_institute',id=parent_univ.id)
+
+        return render(request, 'update_institute.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'update_institute':Update_Institute,'parent_univ':parent_univ})
+    else:
+        return redirect('login')
+
+def delete_institute(request,id):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        Del_Institute = TblInstitutes.objects.get(id = id)
+        parent_univ = Del_Institute.university_id
+
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('view_institute',id = parent_univ.id)
+        else:
+            Del_Institute.delete()
+            return redirect('view_institute',id = parent_univ.id)
+    else:
+        return redirect('login')
 # ========================= rest api views ==============================
 
 @api_view(['GET'])
