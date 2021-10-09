@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import *
-from University.views import fetch_universities, fetch_institutes, fetch_departments, fetch_courses
 
 urlpatterns = [
     # --------------------------University---------------------------
@@ -20,11 +19,4 @@ urlpatterns = [
     path('add_department/<int:id>',add_department,name='add_department'),
     path('update_department/<int:id>',update_department,name='update_department'),
     path('delete_department/<int:id>',delete_department,name='delete_department'),
-
-
-    path('university_list/', fetch_universities),
-    path('institutes_list/', fetch_institutes),
-    path('departments_list/', fetch_departments),
-    path('courses_list/', fetch_courses),
-    path('fetchEducationalInfo/', fetch_educational_info),
 ]
