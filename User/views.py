@@ -290,4 +290,18 @@ def fetch_user_approval(request):
     if user.is_approved:
         return Response(1, status=200)
     else:
-        return Response(0, status=403)
+        return Response(0, status=200)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def fetch_user_info(request):
+    account = request.user
+    user = TblUsers.objects.get(account_id=account)
+    serializer = TblUserSerializer(user)
+    dic = serializer.data
+    dic['user_email'] = account.email
+    dic['university_name'] = user.institute_id.university_id.university_name
+    dic['institute_name'] = user.institute_id.institute_name
+    dic['department_name'] = user.department_id.department_name
+    return Response(dic)

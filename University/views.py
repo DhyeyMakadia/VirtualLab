@@ -6,7 +6,8 @@ from University.models import TblUniversity, TblInstitutes, TblDepartments, TblC
 from University.serializers import TblUniversitySerializer, TblInstitutesSerializer, TblDepartmentsSerializer, TblCoursesSerializer
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -330,3 +331,16 @@ def fetch_courses(request):
         return Response({'error': 103, 'message': 'No Courses found for Department'})
     serializer = TblCoursesSerializer(courses, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def fetch_educational_info(request):
+    account = request.user
+    user = TblUsers.objects.get(account_id=account)
+    dic = {
+        'university_id': user.institute_id.university_id.id,
+        'institute_id': user.institute_id.id,
+        'department_id': user.department_id.id,
+    }
+    return Response(dic)

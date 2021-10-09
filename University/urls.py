@@ -26,4 +26,5 @@ urlpatterns = [
     path('institutes_list/', fetch_institutes),
     path('departments_list/', fetch_departments),
     path('courses_list/', fetch_courses),
+    path('fetchEducationalInfo/', fetch_educational_info),
 ]
