@@ -78,7 +78,7 @@ class TblMultipleYoutubeLinks(models.Model):
 class TblMultipleMaterials(models.Model):
     practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
     material_name = models.CharField("Material Name", default="", blank=True, null=True, max_length=50)
-    material_file_path = models.CharField("Practical/Materials/{practical_id.practical_name}", default="", blank=True,
+    material_file_path = models.FileField("Practical/Materials/{practical_id.practical_name}", default="", blank=True,
                                           null=True, max_length=200)
 
 
