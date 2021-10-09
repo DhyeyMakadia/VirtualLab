@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 from .views import *
 
@@ -31,4 +31,5 @@ urlpatterns = [
     path('register/', registration),
     path('fetchUserApproval/', fetch_user_approval),
     path('fetchUserInfo/', fetch_user_info),
+    path('rest_auth/', include('rest_auth.urls')),
 ]
