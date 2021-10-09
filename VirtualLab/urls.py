@@ -24,10 +24,10 @@ urlpatterns = [
     path('university/', include('University.urls')),
     path('practical/', include('Practical.urls')),
     path('appartus/', include('Appartus.urls')),
-    path('user/api/', include('UserApi.urls')),
-    path('university/api/', include('UniversityApi.urls')),
-    path('practical/api/', include('PracticalApi.urls')),
-    path('appartus/api/', include('AppartusApi.urls')),
+    path('user/api/', include('User.UserApi.urls')),
+    path('university/api/', include('University.UniversityApi.urls')),
+    path('practical/api/', include('Practical.PracticalApi.urls')),
+    path('appartus/api/', include('Appartus.AppartusApi.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
