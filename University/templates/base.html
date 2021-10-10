@@ -74,7 +74,7 @@
   </nav>
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link">
+    <a href="{% url 'dashboard' %}" class="brand-link">
       <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="LJ-VirtualLAB Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">LJ VirtualLab</span>
     </a>
@@ -96,7 +96,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-university"></i>
               <p>
                 University
                 <i class="right fas fa-angle-left"></i>
@@ -106,16 +106,54 @@
               {% if permissions.can_view %}
               {% for i in univ %}
               <li class="nav-item">
-                <a href="{% url 'view_institute' i.id %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ i.university_name }}</p>
+                <a href="#" class="nav-link">
+                  <i class="fas fa-arrow-alt-circle-right nav-icon"></i>
+                  <p>
+                    {{ i.university_name }}
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
                 </a>
+                <ul class="nav nav-treeview">
+                  {% for j in i.tblinstitutes_set.all %}
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fas fa-italic text-info nav-icon"></i>
+                      <p>
+                        {{ j.institute_name }}
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      {% for k in j.tbldepartments_set.all %}
+                      <li class="nav-item">
+                        <a href="#" class="nav-link">
+                          <i class="fab fa-dochub text-warning nav-icon"></i>
+                          <p>
+                            {{ k.department_name }}
+                            <i class="right fas fa-angle-left"></i>
+                          </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                          {% for l in k.tblcourses_set.all %}
+                          <li class="nav-item">
+                            <a href="#" class="nav-link">
+                              <i class="fab fa-cuttlefish text-danger nav-icon"></i>
+                              <p>{{ l }}</p>
+                            </a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                  {% endfor %}
+                </ul>
               </li>
               {% endfor %}
               {% endif %}
             </ul>
           </li>
-          
           
           <li class="nav-item">
             <a href="#" class="nav-link">
