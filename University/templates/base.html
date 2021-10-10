@@ -103,6 +103,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              {% if permissions.can_view %}
               {% for i in univ %}
               <li class="nav-item">
                 <a href="{% url 'view_institute' i.id %}" class="nav-link">
@@ -111,6 +112,7 @@
                 </a>
               </li>
               {% endfor %}
+              {% endif %}
             </ul>
           </li>
           
