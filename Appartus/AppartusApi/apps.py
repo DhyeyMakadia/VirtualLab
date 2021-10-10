@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class AppartusapiConfig(AppConfig):
-    name = 'AppartusApi'
+    name = 'Appartus.AppartusApi'
