@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | Update Practical</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Update Practical</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">update_practical</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<form method="POST" autocomplete="off" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if error %}
+    <div class="text-danger" style="margin-left: 10px;">{{ error }}</div>
+  {% endif %}
+
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Update Practical</h3>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Practical Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="nm1" class="form-control" id="inputName" value="{{update_practical.practical_name}}" placeholder="Practical Name" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputImage" class="col-sm-2 col-form-label">Practical Image</label>
+              <div class="col-sm-10">
+                <div>
+                  {% if update_practical.practical_feature_image %}
+                    <img src="{{update_practical.practical_feature_image.url}}" width="100px">
+                  {% endif %}
+                </div>
+                <input type="file" name="img1" class="form-control form-control-border" id="inputImage" placeholder="Profile">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Procedure</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="procedure1" id="inputName" rows="3" placeholder="Procedure">{{update_practical.practical_procedure}}</textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Application</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="application1" id="inputName" rows="3" placeholder="Application">{{update_practical.practical_application}}</textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Advantages</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="advantages1" id="inputName" rows="3" placeholder="Advantages">{{update_practical.practical_advantages}}</textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Conclusion</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="conclusion1" id="inputName" rows="3" placeholder="Conclusion">{{update_practical.practical_conclusion}}</textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Update Practical</button>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

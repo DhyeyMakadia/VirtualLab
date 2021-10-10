@@ -136,7 +136,7 @@
                         <ul class="nav nav-treeview">
                           {% for l in k.tblcourses_set.all %}
                           <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'view_practical' l.id %}" class="nav-link">
                               <i class="fab fa-cuttlefish text-danger nav-icon"></i>
                               <p>{{ l }}</p>
                             </a>

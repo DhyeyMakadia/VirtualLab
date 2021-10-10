@@ -118,6 +118,10 @@ def view_institute(request,id):
         institute = TblInstitutes.objects.filter(university_id=id)
         parent_univ = TblUniversity.objects.get(id = id)
 
+        # PERMISSION TO VIEW
+        if not User_Permissions.can_view:
+            return redirect('dashboard')
+
         return render(request, 'institute.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'institute':institute,'parent_univ':parent_univ})
     else:
         return redirect('login')
@@ -218,6 +222,10 @@ def view_department(request,id):
         department = TblDepartments.objects.filter(institute_id=id)
         parent_institute = TblInstitutes.objects.get(id = id)
 
+        # PERMISSION TO VIEW
+        if not User_Permissions.can_view:
+            return redirect('dashboard')
+
         return render(request, 'department.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'department':department,'parent_institute':parent_institute})
     else:
         return redirect('login')
@@ -309,6 +317,10 @@ def view_course(request,id):
         univ = TblUniversity.objects.all()
         course = TblCourses.objects.filter(department_id=id)
         parent_department = TblDepartments.objects.get(id = id)
+
+        # PERMISSION TO VIEW
+        if not User_Permissions.can_view:
+            return redirect('dashboard')
 
         return render(request, 'course.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'course':course,'parent_department':parent_department})
     else:

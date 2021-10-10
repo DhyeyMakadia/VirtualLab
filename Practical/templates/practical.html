@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title1 %}
-  <title>LJ VirtualLab | Course</title>
+  <title>LJ VirtualLab | Practical</title>
 {% endblock title1 %}
 
 {% block Name %}
@@ -10,12 +10,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Course(s)</h1>
+        <h1>Practical(s)</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
-          <li class="breadcrumb-item active">course</li>
+          <li class="breadcrumb-item active">practical</li>
         </ol>
       </div>
     </div>
@@ -40,25 +40,27 @@
                 <thead>
                   <tr style="text-align: center;">
                     <th>SR no.</th>
-                    <th style="text-align: left;">Course</th>
-                    <th style="text-align: left;">Course Code</th>
-                    <th>Syllabus</th>
+                    <th style="text-align: left;">Practical Name</th>
+                    <th>Feature Image</th>
                     <th>Last Updated</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 
-                  {% for i in course %}
+                  {% for i in practical %}
                   <tbody>
                     <tr style="text-align: center;">
                       <td>{{forloop.counter}}.</td>
-                      <td style="text-align: left;"><a href="{% url 'view_practical' i.id %}"><b style="color: black;">{{ i.courses_name }}</b></a></td>
-                      <td style="text-align: left;"><b>{{ i.courses_code }}</b></td>
-                      <td>{{ i.courses_syllabus }}</td>
+                      <td style="text-align: left;"><a href="#"><b style="color: black;">{{ i.practical_name }}</b></a></td>
+                      {% if i.practical_feature_image %}
+                      <td><img src="{{i.practical_feature_image.url}}" width="50px"></td>
+                      {% else %}
+                      <td> No Image </td>
+                      {% endif %}
                       <td>{{ i.update_date_time }}</td>
                       <td>
-                        <a href="{% url 'update_course' i.id %}" class="badge bg-primary">Update</a>
-                        <a href="{% url 'delete_course' i.id %}" class="badge bg-danger">Delete</a>
+                        <a href="{% url 'update_practical' i.id %}" class="badge bg-primary">Update</a>
+                        <a href="{% url 'delete_practical' i.id %}" class="badge bg-danger">Delete</a>
                       </td>
                     </tr>
                   </tbody>
@@ -66,7 +68,7 @@
               </table>
             </div>
           </div>
-          <a href="{% url 'add_course' parent_department.id %}"><div class="btn btn-success">Add Course</div></a>
+          <a href="{% url 'add_practical' parent_course.id %}"><div class="btn btn-success">Add Practical</div></a>
         </div>
     </div>
   </div>
