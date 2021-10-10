@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | Update Course</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Update Course</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">update_course</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<form method="POST" autocomplete="off" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if error %}
+    <div class="text-danger" style="margin-left: 10px;">{{ error }}</div>
+  {% endif %}
+
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Update Course</h3>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Course Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="nm1" class="form-control" id="inputName" value="{{ update_course.courses_name }}" placeholder="Course Name" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Course Code</label>
+              <div class="col-sm-10">
+                <input type="text" name="code1" class="form-control" id="inputName" value="{{ update_course.courses_code }}" placeholder="Course Code" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Syllabus</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="syllabus1" id="inputSyllabus" rows="3" placeholder="Syllabus" required>{{ update_course.courses_syllabus }}</textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Update Course</button>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

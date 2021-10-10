@@ -297,3 +297,95 @@ def delete_department(request,id):
             return redirect('view_department',id = parent_institute.id)
     else:
         return redirect('login')
+
+# --------------------------------Course-----------------------------------
+
+def view_course(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        course = TblCourses.objects.filter(department_id=id)
+        parent_department = TblDepartments.objects.get(id = id)
+
+        return render(request, 'course.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'course':course,'parent_department':parent_department})
+    else:
+        return redirect('login')
+
+def add_course(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        parent_department = TblDepartments.objects.get(id = id)
+
+        # PERMISSION TO INSERT
+        if not User_Permissions.can_insert:
+            return redirect('view_course',id=parent_department.id)
+
+        if request.POST:
+            name1 = request.POST['nm1']
+            code1 = request.POST['code1']
+            syllabus1 = request.POST['syllabus1']
+
+            Add_Course = TblCourses()
+            Add_Course.department_id = parent_department
+            Add_Course.courses_name = name1
+            Add_Course.courses_code = code1
+            Add_Course.courses_syllabus = syllabus1
+            Add_Course.save()
+            return redirect('view_course',id=parent_department.id)
+
+        return render(request, 'add_course.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'parent_department':parent_department})
+    else:
+        return redirect('login')
+
+def update_course(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        Update_Course = TblCourses.objects.get(id = id)
+        parent_department = Update_Course.department_id
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('view_course',id=parent_department.id)
+
+        if request.POST:
+            name1 = request.POST['nm1']
+            code1 = request.POST['code1']
+            syllabus1 = request.POST['syllabus1']
+
+            Update_Course.courses_name = name1
+            Update_Course.courses_code = code1
+            Update_Course.courses_syllabus = syllabus1
+            Update_Course.save()
+            return redirect('view_course',id=parent_department.id)
+
+        return render(request, 'update_course.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'update_course':Update_Course,'parent_department':parent_department})
+    else:
+        return redirect('login')
+
+def delete_course(request,id):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        Del_Course = TblCourses.objects.get(id = id)
+        parent_department = Del_Course.department_id
+
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('view_course',id = parent_department.id)
+        else:
+            Del_Course.delete()
+            return redirect('view_course',id = parent_department.id)
+    else:
+        return redirect('login')

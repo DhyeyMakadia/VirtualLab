@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title1 %}
-  <title>LJ VirtualLab | Department</title>
+  <title>LJ VirtualLab | Course</title>
 {% endblock title1 %}
 
 {% block Name %}
@@ -10,12 +10,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Department(s)</h1>
+        <h1>Course(s)</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
-          <li class="breadcrumb-item active">department</li>
+          <li class="breadcrumb-item active">course</li>
         </ol>
       </div>
     </div>
@@ -40,25 +40,25 @@
                 <thead>
                   <tr style="text-align: center;">
                     <th>SR no.</th>
-                    <th style="text-align: left;">Department</th>
-                    <th style="text-align: left;">Contact Person</th>
-                    <th>Contact No</th>
+                    <th style="text-align: left;">Course</th>
+                    <th style="text-align: left;">Course Code</th>
+                    <th>Syllabus</th>
                     <th>Last Updated</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 
-                  {% for i in department %}
+                  {% for i in course %}
                   <tbody>
                     <tr style="text-align: center;">
                       <td>{{forloop.counter}}.</td>
-                      <td style="text-align: left;"><a href="{% url 'view_course' i.id %}"><b style="color: black;">{{ i.department_name }}</b></a></td>
-                      <td style="text-align: left;"><b>{{ i.department_contact_person }}</b></td>
-                      <td>{{ i.department_contact }}</td>
+                      <td style="text-align: left;"><a href="#"><b style="color: black;">{{ i.courses_name }}</b></a></td>
+                      <td style="text-align: left;"><b>{{ i.courses_code }}</b></td>
+                      <td>{{ i.courses_syllabus }}</td>
                       <td>{{ i.update_date_time }}</td>
                       <td>
-                        <a href="{% url 'update_department' i.id %}" class="badge bg-primary">Update</a>
-                        <a href="{% url 'delete_department' i.id %}" class="badge bg-danger">Delete</a>
+                        <a href="{% url 'update_course' i.id %}" class="badge bg-primary">Update</a>
+                        <a href="{% url 'delete_course' i.id %}" class="badge bg-danger">Delete</a>
                       </td>
                     </tr>
                   </tbody>
@@ -66,7 +66,7 @@
               </table>
             </div>
           </div>
-          <a href="{% url 'add_department' parent_institute.id %}"><div class="btn btn-success">Add Department</div></a>
+          <a href="{% url 'add_course' parent_department.id %}"><div class="btn btn-success">Add Course</div></a>
         </div>
     </div>
   </div>
