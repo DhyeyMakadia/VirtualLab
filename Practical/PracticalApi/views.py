@@ -1,5 +1,5 @@
-from Practical.models import TblPractical, TblInputParameter, TblOutputParameter, TblMultipleMaterials, TblMultipleYoutubeLinks
-from Practical.serializers import TblPracticalSerializer, TblMultipleYoutubeLinksSerializer
+from Practical.models import TblPractical, TblInputParameter, TblOutputParameter, TblMultipleMaterials, TblMultipleYoutubeLinks, TblMultiplePracticalImages
+from Practical.serializers import TblPracticalSerializer, TblMultipleYoutubeLinksSerializer, TblMultiplePracticalImagesSerializer, TblMultipleMaterialsSerializer
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -68,4 +68,24 @@ def fetch_youtube_links(request):
     practical = TblPractical.objects.get(id=practical_id)
     youtube_links = TblMultipleYoutubeLinks.objects.filter(practical_id=practical)
     serializer = TblMultipleYoutubeLinksSerializer(youtube_links, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def fetch_practical_images(request):
+    practical_id = request.GET['practical_id']
+    practical = TblPractical.objects.get(id=practical_id)
+    practical_images = TblMultiplePracticalImages.objects.filter(practical_id=practical)
+    serializer = TblMultiplePracticalImagesSerializer(practical_images, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def fetch_practical_materials(request):
+    practical_id = request.GET['practical_id']
+    practical = TblPractical.objects.get(id=practical_id)
+    practical_materials = TblMultipleMaterials.objects.filter(practical_id=practical)
+    serializer = TblMultipleMaterialsSerializer(practical_materials, many=True)
     return Response(serializer.data)
