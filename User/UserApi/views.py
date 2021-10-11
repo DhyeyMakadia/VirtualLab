@@ -20,15 +20,12 @@ def registration(request):
         account = account_serializer.save()
         print(account)
     else:
-        return Response({'error': 202,
-                         'message': 'There was an error in account registration, Please try again.',
-                         'serializer_error': account_serializer.errors}, status=500)
+        return Response(account_serializer.errors, status=202)
     department_id = request.POST['department_id']
     try:
         department = TblDepartments.objects.get(id=department_id)
     except TblDepartments.DoesNotExist:
-        return Response({'error': 201,
-                         'message': 'There does not exist such department, Please try again.'}, status=500)
+        return Response({'error': ['There does not exist such department, Please try again.']}, status=400)
     user_dic = {'account_id': account.id,
                 'institute_id': department.institute_id.id,
                 'department_id': department.id,
@@ -56,13 +53,12 @@ def fetch_user_approval(request):
     try:
         account = Account.objects.get(email=email)
     except Account.DoesNotExist:
-        return Response({'error': 204,
-                         'message': 'Account with such email id does not exist'}, status=404)
+        return Response({'error': ['Email Id Does Not Exist']}, status=400)
     user = TblUsers.objects.get(account_id=account)
     if user.is_approved:
         return Response(1, status=200)
     else:
-        return Response(0, status=200)
+        return Response({'error': ['Account is not Approved']}, status=400)
 
 
 @api_view(['GET'])

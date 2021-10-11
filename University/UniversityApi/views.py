@@ -38,8 +38,8 @@ def fetch_departments(request):
 @api_view(['GET'])
 def fetch_courses(request):
     courses = TblCourses.objects.filter(department_id=request.GET['department_id'])
-    if not courses:
-        return Response({'error': 103, 'message': 'No Courses found for Department'})
+    # if not courses:
+    #     return Response([], status=200)
     serializer = TblCoursesSerializer(courses, many=True)
     return Response(serializer.data)
 
