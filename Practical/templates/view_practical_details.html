@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | View Practical Details</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>View Practical Details</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">view_practical_details</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<form method="POST" autocomplete="off" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if error %}
+    <div class="text-danger" style="margin-left: 10px;">{{ error }}</div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Practical Details -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Practical Details</h3>
+
+          <div class="card-tools">
+            <a href="{% url 'update_practical' practical_details.id %}" class="btn btn-tool" title="Update">
+              <i class="fas fa-pen-square"></i>
+            </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="inputName">Practical Name</label>
+            <input type="text" id="inputName" class="form-control" value="{{practical_details.practical_name}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="inputName">Feature Image</label>
+            {% if practical_details.practical_feature_image %}
+            <div><img src="{{practical_details.practical_feature_image.url}}" width="50px"></div> 
+            {% else %}
+            <span> No Image</span>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <label for="inputDescription">Procedure</label>
+            <textarea id="inputDescription" class="form-control" rows="3" disabled>{{ practical_details.practical_procedure }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="inputDescription">Application</label>
+            <textarea id="inputDescription" class="form-control" rows="3" disabled>{{ practical_details.practical_application }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="inputDescription">Advantages</label>
+            <textarea id="inputDescription" class="form-control" rows="3" disabled>{{ practical_details.practical_advantages }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="inputDescription">Conclusion</label>
+            <textarea id="inputDescription" class="form-control" rows="3" disabled>{{ practical_details.practical_conclusion }}</textarea>
+          </div>
+          
+        </div>
+      </div>
+      <!-- Practical Images -->
+      <div class="card card-info">
+        <div class="card-header">
+          <h4 class="card-title">Practical Images</h4>
+
+          <div class="card-tools">
+            <a href="#" class="btn btn-tool" title="Update">
+              <i class="fas fa-pen-square"></i>
+            </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            {% for i in practical_details.tblmultiplepracticalimages_set.all %}
+            <div class="col-sm-2">
+              {% if i.image_path %}
+              <a href="{{ i.image_path.url }}" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                <img src="{{ i.image_path.url }}" class="img-fluid mb-2" alt="white sample"/>
+              </a>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <!-- Practical Materials -->
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">Materials</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Material Name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in practical_details.tblmultiplematerials_set.all %}
+              <tr>
+                <td>{{ i.material_name }}</td>
+                <td class="text-right py-0 align-middle">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{{i.material_file_path.url}}" target="_blank" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-warning"><i class="fas fa-pen-square"></i></a>
+                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+      <!-- Input Parameters -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Input Parameters</h3>
+
+          <div class="card-tools">
+            <a href="#" class="btn btn-tool" title="Update">
+              <i class="fas fa-pen-square"></i>
+            </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          {% for i in practical_details.tblinputparameter_set.all %}
+          <div class="form-group">
+            <label for="inputParameter">Parameter {{ forloop.counter }}</label>
+            <input type="text" id="inputParameter" class="form-control" value="{{ i.input_parameter_name }}" disabled>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Fixed Input Parameters -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Fixed Input Parameters</h3>
+
+          <div class="card-tools">
+            <a href="#" class="btn btn-tool" title="Update">
+              <i class="fas fa-pen-square"></i>
+            </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          {% for i in practical_details.tblfixedinputparameter_set.all %}
+          <div class="form-group">
+            <label for="FixedinputParameter">Parameter {{ forloop.counter }}</label>
+            <input type="text" id="FixedinputParameter" class="form-control" value="{{ i.fixed_input_parameter_name }}" disabled>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Fixed Output Parameters -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Fixed Output Parameters</h3>
+
+          <div class="card-tools">
+            <a href="#" class="btn btn-tool" title="Update">
+              <i class="fas fa-pen-square"></i>
+            </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          {% for i in practical_details.tblfixedoutputparameter_set.all %}
+          <div class="form-group">
+            <label for="FixedOutputParameter">Parameter {{ forloop.counter }}</label>
+            <input type="text" id="FixedOutputParameter" class="form-control" value="{{ i.fixed_output_parameter_name }}" disabled>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Output Parameters -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Output Parameters</h3>
+
+          <div class="card-tools">
+            <a href="#" class="btn btn-tool" title="Update">
+              <i class="fas fa-pen-square"></i>
+            </a>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          {% for i in practical_details.tbloutputparameter_set.all %}
+          <div class="form-group">
+            <label for="OutputParameter">Parameter {{ forloop.counter }}</label>
+            <input type="text" id="OutputParameter" class="form-control" value="{{ i.output_parameter_name }}" disabled>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Youtube Links -->
+      <div class="card card-danger">
+        <div class="card-header">
+          <h3 class="card-title">Youtube Links</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Video Name</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in practical_details.tblmultipleyoutubelinks_set.all %}
+              <tr>
+                <td>{{i.youtube_video_title}}</td>
+                <td class="text-right py-0 align-middle">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{{i.youtube_video_links}}" target="_blank" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                    <a href="{% url 'update_youtube_links' i.id %}" class="btn btn-warning"><i class="fas fa-pen-square"></i></a>
+                    <a href="{% url 'delete_youtube_links' i.id %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-12">
+      <input type="submit" value="Save Changes" class="btn btn-success">
+    </div>
+  </div> -->
+
+</form>
+{% endblock %}

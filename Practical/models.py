@@ -19,6 +19,9 @@ class TblPractical(models.Model):
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+    def __str__(self):
+        return self.practical_name
+
 class TblParameterFile(models.Model):
     practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
     parameter_file = models.FileField("Practical/Parameter-Files/{practical_id.practical_name}", default="", blank=True,
@@ -78,12 +81,18 @@ class TblMultipleYoutubeLinks(models.Model):
     youtube_video_title = models.CharField("Title", default="", blank=True, null=True, max_length=50)
     youtube_video_links = models.CharField("Youtube Link", default="", blank=True, null=True, max_length=200)
 
+    def __str__(self):
+        return self.youtube_video_title
+
 
 class TblMultipleMaterials(models.Model):
     practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
     material_name = models.CharField("Material Name", default="", blank=True, null=True, max_length=50)
     material_file_path = models.FileField("Practical/Materials/{practical_id.practical_name}", default="", blank=True,
                                           null=True, max_length=200)
+
+    def __str__(self):
+        return self.material_name
 
 
 class TblMultipleInputParameter(models.Model):

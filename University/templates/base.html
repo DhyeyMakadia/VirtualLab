@@ -107,7 +107,7 @@
               {% for i in univ %}
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="fas fa-arrow-alt-circle-right nav-icon"></i>
+                  <i class="fas fa-arrow-alt-circle-right text-info nav-icon"></i>
                   <p>
                     {{ i.university_name }}
                     <i class="right fas fa-angle-left"></i>
@@ -117,7 +117,7 @@
                   {% for j in i.tblinstitutes_set.all %}
                   <li class="nav-item">
                     <a href="#" class="nav-link">
-                      <i class="fas fa-italic text-info nav-icon"></i>
+                      <i class="fas fa-italic text-teal nav-icon"></i>
                       <p>
                         {{ j.institute_name }}
                         <i class="right fas fa-angle-left"></i>

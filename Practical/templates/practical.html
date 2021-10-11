@@ -51,7 +51,7 @@
                   <tbody>
                     <tr style="text-align: center;">
                       <td>{{forloop.counter}}.</td>
-                      <td style="text-align: left;"><a href="#"><b style="color: black;">{{ i.practical_name }}</b></a></td>
+                      <td style="text-align: left;"><a href="{% url 'view_practical_details' i.id %}"><b style="color: black;">{{ i.practical_name }}</b></a></td>
                       {% if i.practical_feature_image %}
                       <td><img src="{{i.practical_feature_image.url}}" width="50px"></td>
                       {% else %}
