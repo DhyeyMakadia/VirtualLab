@@ -1,10 +1,11 @@
 from django.contrib import admin
 
-from Practical.models import TblPractical, TblInputParameter, TblOutputParameter, TblFixedInputParameter, TblFixedOutputParameter, TblMultiplePracticalImages, TblMultipleAppartus, TblMultipleYoutubeLinks, TblMultipleMaterials, TblMultipleInputParameter, TblMultipleOutputParameter, TblMultipleFixedInputParameter, TblMultipleFixedOutputParameter
+from Practical.models import TblParameterFile, TblPractical, TblInputParameter, TblOutputParameter, TblFixedInputParameter, TblFixedOutputParameter, TblMultiplePracticalImages, TblMultipleAppartus, TblMultipleYoutubeLinks, TblMultipleMaterials, TblMultipleInputParameter, TblMultipleOutputParameter, TblMultipleFixedInputParameter, TblMultipleFixedOutputParameter
 
 # Register your models here.
 
 admin.site.register(TblPractical)
+admin.site.register(TblParameterFile)
 admin.site.register(TblInputParameter)
 admin.site.register(TblOutputParameter)
 admin.site.register(TblFixedInputParameter)

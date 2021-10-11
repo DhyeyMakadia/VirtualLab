@@ -19,6 +19,10 @@ class TblPractical(models.Model):
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
+class TblParameterFile(models.Model):
+    practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
+    parameter_file = models.FileField("Practical/Parameter-Files/{practical_id.practical_name}", default="", blank=True,
+                                          null=True, max_length=200)
 
 class TblInputParameter(models.Model):
     practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
@@ -63,7 +67,7 @@ class TblMultiplePracticalImages(models.Model):
     image_path = models.ImageField("Practical/Multiple-Practical-Images/{practical_id.practical_name}", default="",
                                   blank=True, null=True, max_length=200)
 
-
+#Appartus links with practical
 class TblMultipleAppartus(models.Model):
     practical_id = models.ForeignKey(TblPractical, on_delete=models.CASCADE, blank=True, null=True)
     appartus_id = models.ForeignKey(TblAppartus, on_delete=models.CASCADE, blank=True, null=True)
