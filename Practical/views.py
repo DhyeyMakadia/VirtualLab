@@ -221,3 +221,86 @@ def delete_youtube_links(request,id):
             return redirect('view_practical_details',id = parent_practical.id)
     else:
         return redirect('login')
+
+# ----------------------------Materials------------------------------------
+def add_materials(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        parent_practical = TblPractical.objects.get(id = id)
+
+        # PERMISSION TO INSERT
+        if not User_Permissions.can_insert:
+            return redirect('view_practical_details',id=parent_practical.id)
+
+        if request.POST:
+            name1 = request.POST['nm1']
+            path1 = request.FILES.get('path1')
+
+            Add_Materials = TblMultipleMaterials()
+            Add_Materials.practical_id = parent_practical
+            Add_Materials.material_name = name1
+            if path1 != None:
+                Add_Materials.material_file_path = path1
+            Add_Materials.save()
+            if 'add_another' in request.POST:
+                return redirect('add_materials',id=parent_practical.id)
+            elif 'continue' in request.POST:
+                pass
+            else:
+                return redirect('view_practical_details',id=parent_practical.id)
+
+        return render(request, 'add_materials.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'parent_practical':parent_practical})
+    else:
+        return redirect('login')
+
+def update_materials(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        Update_Materials = TblMultipleMaterials.objects.get(id = id)
+        parent_practical = Update_Materials.practical_id
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('view_practical_details',id=parent_practical.id)
+
+        if request.POST:
+            name1 = request.POST['nm1']
+            path1 = request.FILES.get('path1')
+
+            Update_Materials.material_name = name1
+            if path1 != None:
+                Update_Materials.material_file_path = path1
+            Update_Materials.save()
+            if 'add_another' in request.POST:
+                return redirect('add_materials',id=parent_practical.id)
+            else:
+                return redirect('view_practical_details',id=parent_practical.id)
+
+        return render(request, 'update_materials.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'update_materials':Update_Materials,'parent_practical':parent_practical})
+    else:
+        return redirect('login')
+
+def delete_materials(request,id):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        Del_Materials = TblMultipleMaterials.objects.get(id = id)
+        parent_practical = Del_Materials.practical_id
+
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('view_practical_details',id = parent_practical.id)
+        else:
+            Del_Materials.delete()
+            return redirect('view_practical_details',id = parent_practical.id)
+    else:
+        return redirect('login')

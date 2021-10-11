@@ -11,11 +11,14 @@ urlpatterns = [
 
     # -----------------------Practical-Details-----------------------
     path('view_practical_details/<int:id>',view_practical_details,name='view_practical_details'),
-    # path('add_practical_details/<int:id>',add_practical_details,name='add_practical_details'),
-    # path('update_practical_details/<int:id>',update_practical_details,name='update_practical_details'),
-    # path('delete_practical_details/<int:id>',delete_practical_details,name='delete_practical_details'),
 
+    # ------------------------Youtube-Links---------------------------
     path('add_youtube_links/<int:id>',add_youtube_links,name='add_youtube_links'),
     path('update_youtube_links/<int:id>',update_youtube_links,name='update_youtube_links'),
     path('delete_youtube_links/<int:id>',delete_youtube_links,name='delete_youtube_links'),
+
+    # ---------------------------Materials---------------------------
+    path('add_materials/<int:id>',add_materials,name='add_materials'),
+    path('update_materials/<int:id>',update_materials,name='update_materials'),
+    path('delete_materials/<int:id>',delete_materials,name='delete_materials'),
 ]
