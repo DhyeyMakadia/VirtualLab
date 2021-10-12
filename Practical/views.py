@@ -64,7 +64,7 @@ def add_practical(request,id):
             Add_Practical.practical_advantages = advantages1
             Add_Practical.practical_conclusion = conclusion1
             Add_Practical.save()
-            return redirect('view_practical',id=parent_course.id)
+            return redirect('view_practical_details',id=Add_Practical.id)
 
         return render(request, 'add_practical.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'parent_course':parent_course})
     else:
@@ -100,7 +100,7 @@ def update_practical(request,id):
             Update_Practical.practical_advantages = advantages1
             Update_Practical.practical_conclusion = conclusion1
             Update_Practical.save()
-            return redirect('view_practical',id=parent_course.id)
+            return redirect('view_practical_details',id=Update_Practical.id)
 
         return render(request, 'update_practical.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'update_practical':Update_Practical,'parent_course':parent_course})
     else:
@@ -165,8 +165,6 @@ def add_multiple_images(request,id):
             Add_Multiple_Images.save()
             if 'add_another' in request.POST:
                 return redirect('add_multiple_images',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
@@ -262,8 +260,6 @@ def add_youtube_links(request,id):
             Add_Youtube_Links.save()
             if 'add_another' in request.POST:
                 return redirect('add_youtube_links',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
@@ -344,8 +340,6 @@ def add_materials(request,id):
             Add_Materials.save()
             if 'add_another' in request.POST:
                 return redirect('add_materials',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
@@ -423,9 +417,7 @@ def add_input_parameters(request,id):
             Add_Input_Parameters.input_parameter_name = name1
             Add_Input_Parameters.save()
             if 'add_another' in request.POST:
-                return redirect('add_parameters',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
+                return redirect('add_input_parameters',id=parent_practical.id)
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
@@ -501,8 +493,6 @@ def add_fixed_input_parameters(request,id):
             Add_Fixed_Input_Parameters.save()
             if 'add_another' in request.POST:
                 return redirect('add_fixed_input_parameters',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
@@ -578,8 +568,6 @@ def add_output_parameters(request,id):
             Add_Output_Parameters.save()
             if 'add_another' in request.POST:
                 return redirect('add_output_parameters',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
@@ -655,8 +643,6 @@ def add_fixed_output_parameters(request,id):
             Add_Fixed_Output_Parameters.save()
             if 'add_another' in request.POST:
                 return redirect('add_fixed_output_parameters',id=parent_practical.id)
-            elif 'continue' in request.POST:
-                pass
             else:
                 return redirect('view_practical_details',id=parent_practical.id)
 
