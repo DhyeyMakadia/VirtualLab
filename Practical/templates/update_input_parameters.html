@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title1 %}
-  <title>LJ VirtualLab | Add Youtube Links</title>
+  <title>LJ VirtualLab | Update Parameters</title>
 {% endblock title1 %}
 
 {% block Name %}
@@ -10,12 +10,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Add Youtube Links</h1>
+        <h1>Update Input Parameters</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
-          <li class="breadcrumb-item active">add_youtube_links</li>
+          <li class="breadcrumb-item active">update_input_parameters</li>
         </ol>
       </div>
     </div>
@@ -31,19 +31,15 @@
   {% endif %}
 <div class="row">
   <div class="col-md-6">
-    <div class="card card-danger">
+    <div class="card card-secondary">
       <div class="card-header">
-        <h3 class="card-title">Youtube Links</h3>
+        <h3 class="card-title">Input Parameters</h3>
 
       </div>
       <div class="card-body">
         <div class="form-group">
-          <label for="inputParameter">Link Title</label>
-          <input type="text" name="nm1" id="inputParameter" class="form-control" placeholder="Youtube Video Title" required>
-        </div>
-        <div class="form-group">
-          <label for="inputParameter">Link:</label>
-          <input type="text" name="link1" id="inputParameter" class="form-control" placeholder="Youtube Link" required>
+          <label for="inputParameter">Name</label>
+          <input type="text" name="parameter1" id="inputParameter" class="form-control" placeholder="Parameter Name" value="{{ update_input_parameters.input_parameter_name }}" required>
         </div>
       </div>
     </div>
@@ -52,7 +48,8 @@
       <div class="col-12">
         <input type="submit" name="continue" value="Save and Continue" class="btn btn-success float-right">
         <input type="submit" name="add_another" value="Save and Add Another" class="btn btn-success float-right" style="margin: 0 5px;">
-        <input type="submit" name="finish" value="Save & Finish" class="btn btn-success float-right">
+        <input type="submit" name="finish" value="Save & Finish" class="btn btn-success float-right" style="margin: 0 0 0 5px;">
+        <a href="{% url 'delete_input_parameters' update_input_parameters.id %}" class="btn btn-danger float-right">Delete</a>
       </div>
     </div>
   </div>

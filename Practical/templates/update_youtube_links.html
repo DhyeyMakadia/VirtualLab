@@ -29,30 +29,33 @@
   {% if error %}
     <div class="text-danger" style="margin-left: 10px;">{{ error }}</div>
   {% endif %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card card-danger">
+      <div class="card-header">
+        <h3 class="card-title">Youtube Links</h3>
 
-  <div class="card card-danger">
-    <div class="card-header">
-      <h3 class="card-title">Youtube Links</h3>
-
-    </div>
-    <div class="card-body">
-      <div class="form-group">
-        <label for="inputParameter">Link Title</label>
-        <input type="text" name="nm1" id="inputParameter" class="form-control" value="{{ update_youtube_links.youtube_video_title }}" placeholder="Youtube Video Title" required>
       </div>
-      <div class="form-group">
-        <label for="inputParameter">Link:</label>
-        <input type="text" name="link1" id="inputParameter" class="form-control" value="{{ update_youtube_links.youtube_video_links }}" placeholder="Youtube Link" required>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="inputParameter">Link Title</label>
+          <input type="text" name="nm1" id="inputParameter" class="form-control" value="{{ update_youtube_links.youtube_video_title }}" placeholder="Youtube Video Title" required>
+        </div>
+        <div class="form-group">
+          <label for="inputParameter">Link:</label>
+          <input type="text" name="link1" id="inputParameter" class="form-control" value="{{ update_youtube_links.youtube_video_links }}" placeholder="Youtube Link" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <input type="submit" name="add_another" value="Save and Add Another" class="btn btn-success float-right" style="margin: 0 0 0 5px;">
+        <input type="submit" name="finish" value="Save & Finish" class="btn btn-success float-right">
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-12">
-      <input type="submit" name="add_another" value="Save and Add Another" class="btn btn-success float-right" style="margin: 0 0 0 5px;">
-      <input type="submit" name="finish" value="Save & Finish" class="btn btn-success float-right">
-    </div>
-  </div>
+</div>
 
 </form>
 {% endblock %}

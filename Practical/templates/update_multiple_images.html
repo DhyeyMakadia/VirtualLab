@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | Update Images</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Update Images</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">update_multiple_images</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<form method="POST" autocomplete="off" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if error %}
+    <div class="text-danger" style="margin-left: 10px;">{{ error }}</div>
+  {% endif %}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">Multiple Images</h3>
+
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in update_multiple_images %}
+            <tr>
+              {% if i.image_path %}
+              <td><img src="{{i.image_path.url}}" width="70px"></td>
+              {% else %}
+              <td>No Image</td>
+              {% endif %}
+              <td class="text-right py-0 align-middle">
+                <div class="btn-group btn-group-sm">
+                  <a href="{% url 'update_images' i.id %}" class="btn btn-warning"><i class="fas fa-pen-square"></i></a>
+                  <a href="{% url 'delete_images' i.id %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <a href="{% url 'view_practical_details' parent_practical.id %}" class="btn btn-success float-right">View Practical Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
+{% endblock %}

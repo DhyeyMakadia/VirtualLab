@@ -84,7 +84,10 @@
           <h4 class="card-title">Practical Images</h4>
 
           <div class="card-tools">
-            <a href="#" class="btn btn-tool" title="Update">
+            <a href="{% url 'add_multiple_images' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
+            </a>
+            <a href="{% url 'update_multiple_images' practical_details.id %}" class="btn btn-tool" title="Update">
               <i class="fas fa-pen-square"></i>
             </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -112,6 +115,9 @@
           <h3 class="card-title">Materials</h3>
 
           <div class="card-tools">
+            <a href="{% url 'add_materials' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
+            </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -151,8 +157,8 @@
           <h3 class="card-title">Input Parameters</h3>
 
           <div class="card-tools">
-            <a href="#" class="btn btn-tool" title="Update">
-              <i class="fas fa-pen-square"></i>
+            <a href="{% url 'add_input_parameters' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
             </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -161,9 +167,12 @@
         </div>
         <div class="card-body">
           {% for i in practical_details.tblinputparameter_set.all %}
-          <div class="form-group">
-            <label for="inputParameter">Parameter {{ forloop.counter }}</label>
+          <label for="inputParameter">Parameter {{ forloop.counter }}</label>
+          <div class="form-group input-group">
             <input type="text" id="inputParameter" class="form-control" value="{{ i.input_parameter_name }}" disabled>
+            <div class="input-group-append">
+              <button type="button" onclick="window.location.href='{% url 'update_input_parameters' i.id %}'" class="btn btn-secondary btn-flat">edit</button>
+            </div>
           </div>
           {% endfor %}
         </div>
@@ -175,8 +184,8 @@
           <h3 class="card-title">Fixed Input Parameters</h3>
 
           <div class="card-tools">
-            <a href="#" class="btn btn-tool" title="Update">
-              <i class="fas fa-pen-square"></i>
+            <a href="{% url 'add_fixed_input_parameters' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
             </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -185,9 +194,12 @@
         </div>
         <div class="card-body">
           {% for i in practical_details.tblfixedinputparameter_set.all %}
-          <div class="form-group">
-            <label for="FixedinputParameter">Parameter {{ forloop.counter }}</label>
+          <label for="FixedinputParameter">Parameter {{ forloop.counter }}</label>
+          <div class="form-group input-group">
             <input type="text" id="FixedinputParameter" class="form-control" value="{{ i.fixed_input_parameter_name }}" disabled>
+            <div class="input-group-append">
+              <button type="button" onclick="window.location.href='{% url 'update_fixed_input_parameters' i.id %}'" class="btn btn-secondary btn-flat">edit</button>
+            </div>
           </div>
           {% endfor %}
         </div>
@@ -199,8 +211,8 @@
           <h3 class="card-title">Fixed Output Parameters</h3>
 
           <div class="card-tools">
-            <a href="#" class="btn btn-tool" title="Update">
-              <i class="fas fa-pen-square"></i>
+            <a href="{% url 'add_fixed_output_parameters' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
             </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -209,9 +221,12 @@
         </div>
         <div class="card-body">
           {% for i in practical_details.tblfixedoutputparameter_set.all %}
-          <div class="form-group">
-            <label for="FixedOutputParameter">Parameter {{ forloop.counter }}</label>
+          <label for="FixedOutputParameter">Parameter {{ forloop.counter }}</label>
+          <div class="form-group input-group">
             <input type="text" id="FixedOutputParameter" class="form-control" value="{{ i.fixed_output_parameter_name }}" disabled>
+            <div class="input-group-append">
+              <button type="button" onclick="window.location.href='{% url 'update_fixed_output_parameters' i.id %}'" class="btn btn-secondary btn-flat">edit</button>
+            </div>
           </div>
           {% endfor %}
         </div>
@@ -223,8 +238,8 @@
           <h3 class="card-title">Output Parameters</h3>
 
           <div class="card-tools">
-            <a href="#" class="btn btn-tool" title="Update">
-              <i class="fas fa-pen-square"></i>
+            <a href="{% url 'add_output_parameters' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
             </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -233,9 +248,12 @@
         </div>
         <div class="card-body">
           {% for i in practical_details.tbloutputparameter_set.all %}
-          <div class="form-group">
-            <label for="OutputParameter">Parameter {{ forloop.counter }}</label>
+          <label for="OutputParameter">Parameter {{ forloop.counter }}</label>
+          <div class="form-group input-group">
             <input type="text" id="OutputParameter" class="form-control" value="{{ i.output_parameter_name }}" disabled>
+            <div class="input-group-append">
+              <button type="button" onclick="window.location.href='{% url 'update_output_parameters' i.id %}'" class="btn btn-secondary btn-flat">edit</button>
+            </div>
           </div>
           {% endfor %}
         </div>
@@ -247,6 +265,9 @@
           <h3 class="card-title">Youtube Links</h3>
 
           <div class="card-tools">
+            <a href="{% url 'add_youtube_links' practical_details.id %}" class="btn btn-tool" title="Add">
+              <i class="fas fa-plus-square"></i>
+            </a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
