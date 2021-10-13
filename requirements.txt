@@ -2,3 +2,4 @@ django
 djangorestframework
 pandas
 openpyxl
+django-rest-auth
