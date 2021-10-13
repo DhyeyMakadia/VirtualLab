@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | View Students</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>View Students</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+          <li class="breadcrumb-item active">view_students</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<div class="col-md-12">
+  {% if error %}
+  <div class="text-danger">{{ error }}</div>
+  {% endif %}
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><b>Request List:</b></h3>
+      </div>
+      <div class="card-body table-responsive p-0">
+        <table class="table">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="width: 80px">Sr No.</th>
+              <th style="text-align: left;">Student Name</th>
+              <th style="text-align: left;">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for i in accepted_students reversed %}
+                <tr style="text-align: center;">
+                    <td>{{forloop.counter}}</td>
+                    <td style="text-align: left;">{{ i.user_name}}</td>
+                    <td style="text-align: left;">{{ i.account_id.email }}</td>
+                </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}

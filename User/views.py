@@ -235,3 +235,72 @@ def logout(request):
         return redirect('login')
     else:
         return redirect('login')
+
+# ----------------------------Student---------------------------------
+def view_requests(request):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        New_Request = TblUsers.objects.filter(is_approved=False)
+
+        # PERMISSION TO VIEW
+        if not User_Permissions.can_view:
+            return redirect('dashboard')
+
+        return render(request, 'view_student_new_request.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'new_request':New_Request})
+    else:
+        return redirect('login')
+
+def approve_student(request,id):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        Student = TblUsers.objects.get(id=id)
+
+        # PERMISSION TO UPDATE
+        if not User_Permissions.can_edit:
+            return redirect('dashboard')
+
+        Student.is_approved = True
+        Student.save()
+        return redirect('view_requests')
+    else:
+        return redirect('login')
+
+def decline_student(request,id):
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        
+        # PERMISSION TO DELETE
+        if not User_Permissions.can_delete:
+            return redirect('view_requests')
+        else:
+            Del_Student = Account.objects.get(id = id)
+            Del_Student.delete()
+            return redirect('view_requests')
+    else:
+        return redirect('login')
+
+def view_accepted_students(request):
+    err = ''
+    if 'admin_session' in request.session.keys():
+        User = Account.objects.get(id=int(request.session['admin_session']))
+        User_Admin = TblAdmin.objects.get(account_id=User)
+        User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
+        univ = TblUniversity.objects.all()
+        Accepted_Students = TblUsers.objects.filter(is_approved=True)
+
+        # PERMISSION TO VIEW
+        if not User_Permissions.can_view:
+            return redirect('dashboard')
+
+        return render(request, 'view_accepted_students.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err,'accepted_students':Accepted_Students})
+    else:
+        return redirect('login')
