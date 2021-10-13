@@ -236,7 +236,7 @@ def logout(request):
     else:
         return redirect('login')
 
-# ----------------------------Student---------------------------------
+# ----------------------------For-Student----------------------------------
 def view_requests(request):
     err = ''
     if 'admin_session' in request.session.keys():
