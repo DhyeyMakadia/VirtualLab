@@ -14,8 +14,12 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
-          <li class="breadcrumb-item active">view_practical_details</li>
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">University</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_institute' practical_details.course_id.department_id.institute_id.university_id.id %}" style="color: grey;">Institute</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_department' practical_details.course_id.department_id.institute_id.id %}" style="color: grey;">Department</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_course' practical_details.course_id.department_id.id %}" style="color: grey;">Course</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_practical' practical_details.course_id.id %}" style="color: grey;">Practical</a></li>
+          <li class="breadcrumb-item active">Practical_Details</li>
         </ol>
       </div>
     </div>

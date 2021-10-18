@@ -14,8 +14,9 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
-          <li class="breadcrumb-item active">department</li>
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">University</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_institute' parent_institute.university_id.id %}" style="color: grey;">Institute</a></li>
+          <li class="breadcrumb-item active">Department</li>
         </ol>
       </div>
     </div>
