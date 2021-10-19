@@ -16,7 +16,7 @@ from .models import *
 
 # --------------------------------Practical-----------------------------------
 def view_practical(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -34,7 +34,7 @@ def view_practical(request,id):
         return redirect('login')
 
 def add_practical(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -71,7 +71,7 @@ def add_practical(request,id):
         return redirect('login')
 
 def update_practical(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -125,7 +125,7 @@ def delete_practical(request,id):
 
 # ----------------------------Practical-Details-----------------------------------
 def view_practical_details(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -143,7 +143,7 @@ def view_practical_details(request,id):
 
 # ----------------------------Images-----------------------------------
 def add_multiple_images(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -173,7 +173,7 @@ def add_multiple_images(request,id):
         return redirect('login')
 
 def update_multiple_images(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -191,7 +191,7 @@ def update_multiple_images(request,id):
         return redirect('login')
 
 def update_images(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -237,7 +237,7 @@ def delete_images(request,id):
         return redirect('login')
 # ----------------------------Youtube-Links-----------------------------------
 def add_youtube_links(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -268,7 +268,7 @@ def add_youtube_links(request,id):
         return redirect('login')
 
 def update_youtube_links(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -316,7 +316,7 @@ def delete_youtube_links(request,id):
 
 # ----------------------------Materials------------------------------------
 def add_materials(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -348,7 +348,7 @@ def add_materials(request,id):
         return redirect('login')
 
 def update_materials(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -397,7 +397,7 @@ def delete_materials(request,id):
 
 # ----------------------------Input-Parameters------------------------------------
 def add_input_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -426,7 +426,7 @@ def add_input_parameters(request,id):
         return redirect('login')
 
 def update_input_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -472,7 +472,7 @@ def delete_input_parameters(request,id):
 
 # ----------------------------Fixed-Input-Parameters------------------------------------
 def add_fixed_input_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -501,7 +501,7 @@ def add_fixed_input_parameters(request,id):
         return redirect('login')
 
 def update_fixed_input_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -547,7 +547,7 @@ def delete_fixed_input_parameters(request,id):
 
 # ----------------------------Output-Parameters------------------------------------
 def add_output_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -576,7 +576,7 @@ def add_output_parameters(request,id):
         return redirect('login')
 
 def update_output_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -622,7 +622,7 @@ def delete_output_parameters(request,id):
 
 # ----------------------------Fixed-Output-Parameters------------------------------------
 def add_fixed_output_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -651,7 +651,7 @@ def add_fixed_output_parameters(request,id):
         return redirect('login')
 
 def update_fixed_output_parameters(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)

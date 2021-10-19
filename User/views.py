@@ -18,7 +18,7 @@ from User.models import *
 # ========================= Admin Panel views ==============================
 
 def login(request):
-    err = ''
+    err = str()
     if request.POST:
         em = request.POST['em1']
         pwd = request.POST['pass']
@@ -35,7 +35,7 @@ def login(request):
     return render(request,'login.html',{'error':err})
 
 def profile(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -56,7 +56,7 @@ def profile(request):
         return redirect('login')
 
 def changepassword(request):
-    err = suc = ''
+    err = suc = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -82,7 +82,7 @@ def changepassword(request):
         return redirect('login')
 
 def register_admin(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -134,7 +134,7 @@ def register_admin(request):
         return redirect('login')
 
 def view_admin(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -151,7 +151,7 @@ def view_admin(request):
         return redirect('login')
 
 def update_admin(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -238,7 +238,7 @@ def logout(request):
 
 # ----------------------------For-Student----------------------------------
 def view_requests(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -255,7 +255,6 @@ def view_requests(request):
         return redirect('login')
 
 def approve_student(request,id):
-    err = ''
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -289,7 +288,7 @@ def decline_student(request,id):
         return redirect('login')
 
 def view_accepted_students(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)

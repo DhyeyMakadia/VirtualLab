@@ -16,7 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 # --------------------------------University-----------------------------------
 # --------------------------------Courses-----------------------------------
 def dashboard(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -28,7 +28,7 @@ def dashboard(request):
         return redirect('login')
 
 def add_university(request):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -60,7 +60,7 @@ def add_university(request):
         return redirect('login')
 
 def update_university(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -109,7 +109,7 @@ def delete_university(request,id):
 
 # --------------------------------Institute-----------------------------------
 def view_institute(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -127,7 +127,7 @@ def view_institute(request,id):
         return redirect('login')
 
 def add_institute(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -161,7 +161,7 @@ def add_institute(request,id):
         return redirect('login')
 
 def update_institute(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -213,7 +213,7 @@ def delete_institute(request,id):
 # --------------------------------Department-----------------------------------
 
 def view_department(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -231,7 +231,7 @@ def view_department(request,id):
         return redirect('login')
 
 def add_department(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -261,7 +261,7 @@ def add_department(request,id):
         return redirect('login')
 
 def update_department(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -309,7 +309,7 @@ def delete_department(request,id):
 # --------------------------------Course-----------------------------------
 
 def view_course(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -327,7 +327,7 @@ def view_course(request,id):
         return redirect('login')
 
 def add_course(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
@@ -357,7 +357,7 @@ def add_course(request,id):
         return redirect('login')
 
 def update_course(request,id):
-    err = ''
+    err = str()
     if 'admin_session' in request.session.keys():
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
