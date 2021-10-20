@@ -79,8 +79,8 @@
                       <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
                     {% endif %}
                     <td>
-                      <a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary">Update</a>
-                      <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger">Delete</a>
+                      <a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary" onclick="check_permission_update()">Update</a>
+                      <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger" onclick="check_permission_delete()">Delete</a>
                     </td>
                 </tr>
               {% endfor %}
@@ -88,6 +88,6 @@
         </table>
       </div>
     </div>
-      <a href="{% url 'register_admin' %}"><div class="btn btn-success">Register New Admin</div></a>
+      <a href="{% url 'register_admin' %}"><div class="btn btn-success" onclick="check_permission_add()">Register New Admin</div></a>
 </div>
 {% endblock %}

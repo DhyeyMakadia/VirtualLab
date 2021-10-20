@@ -62,8 +62,8 @@
                       {% endif %}
                       <td>{{ i.update_date_time }}</td>
                       <td>
-                        <a href="{% url 'update_practical' i.id %}" class="badge bg-primary">Update</a>
-                        <a href="{% url 'delete_practical' i.id %}" class="badge bg-danger">Delete</a>
+                        <a href="{% url 'update_practical' i.id %}" class="badge bg-primary" onclick="check_permission_update()">Update</a>
+                        <a href="{% url 'delete_practical' i.id %}" class="badge bg-danger" onclick="check_permission_delete()">Delete</a>
                       </td>
                     </tr>
                   </tbody>
@@ -71,7 +71,7 @@
               </table>
             </div>
           </div>
-          <a href="{% url 'add_practical' parent_course.id %}"><div class="btn btn-success">Add Practical</div></a>
+          <a href="{% url 'add_practical' parent_course.id %}"><div class="btn btn-success" onclick="check_permission_add()">Add Practical</div></a>
         </div>
     </div>
   </div>

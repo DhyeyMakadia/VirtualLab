@@ -254,30 +254,28 @@
 <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
 <!-- Admin demo -->
 <script src="{% static 'dist/js/demo.js' %}"></script>
-{% if error %}
-<script>
-  $(function() {
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 5000
-    });
-    var er = '{{error}}'
-    if ('{{error}}'=='NoAdd'){er = 'You do not have permissions to Insert.For further assistance contact SUPERUSER'}
-    if ('{{error}}'=='NoUpdate'){er = 'You do not have permissions to Update.For further assistance contact SUPERUSER'}
-    if ('{{error}}'=='NoDelete'){er = 'You do not have permissions to Delete.For further assistance contact SUPERUSER'}
-    toastr.error(er)
-    
-    // Another type of Alert Message
-    // Toast.fire({
-    //     icon: 'warning',
-    //     title: er
-    //   })
 
-    // You can change it from error to "error" "warning" "success" "info"
-    });
+<!-- Alert for Permissions -->
+<script>
+  function check_permission_add() {
+    var check = '{{permissions.can_insert}}'
+    if(check == "False") {
+      alert("You do not have Adequete Permissions to Insert. Please Contact SUPERUSER for further assistance.")
+    }
+  }
+  function check_permission_update() {
+    var check = '{{permissions.can_edit}}'
+    if(check == "False") {
+      alert("You do not have Adequete Permissions to Update. Please Contact SUPERUSER for further assistance.")
+    }
+  }
+  function check_permission_delete() {
+    var check = '{{permissions.can_delete}}'
+    if(check == "False") {
+      alert("You do not have Adequete Permissions to Delete. Please Contact SUPERUSER for further assistance.")
+    }
+  }
 </script>
-{% endif %}
+
 </body>
 </html>
