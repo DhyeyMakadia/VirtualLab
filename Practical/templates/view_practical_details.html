@@ -14,11 +14,11 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">University</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_institute' practical_details.course_id.department_id.institute_id.university_id.id %}" style="color: grey;">Institute</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_department' practical_details.course_id.department_id.institute_id.id %}" style="color: grey;">Department</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_course' practical_details.course_id.department_id.id %}" style="color: grey;">Course</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_practical' practical_details.course_id.id %}" style="color: grey;">Practical</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">{{practical_details.course_id.department_id.institute_id.university_id.university_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_institute' practical_details.course_id.department_id.institute_id.university_id.id %}" style="color: grey;">{{practical_details.course_id.department_id.institute_id.institute_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_department' practical_details.course_id.department_id.institute_id.id %}" style="color: grey;">{{practical_details.course_id.department_id.department_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_course' practical_details.course_id.department_id.id %}" style="color: grey;">{{practical_details.course_id.courses_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_practical' practical_details.course_id.id %}" style="color: grey;">{{practical_details.practical_name}}</a></li>
           <li class="breadcrumb-item active">Practical_Details</li>
         </ol>
       </div>
@@ -141,9 +141,9 @@
                 <td>{{ i.material_name }}</td>
                 <td class="text-right py-0 align-middle">
                   <div class="btn-group btn-group-sm">
-                    <a href="{{i.material_file_path.url}}" target="_blank" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                    <a href="{% url 'update_materials' i.id %}" class="btn btn-warning" onclick="check_permission_update()"><i class="fas fa-pen-square"></i></a>
-                    <a href="{% url 'delete_materials' i.id %}" class="btn btn-danger" onclick="check_permission_delete()"><i class="fas fa-trash"></i></a>
+                    <a href="{{i.material_file_path.url}}" target="_blank" class="btn btn-info" title="view"><i class="fas fa-eye"></i></a>
+                    <a href="{% url 'update_materials' i.id %}" class="btn btn-warning" onclick="check_permission_update()" title="update"><i class="fas fa-pen-square"></i></a>
+                    <a href="{% url 'delete_materials' i.id %}" class="btn btn-danger" onclick="check_permission_delete()" title="delete"><i class="fas fa-trash"></i></a>
                   </div>
                 </td>
               </tr>
@@ -291,9 +291,9 @@
                 <td>{{i.youtube_video_title}}</td>
                 <td class="text-right py-0 align-middle">
                   <div class="btn-group btn-group-sm">
-                    <a href="{{i.youtube_video_links}}" target="_blank" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                    <a href="{% url 'update_youtube_links' i.id %}" class="btn btn-warning" onclick="check_permission_update()"><i class="fas fa-pen-square"></i></a>
-                    <a href="{% url 'delete_youtube_links' i.id %}" class="btn btn-danger" onclick="check_permission_delete()"><i class="fas fa-trash"></i></a>
+                    <a href="{{i.youtube_video_links}}" target="_blank" class="btn btn-info" title="view"><i class="fas fa-eye"></i></a>
+                    <a href="{% url 'update_youtube_links' i.id %}" class="btn btn-warning" onclick="check_permission_update()" title="update"><i class="fas fa-pen-square"></i></a>
+                    <a href="{% url 'delete_youtube_links' i.id %}" class="btn btn-danger" onclick="check_permission_delete()" title="delete"><i class="fas fa-trash"></i></a>
                   </div>
                 </td>
               </tr>

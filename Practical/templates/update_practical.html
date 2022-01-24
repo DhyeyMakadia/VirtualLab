@@ -14,10 +14,10 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">University</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_institute' parent_course.department_id.institute_id.university_id.id %}" style="color: grey;">Institute</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_department' parent_course.department_id.institute_id.id %}" style="color: grey;">Department</a></li>
-          <li class="breadcrumb-item"><a href="{% url 'view_course' parent_course.department_id.id %}" style="color: grey;">Course</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">{{parent_course.department_id.institute_id.university_id.university_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_institute' parent_course.department_id.institute_id.university_id.id %}" style="color: grey;">{{parent_course.department_id.institute_id.institute_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_department' parent_course.department_id.institute_id.id %}" style="color: grey;">{{parent_course.department_id.department_name}}</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_course' parent_course.department_id.id %}" style="color: grey;">{{parent_course.courses_name}}</a></li>
           <li class="breadcrumb-item"><a href="{% url 'view_practical' parent_course.id %}" style="color: grey;">Practical</a></li>
           <li class="breadcrumb-item active">Update_Practical</li>
         </ol>
