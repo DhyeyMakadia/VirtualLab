@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import *
 
 urlpatterns = [
@@ -16,4 +16,6 @@ urlpatterns = [
     path('approve_student/<int:id>',approve_student,name='approve_student'),
     path('decline_student/<int:id>', decline_student, name='decline_student'),
     path('view_accepted_students/',view_accepted_students,name='view_accepted_students'),
+    path('p1/', print_permissions)
 ]
+
