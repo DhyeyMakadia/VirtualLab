@@ -50,7 +50,7 @@
                     <td style="text-align: left;">{{ i.account_id.email }}</td>
                     <td>
                       <a href="{% url 'approve_student' i.id %}" class="badge bg-primary">Approve</a>
-                      <a href="{% url 'approve_student' i.account_id.id %}" class="badge bg-danger">Decline</a>
+                      <a href="{% url 'decline_student' i.account_id.id %}" class="badge bg-danger">Decline</a>
                     </td>
                 </tr>
               {% endfor %}
