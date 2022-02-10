@@ -3,3 +3,4 @@ djangorestframework
 pandas
 openpyxl
 django-rest-auth
+django-guardian == 2.4.0
