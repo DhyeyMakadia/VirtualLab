@@ -1,7 +1,7 @@
 from pyexpat import model
 from University.models import TblCourses, TblDepartments, TblInstitutes, TblUniversity
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
 
 
 # Create your models here.
@@ -26,36 +26,32 @@ class MyAccountManager(BaseUserManager):
         return user
 
 
-class Account(AbstractBaseUser):
-    """    0 means not approved 1 means approved    """
-
-    email = models.EmailField('email', max_length=60, unique=True)
+class Account(AbstractUser):
+    username = None
+    email = models.EmailField('email', max_length=60, unique=True, db_index=True, null=True)
     date_joined = models.DateTimeField('date joined', auto_now_add=True, editable=False)
     last_login = models.DateTimeField('last login', auto_now=True, editable=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    first_name = None
+    last_name = None
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     objects = MyAccountManager()
 
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
-
-    def has_module_perms(self, app_label):
-        return True
-
 
 class TblUsers(models.Model):
     account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
-    institute_id = models.ForeignKey(TblInstitutes, related_name="users_institute_id", on_delete=models.CASCADE,
+    institute_id = models.ForeignKey(TblInstitutes, related_name="users_institute_id", on_delete=models.DO_NOTHING,
                                      blank=True, null=True)
-    department_id = models.ForeignKey(TblDepartments, related_name="users_department_id", on_delete=models.CASCADE,
+    department_id = models.ForeignKey(TblDepartments, related_name="users_department_id", on_delete=models.DO_NOTHING,
                                       blank=True, null=True)
     user_name = models.CharField("Username", default="", blank=True, null=True, max_length=100)
     user_mobile_number = models.PositiveIntegerField("Mobile No.", default=0)
@@ -75,6 +71,10 @@ class TblUsers(models.Model):
 
 class TblAdmin(models.Model):
     account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
+    institute_id = models.ForeignKey(TblInstitutes, related_name="admins_institute_id", on_delete=models.DO_NOTHING,
+                                     blank=True, null=True)
+    department_id = models.ForeignKey(TblDepartments, related_name="admins_department_id", on_delete=models.DO_NOTHING,
+                                      blank=True, null=True)
     admin_name = models.CharField("Admin Name", default="Admin", blank=True, null=True, max_length=50)
     admin_contact_number = models.PositiveIntegerField("Contact No.", default=0)
     admin_image = models.ImageField(upload_to="User/Admin_Images", default="", max_length=200, blank=True, null=True)
