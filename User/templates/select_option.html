@@ -1,0 +1,17 @@
+{% if institutes %}
+    {% for i in institutes %}
+    <option value="{{ i.id }}">{{ i.institute_name }}</option>
+    {% endfor %}
+{% endif %}
+
+{% if departments %}
+    {% for i in departments %}
+    <option value="{{ i.id }}">{{ i.department_name }}</option>
+    {% endfor %}
+{% endif %}
+
+{% if courses %}
+    {% for i in courses %}
+    <option value="{{ i.id }}">{{ i.courses_name }}</option>
+    {% endfor %}
+{% endif %}

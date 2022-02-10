@@ -11,7 +11,7 @@ from .serializers import RegistrationSerializer, TblUserSerializer
 
 from University.models import TblDepartments
 from User.models import *
-
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 
@@ -127,11 +127,36 @@ def register_admin(request):
             New_Permissions.role = role
             New_Permissions.admin_id = obj_admin
             New_Permissions.save()
+
+            permission_univ = request.POST.getlist('university')
+            permission_institute = request.POST.getlist('institute')
+            permission_department = request.POST.getlist('department')
+            permission_courses = request.POST.getlist('courses')
+            New_Permissions.allowed_university.set([int(x) for x in permission_univ])
+            New_Permissions.allowed_institute.set([int(x) for x in permission_institute]) 
+            New_Permissions.allowed_department.set([int(x) for x in permission_department])
+            New_Permissions.allowed_courses.set([int(x) for x in permission_courses])
+            New_Permissions.save()
             return redirect('view_admin')
 
         return render(request, 'register_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'error':err})
     else:
         return redirect('login')
+
+def sel_institute(request):
+    university_id = request.GET.getlist('univ_id[]')
+    institutes = TblInstitutes.objects.filter(university_id__in = university_id)
+    return render(request,'select_option.html',{'institutes':institutes})
+
+def sel_department(request):
+    institute_id = request.GET.getlist('institute_id[]')
+    departments = TblDepartments.objects.filter(institute_id__in = institute_id)
+    return render(request,'select_option.html',{'departments':departments})
+
+def sel_courses(request):
+    department_id = request.GET.getlist('department_id[]')
+    courses = TblCourses.objects.filter(department_id__in = department_id)
+    return render(request,'select_option.html',{'courses':courses})
 
 def view_admin(request):
     err = str()
@@ -156,6 +181,9 @@ def update_admin(request,id):
         User = Account.objects.get(id=int(request.session['admin_session']))
         User_Admin = TblAdmin.objects.get(account_id=User)
         univ = TblUniversity.objects.all()
+        institute = TblInstitutes.objects.all()
+        department = TblDepartments.objects.all()
+        courses = TblCourses.objects.all()
         User_Permissions = TblPermissions.objects.get(admin_id = User_Admin)
         Update_Admin = TblAdmin.objects.get(id = id)
         Update_Permissions = TblPermissions.objects.get(admin_id = Update_Admin)
@@ -204,10 +232,26 @@ def update_admin(request,id):
 
             Update_Permissions.save()
             Update_Admin.save()
+            return redirect('view_admin')
 
-        return render(request, 'update_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'permissions':User_Permissions,'update_admin':Update_Admin,'update_permissions':Update_Permissions,'error':err})
+        return render(request, 'update_admin.html', {'Users': User,'admin':User_Admin,'univ':univ,'institute':institute,'department':department,'courses':courses,'permissions':User_Permissions,'update_admin':Update_Admin,'update_permissions':Update_Permissions,'error':err})
     else:
         return redirect('login')
+
+def update_institute(request):
+    university_id = request.GET.getlist('univ_id[]')
+    institutes = TblInstitutes.objects.filter(university_id__in = university_id)
+    return render(request,'update_option.html',{'institutes':institutes})
+
+def update_department(request):
+    institute_id = request.GET.getlist('institute_id[]')
+    departments = TblDepartments.objects.filter(institute_id__in = institute_id)
+    return render(request,'update_option.html',{'departments':departments})
+
+def update_courses(request):
+    department_id = request.GET.getlist('department_id[]')
+    courses = TblCourses.objects.filter(department_id__in = department_id)
+    return render(request,'update_option.html',{'courses':courses})
 
 def delete_admin(request,id):
     if 'admin_session' in request.session.keys():

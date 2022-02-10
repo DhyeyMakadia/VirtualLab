@@ -1,0 +1,36 @@
+{% if institutes %}
+    {% for i in institutes %}
+
+        {% if i in update_admin.allowed_university.all %}
+        <option value="{{ i.id }}" selected>{{ i.institute_name }}</option>
+        {% else %}
+        <option value="{{ i.id }}">{{ i.institute_name }}</option>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+
+{% if departments %}
+    {% for i in departments %}
+
+        {% if i in update_admin.allowed_university.all %}
+            <option value="{{ i.id }}" selected>{{ i.department_name }}</option>
+        {% else %}
+            <option value="{{ i.id }}">{{ i.department_name }}</option>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+
+{% if courses %}
+    {% for i in courses %}
+
+        {% if i in update_admin.allowed_university.all %}
+            <option value="{{ i.id }}" selected>{{ i.courses_name }}</option>
+        {% else %}
+            <option value="{{ i.id }}">{{ i.courses_name }}</option>
+        {% endif %}
+
+    
+    {% endfor %}
+{% endif %}

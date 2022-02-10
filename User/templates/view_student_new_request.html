@@ -28,7 +28,7 @@
   {% if error %}
   <div class="text-danger">{{ error }}</div>
   {% endif %}
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-header">
         <h3 class="card-title"><b>Request List:</b></h3>
       </div>
@@ -57,6 +57,77 @@
           </tbody>
         </table>
       </div>
+    </div> -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><b>Student List:</b></h3>
+      </div>
+      <div class="card-body">
+        <table id="student_request_table" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th style="text-align: center;">Sr No.</th>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Mobile Number</th>
+              <th>University</th>
+              <th>Institute</th>
+              <th>Department</th>
+              <th>Enrollment Number</th>
+              <th style="text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in new_request reversed %}
+              <tr>
+                  <td style="text-align: center;">{{forloop.counter}}</td>
+                  <td>{{ i.user_name}}</td>
+                  <td>{{ i.account_id.email }}</td>
+                  <td>{{ i.user_mobile_number }}</td>
+                  <td>{{ i.institute_id.university_id.university_name }}</td>
+                  <td>{{ i.institute_id.institute_name }}</td>
+                  <td>{{ i.department_id.department_name }}</td>
+                  <td>{{ i.user_enrollment_number }}</td>
+                  <td style="text-align: center;">
+                    <a href="{% url 'approve_student' i.id %}" class="badge bg-primary">Approve</a>
+                    <a href="{% url 'approve_student' i.account_id.id %}" class="badge bg-danger">Decline</a>
+                  </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+          <tfoot style="display: none;">
+            <tr>
+              <th style="text-align: center;">Sr No.</th>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Mobile Number</th>
+              <th>University</th>
+              <th>Institute</th>
+              <th>Department</th>
+              <th>Enrollment Number</th>
+              <th>Action</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
 </div>
 {% endblock %}
+
+{% block customScript %}
+<script>
+    $('#student_request_table').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [8] 
+    }],
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+</script>
+{% endblock customScript %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title1 %}
-  <title>LJ VirtualLab | Update Admin</title>
+<title>LJ VirtualLab | Update Admin</title>
 {% endblock title1 %}
 
 {% block Name %}
@@ -28,7 +28,7 @@
 <section class="content">
   <div class="container-fluid">
     {% if error %}
-      <div class="text-danger">{{ error }}</div>
+    <div class="text-danger">{{ error }}</div>
     {% endif %}
     <div class="row">
       <div class="col-md-3">
@@ -40,14 +40,15 @@
             </div>
             {% if update_admin.admin_image %}
             <div class="text-center">
-              <img class="profile-user-img img-fluid img-circle" src="{{ update_admin.admin_image.url }}" alt="User profile picture">
+              <img class="profile-user-img img-fluid img-circle" src="{{ update_admin.admin_image.url }}"
+                alt="User profile picture">
             </div>
             {% endif %}
             <h3 class="profile-username text-center">{{ update_admin.admin_name }}</h3>
-              {% if update_admin.permissions_admin_id %}
-                <p class="text-muted text-center">({{ update_admin.permissions_admin_id.get }})</p>
-              {% endif %}
-            
+            {% if update_admin.permissions_admin_id %}
+            <p class="text-muted text-center">({{ update_admin.permissions_admin_id.get }})</p>
+            {% endif %}
+
             <div class="card-body table-responsive">
 
               <hr>
@@ -63,7 +64,7 @@
               <p class="text-muted">{{ update_admin.admin_contact_number }}</p>
 
               <hr>
-              
+
               {% if update_permissions %}
               <strong># Permissions</strong><br>
               {% endif %}
@@ -73,7 +74,7 @@
               {% else %}
               <span class="badge bg-danger">View</span>
               {% endif %}
-              
+
               {% if update_permissions.can_insert %}
               <span class="badge bg-success">Insert</span>
               {% else %}
@@ -97,119 +98,358 @@
         </div>
       </div>
       <div class="col-md-9">
-        <div class="card card-primary">
-          <div class="card-header">
-            <div class="nav nav-pills">
-              <span class="nav-item">Update Profile</span>
+        <form method="POST" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
+          {% csrf_token %}
+          <div class="card card-primary">
+            <div class="card-header">
+              <div class="nav nav-pills">
+                <span class="nav-item">Update Profile</span>
+              </div>
             </div>
-          </div>
-          <div class="card-body">
-            <div class="tab-content">
-                <form method="POST" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
-                  {% csrf_token %}
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Admin Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" name="nm1" class="form-control form-control-border" id="inputName" value="{{ update_admin.admin_name }}" placeholder="Admin Name" required>
-                    </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Admin Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="nm1" class="form-control form-control-border" id="inputName"
+                      value="{{ update_admin.admin_name }}" placeholder="Admin Name" required>
                   </div>
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
-                    <div class="col-sm-10">
-                      <input type="text" name="cno1" class="form-control form-control-border" id="inputName" value="{{ update_admin.admin_contact_number }}" placeholder="Contact No.">
-                    </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="cno1" class="form-control form-control-border" id="inputName"
+                      value="{{ update_admin.admin_contact_number }}" placeholder="Contact No.">
                   </div>
-                  <div class="form-group row">
-                    <label for="inputImage" class="col-sm-2 col-form-label">Profile</label>
-                    <div class="col-sm-10">
-                      <div>
-                        {% if update_admin.admin_image %}
-                          <img src="{{update_admin.admin_image.url}}" width="100px">
-                        {% endif %}
+                </div>
+                <div class="form-group row">
+                  <label for="inputImage" class="col-sm-2 col-form-label">Profile</label>
+                  <div class="col-sm-10">
+                    <div>
+                      {% if update_admin.admin_image %}
+                      <img src="{{update_admin.admin_image.url}}" width="100px">
+                      {% endif %}
+                    </div>
+                    <input type="file" name="prof1" class="form-control form-control-border" id="inputImage"
+                      placeholder="Profile">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Can View</label>
+                  <div class="col-sm-10">
+                    {% if update_permissions.can_view %}
+                    <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">No</label>
+                    {% else %}
+                    <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">No</label>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Can Insert</label>
+                  <div class="col-sm-10">
+                    {% if update_permissions.can_insert %}
+                    <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">No</label>
+                    {% else %}
+                    <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">No</label>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Can Update</label>
+                  <div class="col-sm-10">
+                    {% if update_permissions.can_edit %}
+                    <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">No</label>
+                    {% else %}
+                    <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">No</label>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Can Delete</label>
+                  <div class="col-sm-10">
+                    {% if update_permissions.can_delete %}
+                    <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">No</label>
+                    {% else %}
+                    <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;">
+                    <label for="InputCheckbox">Yes</label>
+                    <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;"
+                      checked>
+                    <label for="InputCheckbox">No</label>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <div>
+                      <label>Select University</label>
+                      <div class="custom-control custom-checkbox float-right">
+                        <input type="checkbox" name="univ" class="custom-control-input" id="select-all-univ"
+                          value="check_all">
+                        <label for="select-all-univ" class="custom-control-label">Select all</label>
                       </div>
-                      <input type="file" name="prof1" class="form-control form-control-border" id="inputImage" placeholder="Profile">
                     </div>
-                  </div>
+                    <select multiple class="form-control" name="university" id="sel-university">
+                      {% for i in univ %}
 
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Can View</label>
-                    <div class="col-sm-10">
-                      {% if update_permissions.can_view %}
-                        <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;" checked> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                        <label for="InputCheckbox">No</label>
-                      {% else %}
-                        <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;"> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;" checked>
-                        <label for="InputCheckbox">No</label>
-                      {% endif %}
-                    </div>
+                        {% if i in update_permissions.allowed_university.all %}
+                          <option value="{{ i.id }}" selected>{{ i.university_name }}</option>
+                        {% else %}
+                          <option value="{{i.id}}">{{i.university_name}}</option>
+                        {% endif %}
+                          
+                      {% endfor %}
+                    </select>
                   </div>
-
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Can Insert</label>
-                    <div class="col-sm-10">
-                      {% if update_permissions.can_insert %}
-                        <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;" checked> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                        <label for="InputCheckbox">No</label>
-                      {% else %}
-                        <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;"> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;" checked>
-                        <label for="InputCheckbox">No</label>
-                      {% endif %}
+                  <div class="col-sm-6">
+                    <div>
+                      <label>Select Institute</label>
+                      <div class="custom-control custom-checkbox float-right">
+                        <input class="custom-control-input" type="checkbox" id="select-all-institute" value="check_all">
+                        <label for="select-all-institute" class="custom-control-label">Select all</label>
+                      </div>
                     </div>
+                    <select multiple class="form-control" name="institute" id="sel-institute">
+                      {% for i in institute %}
+                        {% if i.university_id in update_permissions.allowed_university.all %}
+                          {% if i in update_permissions.allowed_institute.all %}
+                            <option value="{{ i.id }}" selected>{{ i.institute_name }}</option>
+                          {% else %}
+                            <option value="{{i.id}}">{{i.institute_name}}</option>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </select>
                   </div>
-
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Can Update</label>
-                    <div class="col-sm-10">
-                      {% if update_permissions.can_edit %}
-                        <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;" checked> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                        <label for="InputCheckbox">No</label>
-                      {% else %}
-                        <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;"> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;" checked>
-                        <label for="InputCheckbox">No</label>
-                      {% endif %}
+                  <div class="col-sm-6">
+                    <div>
+                      <label>Select Department</label>
+                      <div class="custom-control custom-checkbox float-right">
+                        <input class="custom-control-input" type="checkbox" id="select-all-dept" value="check_all">
+                        <label for="select-all-dept" class="custom-control-label">Select all</label>
+                      </div>
                     </div>
+                    <select multiple class="form-control" name="department" id="sel-department">
+                      {% for i in department %}
+                        {% if i.institute_id in update_permissions.allowed_institute.all %}
+                          {% if i in update_permissions.allowed_department.all %}
+                            <option value="{{ i.id }}" selected>{{ i.department_name }}</option>
+                          {% else %}
+                            <option value="{{i.id}}">{{i.department_name}}</option>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </select>
                   </div>
-
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Can Delete</label>
-                    <div class="col-sm-10">
-                      {% if update_permissions.can_delete %}
-                        <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;" checked> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                        <label for="InputCheckbox">No</label>
-                      {% else %}
-                        <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;"> 
-                        <label for="InputCheckbox">Yes</label>
-                        <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;" checked>
-                        <label for="InputCheckbox">No</label>
-                      {% endif %}
+                  <div class="col-sm-6">
+                    <div>
+                      <label>Select Courses</label>
+                      <div class="custom-control custom-checkbox float-right">
+                        <input class="custom-control-input" type="checkbox" id="select-all-courses" value="check_all">
+                        <label for="select-all-courses" class="custom-control-label">Select all</label>
+                      </div>
                     </div>
+                    <select multiple class="form-control" name="courses" id="sel-courses">
+                      {% for i in courses %}
+                        {% if i.department_id in update_permissions.allowed_department.all %}
+                          {% if i in update_permissions.allowed_courses.all %}
+                            <option value="{{ i.id }}" selected>{{ i.courses_name }}</option>
+                          {% else %}
+                            <option value="{{i.id}}">{{i.courses_name}}</option>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </select>
                   </div>
-
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <button type="submit" class="btn btn-success">Update Profile</button>
-                    </div>
-                  </div>
-                </form>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="col-sm-10 pl-0 pb-2">
+            <button type="submit" class="btn btn-success">Update Profile</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </section>
 {% endblock %}
+
+{% block customScript %}
+<script>
+  // -----Select-All-Queries----- //
+
+  // University
+  $('#select-all-univ').click(function() {
+    if($(this).val() == 'check_all'){                         //Checks all 
+      $('#sel-university option').prop('selected', true);
+      $(this).val('uncheck_all');
+      $('#sel-university').trigger('change');
+    }
+    else{                                                     //Unchecks all
+      $('#sel-university option').prop('selected', false);
+      $(this).val('check_all');
+      $('#sel-university').trigger('change');
+
+      if($('#select-all-institute').val() == 'uncheck_all'){
+        $('#select-all-institute').trigger('click');
+      }
+    }
+    });
+
+  // Institute
+  $('#select-all-institute').click(function() {
+    if($(this).val() == 'check_all'){
+      $('#sel-institute option').prop('selected', true);
+      $(this).val('uncheck_all');
+      $('#sel-institute').trigger('change');
+    }
+    else{
+      $('#sel-institute option').prop('selected', false);
+      $(this).val('check_all');
+      $('#sel-institute').trigger('change');
+
+      if($('#select-all-dept').val() == 'uncheck_all'){
+        $('#select-all-dept').trigger('click');
+      }
+    }
+    });
+
+  // Department
+  $('#select-all-dept').click(function() {
+    if($(this).val() == 'check_all'){
+      $('#sel-department option').prop('selected', true);
+      $(this).val('uncheck_all');
+      $('#sel-department').trigger('change');
+    }
+    else{
+      $('#sel-department option').prop('selected', false);
+      $(this).val('check_all');
+      $('#sel-department').trigger('change');
+
+      if($('#select-all-courses').val() == 'uncheck_all'){
+        $('#select-all-courses').trigger('click');
+      }
+    }
+    });
+
+  // Courses
+  $('#select-all-courses').click(function() {
+    if($(this).val() == 'check_all'){
+      $('#sel-courses option').prop('selected', true);
+      $(this).val('uncheck_all');
+    }
+    else{
+      $('#sel-courses option').prop('selected', false);
+      $(this).val('check_all');
+    }
+    });
+
+  // -----AJAX-Queries---- //
+  $("#sel-university").change(function(){
+    var univ_id = $(this).val();
+    
+    $.ajax({
+      url: "{% url 'update_institute' %}",
+      data: {'univ_id':univ_id},
+      
+      success:function(data){ $('#sel-institute').html(data); }
+    });
+
+    if ($("#sel-university option:checked").length == $('#sel-university option').length) {
+       $('#select-all-univ').prop('checked', true);
+       $('#select-all-univ').val('uncheck_all');
+      }
+      else{
+        $('#select-all-univ').prop('checked', false);
+        $('#select-all-univ').val('check_all');
+    }
+  });
+
+  $("#sel-institute").change(function(){
+    var institute_id = $(this).val();
+    
+    $.ajax({
+      url: "{% url 'update_department' %}",
+      data: {'institute_id':institute_id},
+      
+      success:function(data){ $('#sel-department').html(data); }
+    });
+
+    if ($("#sel-institute option:checked").length == $('#sel-institute option').length) {
+       $('#select-all-institute').prop('checked', true);
+       $('#select-all-institute').val('uncheck_all');
+      }
+      else{
+        $('#select-all-institute').prop('checked', false);
+        $('#select-all-institute').val('check_all');
+    }
+  });
+
+  $("#sel-department").change(function(){
+    var department_id = $(this).val();
+
+    $.ajax({
+      url: "{% url 'update_courses' %}",
+      data: {'department_id':department_id},
+
+      success:function(data){ $('#sel-courses').html(data); }
+    });
+
+    if ($("#sel-department option:checked").length == $('#sel-department option').length) {
+       $('#select-all-dept').prop('checked', true);
+       $('#select-all-dept').val('uncheck_all');
+      }
+      else{
+        $('#select-all-dept').prop('checked', false);
+        $('#select-all-dept').val('check_all');
+    }
+  });
+
+  $("#sel-courses").change(function(){
+    if ($("#sel-courses option:checked").length == $('#sel-courses option').length) {
+       $('#select-all-courses').prop('checked', true);
+       $('#select-all-courses').val('uncheck_all');
+      }
+      else{
+        $('#select-all-courses').prop('checked', false);
+        $('#select-all-courses').val('check_all');
+    }
+  });
+
+
+</script>
+{% endblock customScript %}

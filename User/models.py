@@ -1,4 +1,5 @@
-from University.models import TblDepartments, TblInstitutes
+from pyexpat import model
+from University.models import TblCourses, TblDepartments, TblInstitutes, TblUniversity
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
@@ -94,6 +95,10 @@ class TblPermissions(models.Model):
     can_edit = models.BooleanField("can_edit", default=False)
     can_insert = models.BooleanField("can_insert", default=False)
     can_delete = models.BooleanField("can_delete", default=False)
+    allowed_university = models.ManyToManyField(TblUniversity)
+    allowed_institute = models.ManyToManyField(TblInstitutes)
+    allowed_department = models.ManyToManyField(TblDepartments)
+    allowed_courses = models.ManyToManyField(TblCourses)
     is_active = models.BooleanField("is_active", default=True)
     is_delete = models.BooleanField("is_delete", default=False)
     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)

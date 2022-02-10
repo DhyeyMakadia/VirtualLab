@@ -11,6 +11,12 @@ urlpatterns = [
     path('update_admin/<int:id>',update_admin,name='update_admin'),
     path('delete_admin/<int:id>',delete_admin,name='delete_admin'),
     path('logout/',logout,name='logout'),
+    path('sel_institute/',sel_institute,name='sel_institute'),
+    path('sel_department/',sel_department,name='sel_department'),
+    path('sel_courses/',sel_courses,name='sel_courses'),
+    path('update_institute/',update_institute,name='update_institute'),
+    path('update_department/',update_department,name='update_department'),
+    path('update_courses/',update_courses,name='update_courses'),
 
     path('view_requests/',view_requests,name='view_requests'),
     path('approve_student/<int:id>',approve_student,name='approve_student'),
