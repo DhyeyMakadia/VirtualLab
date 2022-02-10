@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Permission
 from django.shortcuts import redirect, render
 
-from University.models import TblUniversity
+from University.models import TblCourses, TblDepartments, TblInstitutes, TblUniversity
 
 from .serializers import RegistrationSerializer
 
@@ -130,6 +130,20 @@ def register_admin(request):
     return render(request, 'register_admin.html',
                   {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err})
 
+def sel_institute(request):
+    university_id = request.GET.getlist('univ_id[]')
+    institutes = TblInstitutes.objects.filter(university_id__in = university_id)
+    return render(request,'select_option.html',{'institutes':institutes})
+
+def sel_department(request):
+    institute_id = request.GET.getlist('institute_id[]')
+    departments = TblDepartments.objects.filter(institute_id__in = institute_id)
+    return render(request,'select_option.html',{'departments':departments})
+
+def sel_courses(request):
+    department_id = request.GET.getlist('department_id[]')
+    courses = TblCourses.objects.filter(department_id__in = department_id)
+    return render(request,'select_option.html',{'courses':courses})
 
 @check_authentication
 def view_admin(request):
@@ -196,6 +210,20 @@ def update_admin(request, id):
                   {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions,
                    'update_admin': Update_Admin, 'update_permissions': Update_Permissions, 'error': err})
 
+def update_institute(request):
+    university_id = request.GET.getlist('univ_id[]')
+    institutes = TblInstitutes.objects.filter(university_id__in = university_id)
+    return render(request,'update_option.html',{'institutes':institutes})
+
+def update_department(request):
+    institute_id = request.GET.getlist('institute_id[]')
+    departments = TblDepartments.objects.filter(institute_id__in = institute_id)
+    return render(request,'update_option.html',{'departments':departments})
+
+def update_courses(request):
+    department_id = request.GET.getlist('department_id[]')
+    courses = TblCourses.objects.filter(department_id__in = department_id)
+    return render(request,'update_option.html',{'courses':courses})
 
 @check_authentication
 def delete_admin(request, id):
