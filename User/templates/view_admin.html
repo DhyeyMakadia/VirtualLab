@@ -94,7 +94,7 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="example1" class="table table-bordered table-hover">
+        <table id="view_admin_table" class="table table-bordered table-hover">
           <thead>
             <tr style="text-align: center;">
               <th style="width: 80px">Sr No.</th>
@@ -165,4 +165,24 @@
     </div>
       <a href="{% url 'register_admin' %}"><div class="btn btn-success" onclick="check_permission_add()">Register New Admin</div></a>
 </div>
-{% endblock %}0
+{% endblock %}
+
+{% block customScript %}
+<script>
+    $('#view_admin_table').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [ 2,3,4,5,6,7,8] 
+    }],
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+      "buttons": [/* "copy", "csv", */ "excel", "pdf", "print", "colvis"],
+    }).buttons().container().appendTo('#view_admin_table_wrapper .col-md-6:eq(0)');
+
+</script>
+{% endblock customScript %}

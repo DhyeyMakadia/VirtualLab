@@ -292,22 +292,9 @@
       alert("You do not have Adequete Permissions to Delete. Please Contact SUPERUSER for further assistance.")
     }
   }
-  $(function () {
-    $('#example1').DataTable({
-      'aoColumnDefs': [{
-        'bSortable': false,
-        'aTargets': [ 2,3,4,5,6,7,8] 
-    }],
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
 </script>
+
+{% block customScript %}{% endblock customScript %}
 
 </body>
 </html>
