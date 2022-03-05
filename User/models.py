@@ -71,10 +71,10 @@ class TblUsers(models.Model):
 
 class TblAdmin(models.Model):
     account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
-    institute_id = models.ForeignKey(TblInstitutes, related_name="admins_institute_id", on_delete=models.DO_NOTHING,
-                                     blank=True, null=True)
-    department_id = models.ForeignKey(TblDepartments, related_name="admins_department_id", on_delete=models.DO_NOTHING,
-                                      blank=True, null=True)
+    # university_id = models.ForeignKey(TblUniversity, related_name="admins_university_id", on_delete=models.DO_NOTHING,blank=True, null=True)
+    # institute_id = models.ForeignKey(TblInstitutes, related_name="admins_institute_id", on_delete=models.DO_NOTHING,blank=True, null=True)
+    # department_id = models.ForeignKey(TblDepartments, related_name="admins_department_id", on_delete=models.DO_NOTHING,blank=True, null=True)
+    # course_id = models.ForeignKey(TblCourses, related_name="admins_courses_id", on_delete=models.DO_NOTHING,blank=True, null=True)
     admin_name = models.CharField("Admin Name", default="Admin", blank=True, null=True, max_length=50)
     admin_contact_number = models.PositiveIntegerField("Contact No.", default=0)
     admin_image = models.ImageField(upload_to="User/Admin_Images", default="", max_length=200, blank=True, null=True)

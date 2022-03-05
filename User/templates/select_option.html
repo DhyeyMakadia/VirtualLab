@@ -1,16 +1,19 @@
 {% if institutes %}
+    <option value="0" selected>--Select Institute--</option>
     {% for i in institutes %}
     <option value="{{ i.id }}">{{ i.institute_name }}</option>
     {% endfor %}
 {% endif %}
 
 {% if departments %}
+    <option value="0" selected>--Select Department--</option>
     {% for i in departments %}
     <option value="{{ i.id }}">{{ i.department_name }}</option>
     {% endfor %}
 {% endif %}
 
 {% if courses %}
+    <option value="0" selected>--Select Courses--</option>
     {% for i in courses %}
     <option value="{{ i.id }}">{{ i.courses_name }}</option>
     {% endfor %}

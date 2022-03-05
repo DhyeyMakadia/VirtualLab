@@ -53,12 +53,12 @@
                 <input type="text" name="nm1" class="form-control form-control-border" id="inputName" placeholder="Admin Name" required>
               </div>
             </div>
-            <div class="form-group row">
+            <!-- <div class="form-group row">
               <label for="inputName" class="col-sm-2 col-form-label">Role</label>
               <div class="col-sm-10">
                 <input type="text" name="role1" class="form-control form-control-border" id="inputName" placeholder="Role" value="Admin">
               </div>
-            </div>
+            </div> -->
             <div class="form-group row">
               <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
               <div class="col-sm-10">
@@ -70,60 +70,49 @@
               <div class="col-sm-10">
                 <input type="file" name="prof1" class="form-control form-control-border" id="inputSkills" placeholder="Profile">
               </div>
-            </div><br>
-            <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label>
-            <div class="form-group row">
-              <div class="col-sm-3">
-                <div>
-                  <label>Select University</label>
-                  <div class="custom-control custom-checkbox float-right">
-                    <input type="checkbox" name="univ" class="custom-control-input" id="select-all-univ" value="check_all">
-                    <label for="select-all-univ" class="custom-control-label">Select all</label>
-                  </div>
-                </div>
-                <select multiple class="form-control" name="university" id="sel-university">
-                  {% for i in univ %}
-                  <option value="{{i.id}}">{{i.university_name}}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="col-sm-3">
-                <div>
-                  <label>Select Institute</label>
-                  <div class="custom-control custom-checkbox float-right">
-                    <input class="custom-control-input" type="checkbox" id="select-all-institute" value="check_all">
-                    <label for="select-all-institute" class="custom-control-label">Select all</label>
-                  </div>
-                </div>
-                <select multiple class="form-control" name="institute" id="sel-institute">
-                  
-                </select>
-              </div>
-              <div class="col-sm-3">
-                <div>
-                  <label>Select Department</label>
-                  <div class="custom-control custom-checkbox float-right">
-                    <input class="custom-control-input" type="checkbox" id="select-all-dept" value="check_all">
-                    <label for="select-all-dept" class="custom-control-label">Select all</label>
-                  </div>
-                </div>
-                <select multiple class="form-control" name="department" id="sel-department">
-                  
-                </select>
-              </div>
-              <div class="col-sm-3">
-                <div>
-                  <label>Select Courses</label>
-                  <div class="custom-control custom-checkbox float-right">
-                    <input class="custom-control-input" type="checkbox" id="select-all-courses" value="check_all">
-                    <label for="select-all-courses" class="custom-control-label">Select all</label>
-                  </div>
-                </div>
-                <select multiple class="form-control" name="courses" id="sel-courses">
-
-                </select>
-              </div>
             </div>
+            <!-- <br>
+            <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label> -->
+
+            <div class="form-group row">
+              <div class="col-sm-2">
+                <label>Select University</label>
+              </div>
+              <select class="form-control col-sm-3" name="university" id="sel-university">
+                <option value="0" selected>--Select University--</option>
+                {% for i in univ %}
+                <option value="{{i.id}}">{{i.university_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-2">
+                <label>Select Institutes</label>
+              </div>
+              <select class="form-control col-sm-3" name="institutes" id="sel-institute">
+                
+              </select>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-2">
+                <label>Select Department</label>
+              </div>
+              <select class="form-control col-sm-3" name="department" id="sel-department">
+
+              </select>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-2">
+                <label>Select Courses</label>
+              </div>
+              <select class="form-control col-sm-3" name="courses" id="sel-courses">
+
+              </select>
+            </div>
+            
             <div class="form-group row">
               <div class="col-sm-10">
                 <button type="submit" class="btn btn-success">Register</button>
@@ -138,74 +127,9 @@
 
 {% block customScript %}
 <script>
-  // -----Select-All-Queries----- //
-
-  // University
-  $('#select-all-univ').click(function() {
-    if($(this).val() == 'check_all'){                         //Checks all 
-      $('#sel-university option').prop('selected', true);
-      $(this).val('uncheck_all');
-      $('#sel-university').trigger('change');
-    }
-    else{                                                     //Unchecks all
-      $('#sel-university option').prop('selected', false);
-      $(this).val('check_all');
-      $('#sel-university').trigger('change');
-
-      if($('#select-all-institute').val() == 'uncheck_all'){
-        $('#select-all-institute').trigger('click');
-      }
-    }
-    });
-
-  // Institute
-  $('#select-all-institute').click(function() {
-    if($(this).val() == 'check_all'){
-      $('#sel-institute option').prop('selected', true);
-      $(this).val('uncheck_all');
-      $('#sel-institute').trigger('change');
-    }
-    else{
-      $('#sel-institute option').prop('selected', false);
-      $(this).val('check_all');
-      $('#sel-institute').trigger('change');
-
-      if($('#select-all-dept').val() == 'uncheck_all'){
-        $('#select-all-dept').trigger('click');
-      }
-    }
-    });
-
-  // Department
-  $('#select-all-dept').click(function() {
-    if($(this).val() == 'check_all'){
-      $('#sel-department option').prop('selected', true);
-      $(this).val('uncheck_all');
-      $('#sel-department').trigger('change');
-    }
-    else{
-      $('#sel-department option').prop('selected', false);
-      $(this).val('check_all');
-      $('#sel-department').trigger('change');
-
-      if($('#select-all-courses').val() == 'uncheck_all'){
-        $('#select-all-courses').trigger('click');
-      }
-    }
-    });
-
-  // Courses
-  $('#select-all-courses').click(function() {
-    if($(this).val() == 'check_all'){
-      $('#sel-courses option').prop('selected', true);
-      $(this).val('uncheck_all');
-    }
-    else{
-      $('#sel-courses option').prop('selected', false);
-      $(this).val('check_all');
-    }
-    });
-
+  $('#sel-institute').hide();
+  $('#sel-department').hide();
+  $('#sel-courses').hide();
   // -----AJAX-Queries---- //
   $("#sel-university").change(function(){
     var univ_id = $(this).val();
@@ -216,15 +140,9 @@
       
       success:function(data){ $('#sel-institute').html(data); }
     });
-
-    if ($("#sel-university option:checked").length == $('#sel-university option').length) {
-       $('#select-all-univ').prop('checked', true);
-       $('#select-all-univ').val('uncheck_all');
-      }
-      else{
-        $('#select-all-univ').prop('checked', false);
-        $('#select-all-univ').val('check_all');
-    }
+    $('#sel-institute').show();
+    $('#sel-department').hide();
+    $('#sel-courses').hide();
   });
 
   $("#sel-institute").change(function(){
@@ -236,15 +154,8 @@
       
       success:function(data){ $('#sel-department').html(data); }
     });
-
-    if ($("#sel-institute option:checked").length == $('#sel-institute option').length) {
-       $('#select-all-institute').prop('checked', true);
-       $('#select-all-institute').val('uncheck_all');
-      }
-      else{
-        $('#select-all-institute').prop('checked', false);
-        $('#select-all-institute').val('check_all');
-    }
+    $('#sel-department').show();
+    $('#sel-courses').hide();
   });
 
   $("#sel-department").change(function(){
@@ -257,27 +168,8 @@
       success:function(data){ $('#sel-courses').html(data); }
     });
 
-    if ($("#sel-department option:checked").length == $('#sel-department option').length) {
-       $('#select-all-dept').prop('checked', true);
-       $('#select-all-dept').val('uncheck_all');
-      }
-      else{
-        $('#select-all-dept').prop('checked', false);
-        $('#select-all-dept').val('check_all');
-    }
+    $('#sel-courses').show();
   });
-
-  $("#sel-courses").change(function(){
-    if ($("#sel-courses option:checked").length == $('#sel-courses option').length) {
-       $('#select-all-courses').prop('checked', true);
-       $('#select-all-courses').val('uncheck_all');
-      }
-      else{
-        $('#select-all-courses').prop('checked', false);
-        $('#select-all-courses').val('check_all');
-    }
-  });
-
 
 </script>
 {% endblock customScript %}

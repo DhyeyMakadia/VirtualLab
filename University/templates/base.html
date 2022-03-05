@@ -192,6 +192,56 @@
             </ul>
           </li>
           {% endif %}
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Manage User Admins
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+              {% if Users.is_superuser %}
+                <li class="nav-item">
+                  <a href="{% url 'register_admin' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>View Directors</p>
+                  </a>
+                </li>
+              {% endif %}
+
+                {% if permissions.role == "Director" or Users.is_superuser %}
+                <li class="nav-item">
+                  <a href="{% url 'view_admin' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>View Principle</p>
+                  </a>
+                </li>
+                {% endif %}
+
+                {% if permissions.role == "Principle" or permissions.role == "Director" or Users.is_superuser %}
+                <li class="nav-item">
+                  <a href="{% url 'view_admin' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>View HOD</p>
+                  </a>
+                </li>
+                {% endif %}
+
+                {% if permissions.role == "Director" or permissions.role == "Principle" or permissions.role == "HOD" or Users.is_superuser %}
+                <li class="nav-item">
+                  <a href="{% url 'view_admin' %}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>View Faculty</p>
+                  </a>
+                </li>
+                {% endif %}
+
+            </ul>
+          </li>
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-bars"></i>

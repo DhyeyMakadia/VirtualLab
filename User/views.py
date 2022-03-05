@@ -14,7 +14,7 @@ from .decorators import check_authentication
 
 
 # from django.contrib.auth.decorators import permission_required
-# from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group
 
 # Create your views here.
 
@@ -91,9 +91,12 @@ def register_admin(request):
     User_Admin = TblAdmin.objects.get(account_id=user)
     User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
+    groups = Group.objects.all()
+    user.groups.all()
+
     # PERMISSION TO INSERT(ONLY TO SUPERUSER)
-    if not user.is_superuser:
-        return redirect('view_admin')
+    # if not user.is_superuser:
+    #     return redirect('view_admin')
     if request.POST:
         em = request.POST['em1']
         pwd = request.POST['pass1']
@@ -131,18 +134,19 @@ def register_admin(request):
                   {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err})
 
 def sel_institute(request):
-    university_id = request.GET.getlist('univ_id[]')
-    institutes = TblInstitutes.objects.filter(university_id__in = university_id)
+    university_id = request.GET.get('univ_id')
+    institutes = TblInstitutes.objects.filter(university_id = university_id)
+    print(institutes,"ins")
     return render(request,'select_option.html',{'institutes':institutes})
 
 def sel_department(request):
-    institute_id = request.GET.getlist('institute_id[]')
-    departments = TblDepartments.objects.filter(institute_id__in = institute_id)
+    institute_id = request.GET.get('institute_id')
+    departments = TblDepartments.objects.filter(institute_id = institute_id)
     return render(request,'select_option.html',{'departments':departments})
 
 def sel_courses(request):
-    department_id = request.GET.getlist('department_id[]')
-    courses = TblCourses.objects.filter(department_id__in = department_id)
+    department_id = request.GET.get('department_id')
+    courses = TblCourses.objects.filter(department_id = department_id)
     return render(request,'select_option.html',{'courses':courses})
 
 @check_authentication
