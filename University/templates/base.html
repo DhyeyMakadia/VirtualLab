@@ -62,7 +62,7 @@
           <div class="dropdown-divider"></div>
           <a href="{% url 'profile' %}" class="dropdown-item dropdown-footer">View Profile</a>
           <div class="dropdown-divider"></div>
-          <a href="{% url 'changepassword' %}" class="dropdown-item dropdown-footer">Change Password</a>
+          <a href="{% url 'change_password' %}" class="dropdown-item dropdown-footer">Change Password</a>
           <div class="dropdown-divider"></div>
           <a href="{% url 'logout' %}" class="dropdown-item dropdown-footer">Logout</a>
         </div>
@@ -111,7 +111,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              {% if permissions.can_view %}
+<!--              {% if permissions.can_view %}-->
               {% for i in univ %}
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -159,17 +159,17 @@
                 </ul>
               </li>
               {% endfor %}
-              {% endif %}
+<!--              {% endif %}-->
             </ul>
           </li>
 
           <!-- ONLY SUPERUSER CAN ACCESS -->
-          {% if Users.is_superuser %}
+          {% if Users.is_superuser or Users.is_staff %}
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
-                Manage Admins
+                Manage Super Users
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -178,14 +178,14 @@
                 <li class="nav-item">
                   <a href="{% url 'register_admin' %}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Register Admin</p>
+                    <p>Register Super User</p>
                   </a>
                 </li>
 
                 <li class="nav-item">
                   <a href="{% url 'view_admin' %}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>View Admin(s)</p>
+                    <p>View Super Users</p>
                   </a>
                 </li>
 
@@ -193,6 +193,7 @@
           </li>
           {% endif %}
 
+          {% if Users.is_superuser or Users.is_staff or is_director or is_principal or is_hod %}
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
@@ -203,36 +204,36 @@
             </a>
             <ul class="nav nav-treeview">
 
-              {% if Users.is_superuser %}
+              {% if Users.is_superuser or Users.is_staff %}
                 <li class="nav-item">
-                  <a href="{% url 'register_admin' %}" class="nav-link">
+                  <a href="{% url 'view_director' %}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>View Directors</p>
                   </a>
                 </li>
               {% endif %}
 
-                {% if permissions.role == "Director" or Users.is_superuser %}
+                {% if is_director or Users.is_superuser or Users.is_staff %}
                 <li class="nav-item">
-                  <a href="{% url 'view_admin' %}" class="nav-link">
+                  <a href="{% url 'view_principal' %}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>View Principle</p>
                   </a>
                 </li>
                 {% endif %}
 
-                {% if permissions.role == "Principle" or permissions.role == "Director" or Users.is_superuser %}
+                {% if is_principal or is_director or Users.is_superuser or Users.is_staff %}
                 <li class="nav-item">
-                  <a href="{% url 'view_admin' %}" class="nav-link">
+                  <a href="{% url 'view_hod' %}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>View HOD</p>
                   </a>
                 </li>
                 {% endif %}
 
-                {% if permissions.role == "Director" or permissions.role == "Principle" or permissions.role == "HOD" or Users.is_superuser %}
+                {% if is_director or is_principal or is_hod or Users.is_superuser or Users.is_staff %}
                 <li class="nav-item">
-                  <a href="{% url 'view_admin' %}" class="nav-link">
+                  <a href="{% url 'view_faculty' %}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>View Faculty</p>
                   </a>
@@ -241,6 +242,7 @@
 
             </ul>
           </li>
+          {% endif %}
 
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -330,9 +332,10 @@
       alert("You do not have Adequete Permissions to Insert. Please Contact SUPERUSER for further assistance.")
     }
   }
-  function check_permission_update() {
+  function check_permission_update(user) {
     var check = '{{permissions.can_edit}}'
-    if(check == "False") {
+    console.log(user.has_perm('user.change_account'));
+    if(user.has_perm('user.change_account')) {
       alert("You do not have Adequete Permissions to Update. Please Contact SUPERUSER for further assistance.")
     }
   }

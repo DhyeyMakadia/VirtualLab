@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from User.models import Account, TblUsers, TblAdmin, TblPermissions
+from User.models import Account, TblUsers, TblAdmin
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -40,17 +40,16 @@ class TblAdminSerializer(serializers.ModelSerializer):
                   'update_date_time']
 
 
-
-class TblPermissionsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TblPermissions
-        fields = ['admin_id',
-                  'role',
-                  'can_view',
-                  'can_edit',
-                  'can_insert',
-                  'can_delete',
-                  'is_active',
-                  'is_delete',
-                  'insert_date_time',
-                  'update_date_time']
+# class TblPermissionsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = TblPermissions
+#         fields = ['admin_id',
+#                   'role',
+#                   'can_view',
+#                   'can_edit',
+#                   'can_insert',
+#                   'can_delete',
+#                   'is_active',
+#                   'is_delete',
+#                   'insert_date_time',
+#                   'update_date_time']

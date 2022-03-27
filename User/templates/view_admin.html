@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+<script type="text/javascript" src="permissions.js"></script>
 {% block title1 %}
   <title>LJ VirtualLab | View Admin</title>
 {% endblock title1 %}
@@ -28,66 +28,6 @@
   {% if error %}
   <div class="text-danger">{{ error }}</div>
   {% endif %}
-    <!-- <div class="card">
-      <div class="card-header">
-        <h3 class="card-title"><b>Admin List:</b></h3>
-      </div>
-      <div class="card-body table-responsive p-0">
-        <table id='view_admin' class="table table-hover">
-          <thead>
-            <tr style="text-align: center;">
-              <th style="width: 80px">Sr No.</th>
-              <th style="text-align: left;">Admin Name</th>
-              <th style="text-align: left;">Email</th>
-              <th>Contact No</th>
-              <th>View</th>
-              <th>Insert</th>
-              <th>Update</th>
-              <th>Delete</th>
-              <th style="width: 150px;">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-              {% for i in all_admin reversed %}
-                <tr style="text-align: center;">
-                    <td>{{forloop.counter}}</td>
-                    <td style="text-align: left;">{{ i.admin_id.admin_name }}</td>
-                    <td style="text-align: left;">{{ i.admin_id.account_id.email }}</td>
-                    <td>{{ i.admin_id.admin_contact_number }}</td>
-
-                    {% if i.can_view %}
-                      <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                    {% else %}
-                      <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                    {% endif %}
-
-                    {% if i.can_insert %}
-                      <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                    {% else %}
-                      <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                    {% endif %}
-
-                    {% if i.can_edit %}
-                      <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                    {% else %}
-                      <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                    {% endif %}
-
-                    {% if i.can_delete %}
-                      <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                    {% else %}
-                      <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                    {% endif %}
-                    <td>
-                      <a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary" onclick="check_permission_update()">Update</a>
-                      <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger" onclick="check_permission_delete()">Delete</a>
-                    </td>
-                </tr>
-              {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div> -->
     <div class="card">
       <div class="card-header">
         <h3 class="card-title"><b>Admin List:</b></h3>
@@ -101,47 +41,47 @@
               <th style="text-align: left;">Admin Name</th>
               <th style="text-align: left;">Email</th>
               <th>Contact No</th>
-              <th>View</th>
-              <th>Insert</th>
-              <th>Update</th>
-              <th>Delete</th>
+<!--              <th>View</th>-->
+<!--              <th>Insert</th>-->
+<!--              <th>Update</th>-->
+<!--              <th>Delete</th>-->
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {% for i in all_admin reversed %}
+            {% for i in admin_list reversed %}
             <tr style="text-align: center;">
                 <td>{{forloop.counter}}</td>
-                <td style="text-align: left;">{{ i.admin_id.admin_name }}</td>
-                <td style="text-align: left;">{{ i.admin_id.account_id.email }}</td>
-                <td>{{ i.admin_id.admin_contact_number }}</td>
+                <td style="text-align: left;">{{ i.admin_name }}</td>
+                <td style="text-align: left;">{{ i.account_id.email }}</td>
+                <td>{{ i.admin_contact_number }}</td>
 
-                {% if i.can_view %}
-                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                {% else %}
-                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                {% endif %}
+<!--                {% if i.account_id.can_view %}-->
+<!--                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>-->
+<!--                {% else %}-->
+<!--                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>-->
+<!--                {% endif %}-->
 
-                {% if i.can_insert %}
-                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                {% else %}
-                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                {% endif %}
+<!--                {% if i.can_insert %}-->
+<!--                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>-->
+<!--                {% else %}-->
+<!--                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>-->
+<!--                {% endif %}-->
 
-                {% if i.can_edit %}
-                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                {% else %}
-                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                {% endif %}
+<!--                {% if i.can_edit %}-->
+<!--                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>-->
+<!--                {% else %}-->
+<!--                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>-->
+<!--                {% endif %}-->
 
-                {% if i.can_delete %}
-                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>
-                {% else %}
-                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>
-                {% endif %}
+<!--                {% if i.can_delete %}-->
+<!--                  <td><img src="{% static 'dist/img/true.png' %}" alt="Yes" width="20px"></td>-->
+<!--                {% else %}-->
+<!--                  <td><img src="{% static 'dist/img/false.png' %}" alt="No" width="20px"></td>-->
+<!--                {% endif %}-->
                 <td>
-                  <a href="{% url 'update_admin' i.admin_id.id %}" class="badge bg-primary" onclick="check_permission_update()">Update</a>
-                  <a href="{% url 'delete_admin' i.admin_id.account_id.id %}" class="badge bg-danger" onclick="check_permission_delete()">Delete</a>
+                  <a href="{% url 'update_admin' i.id %}" class="badge bg-primary">Update</a>
+                  <a href="{% url 'delete_admin' i.account_id.id %}" class="badge bg-danger">Delete</a>
                 </td>
             </tr>
           {% endfor %}
@@ -152,10 +92,10 @@
             <th>Admin Name</th>
             <th>Email</th>
             <th>Contact</th>
-            <th>View</th>
-            <th>Insert</th>
-            <th>Update</th>
-            <th>Delete</th>
+<!--            <th>View</th>-->
+<!--            <th>Insert</th>-->
+<!--            <th>Update</th>-->
+<!--            <th>Delete</th>-->
             <th>Action</th>
           </tr>
           </tfoot>
@@ -163,7 +103,7 @@
       </div>
       <!-- /.card-body -->
     </div>
-      <a href="{% url 'register_admin' %}"><div class="btn btn-success" onclick="check_permission_add()">Register New Admin</div></a>
+      <a href="{% url 'register_admin' %}"><div class="btn btn-success">Register New Admin</div></a>
 </div>
 {% endblock %}
 
@@ -183,6 +123,5 @@
       "responsive": true,
       "buttons": [/* "copy", "csv", */ "excel", "pdf", "print", "colvis"],
     }).buttons().container().appendTo('#view_admin_table_wrapper .col-md-6:eq(0)');
-
 </script>
 {% endblock customScript %}

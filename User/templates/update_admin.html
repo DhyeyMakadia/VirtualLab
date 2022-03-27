@@ -45,9 +45,9 @@
             </div>
             {% endif %}
             <h3 class="profile-username text-center">{{ update_admin.admin_name }}</h3>
-            {% if update_admin.permissions_admin_id %}
-            <p class="text-muted text-center">({{ update_admin.permissions_admin_id.get }})</p>
-            {% endif %}
+<!--            {% if update_admin.permissions_admin_id %}-->
+<!--            <p class="text-muted text-center">({{ update_admin.permissions_admin_id.get }})</p>-->
+<!--            {% endif %}-->
 
             <div class="card-body table-responsive">
 
@@ -65,29 +65,29 @@
 
               <hr>
 
-              {% if update_permissions %}
+<!--              {% if update_permissions %}-->
               <strong># Permissions</strong><br>
-              {% endif %}
+<!--              {% endif %}-->
 
-              {% if update_permissions.can_view %}
+              {% if can_view %}
               <span class="badge bg-success">View</span>
               {% else %}
               <span class="badge bg-danger">View</span>
               {% endif %}
 
-              {% if update_permissions.can_insert %}
+              {% if can_add %}
               <span class="badge bg-success">Insert</span>
               {% else %}
               <span class="badge bg-danger">Insert</span>
               {% endif %}
 
-              {% if update_permissions.can_edit %}
+              {% if can_change %}
               <span class="badge bg-success">Update</span>
               {% else %}
               <span class="badge bg-danger">Update</span>
               {% endif %}
 
-              {% if update_permissions.can_delete %}
+              {% if can_delete %}
               <span class="badge bg-success">Delete</span>
               {% else %}
               <span class="badge bg-danger">Delete</span>
@@ -118,7 +118,7 @@
                 <div class="form-group row">
                   <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
                   <div class="col-sm-10">
-                    <input type="text" name="cno1" class="form-control form-control-border" id="inputName"
+                    <input type="text" name="cno1" class="form-control form-control-border" id="inputContactNo"
                       value="{{ update_admin.admin_contact_number }}" placeholder="Contact No.">
                   </div>
                 </div>
@@ -135,169 +135,194 @@
                   </div>
                 </div>
 
-                <div class="form-group row">
-                  <label for="inputName" class="col-sm-2 col-form-label">Can View</label>
-                  <div class="col-sm-10">
-                    {% if update_permissions.can_view %}
-                    <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">No</label>
-                    {% else %}
-                    <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">No</label>
-                    {% endif %}
+<!--                <div class="form-group row">-->
+<!--                  <label for="inputName" class="col-sm-2 col-form-label">Can View</label>-->
+<!--                  <div class="col-sm-10">-->
+<!--                    {% if update_permissions.can_view %}-->
+<!--                    <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% else %}-->
+<!--                    <input type="radio" name="can_view" value="true" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_view" value="false" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% endif %}-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group row">-->
+<!--                  <label for="inputName" class="col-sm-2 col-form-label">Can Insert</label>-->
+<!--                  <div class="col-sm-10">-->
+<!--                    {% if update_permissions.can_insert %}-->
+<!--                    <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% else %}-->
+<!--                    <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% endif %}-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group row">-->
+<!--                  <label for="inputName" class="col-sm-2 col-form-label">Can Update</label>-->
+<!--                  <div class="col-sm-10">-->
+<!--                    {% if update_permissions.can_edit %}-->
+<!--                    <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% else %}-->
+<!--                    <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% endif %}-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group row">-->
+<!--                  <label for="inputName" class="col-sm-2 col-form-label">Can Delete</label>-->
+<!--                  <div class="col-sm-10">-->
+<!--                    {% if update_permissions.can_delete %}-->
+<!--                    <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% else %}-->
+<!--                    <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;">-->
+<!--                    <label for="InputCheckbox">Yes</label>-->
+<!--                    <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;"-->
+<!--                      checked>-->
+<!--                    <label for="InputCheckbox">No</label>-->
+<!--                    {% endif %}-->
+<!--                  </div>-->
+<!--                </div>-->
+
+                <div>
+                  <label class="col-form-label">Permissions:</label>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Add</label>
+                    <div class="col-sm-2">
+                      <input type="checkbox" name="can_add" class="form-control form-control-border" id="can_add"
+                             value='{{ can_add }}' />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Update</label>
+                    <div class="col-sm-2">
+                      <input type="checkbox" name="can_change" class="form-control form-control-border" id="can_change"
+                             value="{{ can_change }}" />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Delete</label>
+                    <div class="col-sm-2">
+                      <input type="checkbox" name="can_delete" class="form-control form-control-border" id="can_delete"
+                             value="{{ can_delete }}" />
+                    </div>
                   </div>
                 </div>
 
-                <div class="form-group row">
-                  <label for="inputName" class="col-sm-2 col-form-label">Can Insert</label>
-                  <div class="col-sm-10">
-                    {% if update_permissions.can_insert %}
-                    <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">No</label>
-                    {% else %}
-                    <input type="radio" name="can_insert" value="true" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_insert" value="false" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">No</label>
-                    {% endif %}
-                  </div>
-                </div>
+<!--                <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label>-->
+<!--                <div class="form-group row">-->
+<!--                  <div class="col-sm-6">-->
+<!--                    <div>-->
+<!--                      <label>Select University</label>-->
+<!--                      <div class="custom-control custom-checkbox float-right">-->
+<!--                        <input type="checkbox" name="univ" class="custom-control-input" id="select-all-univ"-->
+<!--                          value="check_all">-->
+<!--                        <label for="select-all-univ" class="custom-control-label">Select all</label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <select multiple class="form-control" name="university" id="sel-university">-->
+<!--                      {% for i in univ %}-->
 
-                <div class="form-group row">
-                  <label for="inputName" class="col-sm-2 col-form-label">Can Update</label>
-                  <div class="col-sm-10">
-                    {% if update_permissions.can_edit %}
-                    <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">No</label>
-                    {% else %}
-                    <input type="radio" name="can_edit" value="true" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_edit" value="false" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">No</label>
-                    {% endif %}
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <label for="inputName" class="col-sm-2 col-form-label">Can Delete</label>
-                  <div class="col-sm-10">
-                    {% if update_permissions.can_delete %}
-                    <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">No</label>
-                    {% else %}
-                    <input type="radio" name="can_delete" value="true" id="InputCheckbox" style="margin-top: 15px;">
-                    <label for="InputCheckbox">Yes</label>
-                    <input type="radio" name="can_delete" value="false" id="InputCheckbox" style="margin-top: 15px;"
-                      checked>
-                    <label for="InputCheckbox">No</label>
-                    {% endif %}
-                  </div>
-                </div>
-
-                <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label>
-                <div class="form-group row">
-                  <div class="col-sm-6">
-                    <div>
-                      <label>Select University</label>
-                      <div class="custom-control custom-checkbox float-right">
-                        <input type="checkbox" name="univ" class="custom-control-input" id="select-all-univ"
-                          value="check_all">
-                        <label for="select-all-univ" class="custom-control-label">Select all</label>
-                      </div>
-                    </div>
-                    <select multiple class="form-control" name="university" id="sel-university">
-                      {% for i in univ %}
-
-                        {% if i in update_permissions.allowed_university.all %}
-                          <option value="{{ i.id }}" selected>{{ i.university_name }}</option>
-                        {% else %}
-                          <option value="{{i.id}}">{{i.university_name}}</option>
-                        {% endif %}
-                          
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="col-sm-6">
-                    <div>
-                      <label>Select Institute</label>
-                      <div class="custom-control custom-checkbox float-right">
-                        <input class="custom-control-input" type="checkbox" id="select-all-institute" value="check_all">
-                        <label for="select-all-institute" class="custom-control-label">Select all</label>
-                      </div>
-                    </div>
-                    <select multiple class="form-control" name="institute" id="sel-institute">
-                      {% for i in institute %}
-                        {% if i.university_id in update_permissions.allowed_university.all %}
-                          {% if i in update_permissions.allowed_institute.all %}
-                            <option value="{{ i.id }}" selected>{{ i.institute_name }}</option>
-                          {% else %}
-                            <option value="{{i.id}}">{{i.institute_name}}</option>
-                          {% endif %}
-                        {% endif %}
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="col-sm-6">
-                    <div>
-                      <label>Select Department</label>
-                      <div class="custom-control custom-checkbox float-right">
-                        <input class="custom-control-input" type="checkbox" id="select-all-dept" value="check_all">
-                        <label for="select-all-dept" class="custom-control-label">Select all</label>
-                      </div>
-                    </div>
-                    <select multiple class="form-control" name="department" id="sel-department">
-                      {% for i in department %}
-                        {% if i.institute_id in update_permissions.allowed_institute.all %}
-                          {% if i in update_permissions.allowed_department.all %}
-                            <option value="{{ i.id }}" selected>{{ i.department_name }}</option>
-                          {% else %}
-                            <option value="{{i.id}}">{{i.department_name}}</option>
-                          {% endif %}
-                        {% endif %}
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="col-sm-6">
-                    <div>
-                      <label>Select Courses</label>
-                      <div class="custom-control custom-checkbox float-right">
-                        <input class="custom-control-input" type="checkbox" id="select-all-courses" value="check_all">
-                        <label for="select-all-courses" class="custom-control-label">Select all</label>
-                      </div>
-                    </div>
-                    <select multiple class="form-control" name="courses" id="sel-courses">
-                      {% for i in courses %}
-                        {% if i.department_id in update_permissions.allowed_department.all %}
-                          {% if i in update_permissions.allowed_courses.all %}
-                            <option value="{{ i.id }}" selected>{{ i.courses_name }}</option>
-                          {% else %}
-                            <option value="{{i.id}}">{{i.courses_name}}</option>
-                          {% endif %}
-                        {% endif %}
-                      {% endfor %}
-                    </select>
-                  </div>
+<!--                        {% if i in update_permissions.allowed_university.all %}-->
+<!--                          <option value="{{ i.id }}" selected>{{ i.university_name }}</option>-->
+<!--                        {% else %}-->
+<!--                          <option value="{{i.id}}">{{i.university_name}}</option>-->
+<!--                        {% endif %}-->
+<!--                          -->
+<!--                      {% endfor %}-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                  <div class="col-sm-6">-->
+<!--                    <div>-->
+<!--                      <label>Select Institute</label>-->
+<!--                      <div class="custom-control custom-checkbox float-right">-->
+<!--                        <input class="custom-control-input" type="checkbox" id="select-all-institute" value="check_all">-->
+<!--                        <label for="select-all-institute" class="custom-control-label">Select all</label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <select multiple class="form-control" name="institute" id="sel-institute">-->
+<!--                      {% for i in institute %}-->
+<!--                        {% if i.university_id in update_permissions.allowed_university.all %}-->
+<!--                          {% if i in update_permissions.allowed_institute.all %}-->
+<!--                            <option value="{{ i.id }}" selected>{{ i.institute_name }}</option>-->
+<!--                          {% else %}-->
+<!--                            <option value="{{i.id}}">{{i.institute_name}}</option>-->
+<!--                          {% endif %}-->
+<!--                        {% endif %}-->
+<!--                      {% endfor %}-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                  <div class="col-sm-6">-->
+<!--                    <div>-->
+<!--                      <label>Select Department</label>-->
+<!--                      <div class="custom-control custom-checkbox float-right">-->
+<!--                        <input class="custom-control-input" type="checkbox" id="select-all-dept" value="check_all">-->
+<!--                        <label for="select-all-dept" class="custom-control-label">Select all</label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <select multiple class="form-control" name="department" id="sel-department">-->
+<!--                      {% for i in department %}-->
+<!--                        {% if i.institute_id in update_permissions.allowed_institute.all %}-->
+<!--                          {% if i in update_permissions.allowed_department.all %}-->
+<!--                            <option value="{{ i.id }}" selected>{{ i.department_name }}</option>-->
+<!--                          {% else %}-->
+<!--                            <option value="{{i.id}}">{{i.department_name}}</option>-->
+<!--                          {% endif %}-->
+<!--                        {% endif %}-->
+<!--                      {% endfor %}-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                  <div class="col-sm-6">-->
+<!--                    <div>-->
+<!--                      <label>Select Courses</label>-->
+<!--                      <div class="custom-control custom-checkbox float-right">-->
+<!--                        <input class="custom-control-input" type="checkbox" id="select-all-courses" value="check_all">-->
+<!--                        <label for="select-all-courses" class="custom-control-label">Select all</label>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <select multiple class="form-control" name="courses" id="sel-courses">-->
+<!--                      {% for i in courses %}-->
+<!--                        {% if i.department_id in update_permissions.allowed_department.all %}-->
+<!--                          {% if i in update_permissions.allowed_courses.all %}-->
+<!--                            <option value="{{ i.id }}" selected>{{ i.courses_name }}</option>-->
+<!--                          {% else %}-->
+<!--                            <option value="{{i.id}}">{{i.courses_name}}</option>-->
+<!--                          {% endif %}-->
+<!--                        {% endif %}-->
+<!--                      {% endfor %}-->
+<!--                    </select>-->
+<!--                  </div>-->
                 </div>
               </div>
             </div>
-          </div>
+<!--          </div>-->
           <div class="col-sm-10 pl-0 pb-2">
             <button type="submit" class="btn btn-success">Update Profile</button>
           </div>
@@ -309,7 +334,7 @@
 {% endblock %}
 
 {% block customScript %}
-<script>
+<script type="text/javascript">
   // -----Select-All-Queries----- //
 
   // University

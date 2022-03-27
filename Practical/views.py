@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+
 from University.models import TblUniversity
 
-from User.models import Account, TblAdmin, TblPermissions
-from User.decorators import check_authentication
+from User.models import Account, TblAdmin
+
+from django.contrib.auth.decorators import login_required
 
 from .models import TblPractical, TblCourses, TblMultiplePracticalImages, TblMultipleYoutubeLinks, TblMultipleMaterials, \
     TblInputParameter, TblOutputParameter, TblFixedInputParameter, TblFixedOutputParameter
 
+from guardian.shortcuts import assign_perm, get_objects_for_user, get_users_with_perms
 
 # Create your views here.
 
@@ -22,32 +26,31 @@ from .models import TblPractical, TblCourses, TblMultiplePracticalImages, TblMul
 # --------------------------------Practical-----------------------------------
 
 
-@check_authentication
+@login_required
 def view_practical(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     practical = TblPractical.objects.filter(course_id=id)
     parent_course = TblCourses.objects.get(id=id)
     # PERMISSION TO VIEW
-    if not User_Permissions.can_view:
+    if not user.has_perm('Practical.view_tblpractical'):
         return redirect('dashboard')
     return render(request, 'practical.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'practical': practical, 'parent_course': parent_course})
 
 
+@login_required
 def add_practical(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_course = TblCourses.objects.get(id=id)
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblpractical'):
         return redirect('view_practical', id=parent_course.id)
     if request.POST:
         name1 = request.POST['nm1']
@@ -66,22 +69,30 @@ def add_practical(request, id):
         Add_Practical.practical_advantages = advantages1
         Add_Practical.practical_conclusion = conclusion1
         Add_Practical.save()
+        try:
+            faculty = get_users_with_perms(parent_course).get(groups__name='faculty')
+            assign_perm('University.view_tblpractical', faculty, Add_Practical)
+            assign_perm('University.change_tblpractical', faculty, Add_Practical)
+            assign_perm('University.delete_tblpractical', faculty, Add_Practical)
+        except Exception:
+            messages.warning(request, 'Unable to find faculty of ' + parent_course.courses_name + '\n'
+                             'View, Change and Delete permissions were not assigned')
         return redirect('view_practical_details', id=Add_Practical.id)
     return render(request, 'add_practical.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_course': parent_course})
 
 
+@login_required
 def update_practical(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Practical = TblPractical.objects.get(id=id)
     parent_course = Update_Practical.course_id
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblpractical'):
         return redirect('view_practical', id=parent_course.id)
     if request.POST:
         name1 = request.POST['nm1']
@@ -100,18 +111,18 @@ def update_practical(request, id):
         Update_Practical.save()
         return redirect('view_practical_details', id=Update_Practical.id)
     return render(request, 'update_practical.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_practical': Update_Practical, 'parent_course': parent_course})
 
 
+@login_required
 def delete_practical(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Practical = TblPractical.objects.get(id=id)
     parent_course = Del_Practical.course_id
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tblpractical'):
         return redirect('view_practical', id=parent_course.id)
     else:
         Del_Practical.delete()
@@ -119,31 +130,33 @@ def delete_practical(request, id):
 
 
 # ----------------------------Practical-Details-----------------------------------
+
+@login_required
 def view_practical_details(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     practical_details = TblPractical.objects.get(id=id)
     # PERMISSION TO VIEW
-    if not User_Permissions.can_view:
+    if not user.has_perm('Practical.view_tblpractical'):
         return redirect('dashboard')
     return render(request, 'view_practical_details.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'practical_details': practical_details})
 
 
 # ----------------------------Images-----------------------------------
+
+@login_required
 def add_multiple_images(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblmultiplepracticalimages'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         img1 = request.FILES.get('img1')
@@ -157,36 +170,36 @@ def add_multiple_images(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'add_images.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_multiple_images(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Multiple_Images = TblMultiplePracticalImages.objects.filter(practical_id=id)
     parent_practical = TblPractical.objects.get(id=id)
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblmultiplepracticalimages'):
         return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'update_multiple_images.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_multiple_images': Update_Multiple_Images, 'parent_practical': parent_practical})
 
 
+@login_required
 def update_images(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Images = TblMultiplePracticalImages.objects.get(id=id)
     parent_practical = Update_Images.practical_id
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblmultiplepracticalimages'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         img1 = request.FILES.get('img1')
@@ -198,18 +211,18 @@ def update_images(request, id):
         else:
             return redirect('update_multiple_images', id=parent_practical.id)
     return render(request, 'update_images.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_images': Update_Images, 'parent_practical': parent_practical})
 
 
+@login_required
 def delete_images(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Images = TblMultiplePracticalImages.objects.get(id=id)
     parent_practical = Del_Images.practical_id
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tblmultiplepracticalimages'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Images.delete()
@@ -217,15 +230,16 @@ def delete_images(request, id):
 
 
 # ----------------------------Youtube-Links-----------------------------------
+
+@login_required
 def add_youtube_links(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblmultipleyoutubelinks'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['nm1']
@@ -240,20 +254,20 @@ def add_youtube_links(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'add_youtube_links.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_youtube_links(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Youtube_Links = TblMultipleYoutubeLinks.objects.get(id=id)
     parent_practical = Update_Youtube_Links.practical_id
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblmultipleyoutubelinks'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['nm1']
@@ -266,18 +280,18 @@ def update_youtube_links(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'update_youtube_links.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_youtube_links': Update_Youtube_Links, 'parent_practical': parent_practical})
 
 
+@login_required
 def delete_youtube_links(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Youtube_Links = TblMultipleYoutubeLinks.objects.get(id=id)
     parent_practical = Del_Youtube_Links.practical_id
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tblmultipleyoutubelinks'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Youtube_Links.delete()
@@ -285,15 +299,16 @@ def delete_youtube_links(request, id):
 
 
 # ----------------------------Materials------------------------------------
+
+@login_required
 def add_materials(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblmultiplematerials'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['nm1']
@@ -309,20 +324,20 @@ def add_materials(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'add_materials.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_materials(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Materials = TblMultipleMaterials.objects.get(id=id)
     parent_practical = Update_Materials.practical_id
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblmultiplematerials'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['nm1']
@@ -336,18 +351,18 @@ def update_materials(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'update_materials.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_materials': Update_Materials, 'parent_practical': parent_practical})
 
 
+@login_required
 def delete_materials(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Materials = TblMultipleMaterials.objects.get(id=id)
     parent_practical = Del_Materials.practical_id
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tblmultiplematerials'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Materials.delete()
@@ -355,15 +370,16 @@ def delete_materials(request, id):
 
 
 # ----------------------------Input-Parameters------------------------------------
+
+@login_required
 def add_input_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblinputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['parameter1']
@@ -376,20 +392,20 @@ def add_input_parameters(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'add_input_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_input_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Input_Parameters = TblInputParameter.objects.get(id=id)
     parent_practical = Update_Input_Parameters.practical_id
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblinputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['parameter1']
@@ -400,18 +416,18 @@ def update_input_parameters(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'update_input_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_input_parameters': Update_Input_Parameters, 'parent_practical': parent_practical})
 
 
+@login_required
 def delete_input_parameters(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Input_Parameters = TblInputParameter.objects.get(id=id)
     parent_practical = Del_Input_Parameters.practical_id
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tblinputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Input_Parameters.delete()
@@ -419,15 +435,16 @@ def delete_input_parameters(request, id):
 
 
 # ----------------------------Fixed-Input-Parameters------------------------------------
+
+@login_required
 def add_fixed_input_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblfixedinputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['parameter1']
@@ -440,20 +457,20 @@ def add_fixed_input_parameters(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'add_fixed_input_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_fixed_input_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Fixed_Input_Parameters = TblFixedInputParameter.objects.get(id=id)
     parent_practical = Update_Fixed_Input_Parameters.practical_id
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tblfixedinputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     if request.POST:
         name1 = request.POST['parameter1']
@@ -464,20 +481,20 @@ def update_fixed_input_parameters(request, id):
         else:
             return redirect('view_practical_details', id=parent_practical.id)
     return render(request, 'update_fixed_input_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_fixed_input_parameters': Update_Fixed_Input_Parameters,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def delete_fixed_input_parameters(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Fixed_Input_Parameters = TblFixedInputParameter.objects.get(id=id)
     parent_practical = Del_Fixed_Input_Parameters.practical_id
 
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tblfixedinputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Fixed_Input_Parameters.delete()
@@ -485,16 +502,17 @@ def delete_fixed_input_parameters(request, id):
 
 
 # ----------------------------Output-Parameters------------------------------------
+
+@login_required
 def add_output_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
 
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tbloutputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
 
     if request.POST:
@@ -510,21 +528,21 @@ def add_output_parameters(request, id):
             return redirect('view_practical_details', id=parent_practical.id)
 
     return render(request, 'add_output_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_output_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Output_Parameters = TblOutputParameter.objects.get(id=id)
     parent_practical = Update_Output_Parameters.practical_id
 
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.change_tbloutputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
 
     if request.POST:
@@ -538,19 +556,19 @@ def update_output_parameters(request, id):
             return redirect('view_practical_details', id=parent_practical.id)
 
     return render(request, 'update_output_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_output_parameters': Update_Output_Parameters, 'parent_practical': parent_practical})
 
 
+@login_required
 def delete_output_parameters(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Output_Parameters = TblOutputParameter.objects.get(id=id)
     parent_practical = Del_Output_Parameters.practical_id
 
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.delete_tbloutputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Output_Parameters.delete()
@@ -558,16 +576,17 @@ def delete_output_parameters(request, id):
 
 
 # ----------------------------Fixed-Output-Parameters------------------------------------
+
+@login_required
 def add_fixed_output_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     parent_practical = TblPractical.objects.get(id=id)
 
     # PERMISSION TO INSERT
-    if not User_Permissions.can_insert:
+    if not user.has_perm('Practical.add_tblfixedoutputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
 
     if request.POST:
@@ -583,21 +602,21 @@ def add_fixed_output_parameters(request, id):
             return redirect('view_practical_details', id=parent_practical.id)
 
     return render(request, 'add_fixed_output_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def update_fixed_output_parameters(request, id):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
     Update_Fixed_Output_Parameters = TblFixedOutputParameter.objects.get(id=id)
     parent_practical = Update_Fixed_Output_Parameters.practical_id
 
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('Practical.add_tblfixedoutputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
 
     if request.POST:
@@ -611,20 +630,20 @@ def update_fixed_output_parameters(request, id):
             return redirect('view_practical_details', id=parent_practical.id)
 
     return render(request, 'update_fixed_output_parameters.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
+                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'error': err,
                    'update_fixed_output_parameters': Update_Fixed_Output_Parameters,
                    'parent_practical': parent_practical})
 
 
+@login_required
 def delete_fixed_output_parameters(request, id):
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Del_Fixed_Output_Parameters = TblFixedOutputParameter.objects.get(id=id)
     parent_practical = Del_Fixed_Output_Parameters.practical_id
 
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('Practical.add_tblfixedoutputparameter'):
         return redirect('view_practical_details', id=parent_practical.id)
     else:
         Del_Fixed_Output_Parameters.delete()

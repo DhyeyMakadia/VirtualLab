@@ -53,12 +53,6 @@
                 <input type="text" name="nm1" class="form-control form-control-border" id="inputName" placeholder="Admin Name" required>
               </div>
             </div>
-            <!-- <div class="form-group row">
-              <label for="inputName" class="col-sm-2 col-form-label">Role</label>
-              <div class="col-sm-10">
-                <input type="text" name="role1" class="form-control form-control-border" id="inputName" placeholder="Role" value="Admin">
-              </div>
-            </div> -->
             <div class="form-group row">
               <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
               <div class="col-sm-10">
@@ -71,47 +65,66 @@
                 <input type="file" name="prof1" class="form-control form-control-border" id="inputSkills" placeholder="Profile">
               </div>
             </div>
+            <div>
+              <label for="inputSkills" class="col-form-label">Permissions:</label>
+              <div class="form-group row">
+                <label for="inputSkills" class="col-sm-2 col-form-label">Add</label>
+                <div class="col-sm-2">
+                  <input type="checkbox" name="can_add" class="form-control form-control-border" id="can_add" />
+                </div>
+              </div><div class="form-group row">
+                <label for="inputSkills" class="col-sm-2 col-form-label">Update</label>
+                <div class="col-sm-2">
+                  <input type="checkbox" name="can_update" class="form-control form-control-border" id="can_update" />
+                </div>
+              </div><div class="form-group row">
+                <label for="inputSkills" class="col-sm-2 col-form-label">Delete</label>
+                <div class="col-sm-2">
+                  <input type="checkbox" name="can_delete" class="form-control form-control-border" id="can_delete" />
+                </div>
+              </div>
+            </div>
             <!-- <br>
             <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label> -->
 
-            <div class="form-group row">
-              <div class="col-sm-2">
-                <label>Select University</label>
-              </div>
-              <select class="form-control col-sm-3" name="university" id="sel-university">
-                <option value="0" selected>--Select University--</option>
-                {% for i in univ %}
-                <option value="{{i.id}}">{{i.university_name}}</option>
-                {% endfor %}
-              </select>
-            </div>
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select University</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="university" id="sel-university">-->
+<!--                <option value="0" selected>&#45;&#45;Select University&#45;&#45;</option>-->
+<!--                {% for i in univ %}-->
+<!--                <option value="{{i.id}}">{{i.university_name}}</option>-->
+<!--                {% endfor %}-->
+<!--              </select>-->
+<!--            </div>-->
 
-            <div class="form-group row">
-              <div class="col-sm-2">
-                <label>Select Institutes</label>
-              </div>
-              <select class="form-control col-sm-3" name="institutes" id="sel-institute">
-                
-              </select>
-            </div>
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select Institutes</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="institutes" id="sel-institute">-->
+<!--                -->
+<!--              </select>-->
+<!--            </div>-->
 
-            <div class="form-group row">
-              <div class="col-sm-2">
-                <label>Select Department</label>
-              </div>
-              <select class="form-control col-sm-3" name="department" id="sel-department">
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select Department</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="department" id="sel-department">-->
 
-              </select>
-            </div>
+<!--              </select>-->
+<!--            </div>-->
 
-            <div class="form-group row">
-              <div class="col-sm-2">
-                <label>Select Courses</label>
-              </div>
-              <select class="form-control col-sm-3" name="courses" id="sel-courses">
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select Courses</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="courses" id="sel-courses">-->
 
-              </select>
-            </div>
+<!--              </select>-->
+<!--            </div>-->
             
             <div class="form-group row">
               <div class="col-sm-10">

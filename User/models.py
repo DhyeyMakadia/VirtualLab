@@ -1,4 +1,3 @@
-from pyexpat import model
 from University.models import TblCourses, TblDepartments, TblInstitutes, TblUniversity
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
@@ -87,22 +86,22 @@ class TblAdmin(models.Model):
         return self.admin_name
 
 
-class TblPermissions(models.Model):
-    admin_id = models.ForeignKey(TblAdmin, related_name="permissions_admin_id", on_delete=models.CASCADE, blank=True,
-                                 null=True)
-    role = models.CharField("Role",default='Admin',blank=True,null=True,max_length=100)
-    can_view = models.BooleanField("can_view", default=True)
-    can_edit = models.BooleanField("can_edit", default=False)
-    can_insert = models.BooleanField("can_insert", default=False)
-    can_delete = models.BooleanField("can_delete", default=False)
-    allowed_university = models.ManyToManyField(TblUniversity)
-    allowed_institute = models.ManyToManyField(TblInstitutes)
-    allowed_department = models.ManyToManyField(TblDepartments)
-    allowed_courses = models.ManyToManyField(TblCourses)
-    is_active = models.BooleanField("is_active", default=True)
-    is_delete = models.BooleanField("is_delete", default=False)
-    insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.role
+# class TblPermissions(models.Model):
+#     admin_id = models.ForeignKey(TblAdmin, related_name="permissions_admin_id", on_delete=models.CASCADE, blank=True,
+#                                  null=True)
+#     role = models.CharField("Role",default='Admin',blank=True,null=True,max_length=100)
+#     can_view = models.BooleanField("can_view", default=True)
+#     can_edit = models.BooleanField("can_edit", default=False)
+#     can_insert = models.BooleanField("can_insert", default=False)
+#     can_delete = models.BooleanField("can_delete", default=False)
+#     allowed_university = models.ManyToManyField(TblUniversity)
+#     allowed_institute = models.ManyToManyField(TblInstitutes)
+#     allowed_department = models.ManyToManyField(TblDepartments)
+#     allowed_courses = models.ManyToManyField(TblCourses)
+#     is_active = models.BooleanField("is_active", default=True)
+#     is_delete = models.BooleanField("is_delete", default=False)
+#     insert_date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+#     update_date_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+#
+#     def __str__(self):
+#         return self.role
