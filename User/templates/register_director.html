@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+  <title>LJ VirtualLab | Register Director</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Register Director</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">University</a></li>
+          <li class="breadcrumb-item active">Register_Director</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<form id="register_admin_form" method="POST" autocomplete="off" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% if error %}
+    <div class="text-danger">{{ error }}</div>
+  {% endif %}
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Register Director</h3>
+    </div>
+    <div class="card-body table-responsive">
+      <div class="tab-content">
+            <div class="form-group row">
+              <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" name="email" class="form-control form-control-border" id="inputEmail" placeholder="Email" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Password</label>
+              <div class="col-sm-10">
+                <input type="text" name="password" class="form-control form-control-border" id="inputPassword" placeholder="Password" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="name" class="form-control form-control-border" id="inputName" placeholder="Director Name" required>
+              </div>
+            </div>
+            <!-- <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Role</label>
+              <div class="col-sm-10">
+                <input type="text" name="role1" class="form-control form-control-border" id="inputName" placeholder="Role" value="Admin">
+              </div>
+            </div> -->
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
+              <div class="col-sm-10">
+                <input type="text" name="contactNumber" class="form-control form-control-border" id="inputContactNo" placeholder="Contact No">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputName" class="col-sm-2 col-form-label">Profile</label>
+              <div class="col-sm-10">
+                <input type="file" name="profilePicture" class="form-control form-control-border" id="inputProfilePicture" placeholder="Profile">
+              </div>
+            </div>
+            <!-- <br>
+            <label class="text-secondary" style="font-size: 24px; font-weight: 700;">PERMISSIONS</label> -->
+
+            <div class="form-group row">
+              <div class="col-sm-2">
+                <label>Select University</label>
+              </div>
+              <select class="form-control col-sm-3" name="university" id="sel-university">
+                <option value="0" selected>--Select University--</option>
+                {% for i in univ %}
+                <option value="{{i.id}}">{{i.university_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select Institutes</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="institutes" id="sel-institute">-->
+
+<!--              </select>-->
+<!--            </div>-->
+
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select Department</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="department" id="sel-department">-->
+
+<!--              </select>-->
+<!--            </div>-->
+
+<!--            <div class="form-group row">-->
+<!--              <div class="col-sm-2">-->
+<!--                <label>Select Courses</label>-->
+<!--              </div>-->
+<!--              <select class="form-control col-sm-3" name="courses" id="sel-courses">-->
+
+<!--              </select>-->
+<!--            </div>-->
+
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-success">Register</button>
+              </div>
+            </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block customScript %}
+<script>
+  $('#sel-institute').hide();
+  $('#sel-department').hide();
+  $('#sel-courses').hide();
+  // -----AJAX-Queries---- //
+  $("#sel-university").change(function(){
+    var univ_id = $(this).val();
+
+    $.ajax({
+      url: "{% url 'sel_institute' %}",
+      data: {'univ_id':univ_id},
+
+      success:function(data){ $('#sel-institute').html(data); }
+    });
+    $('#sel-institute').show();
+    $('#sel-department').hide();
+    $('#sel-courses').hide();
+  });
+
+  $("#sel-institute").change(function(){
+    var institute_id = $(this).val();
+
+    $.ajax({
+      url: "{% url 'sel_department' %}",
+      data: {'institute_id':institute_id},
+
+      success:function(data){ $('#sel-department').html(data); }
+    });
+    $('#sel-department').show();
+    $('#sel-courses').hide();
+  });
+
+  $("#sel-department").change(function(){
+    var department_id = $(this).val();
+
+    $.ajax({
+      url: "{% url 'sel_courses' %}",
+      data: {'department_id':department_id},
+
+      success:function(data){ $('#sel-courses').html(data); }
+    });
+
+    $('#sel-courses').show();
+  });
+
+</script>
+{% endblock customScript %}
