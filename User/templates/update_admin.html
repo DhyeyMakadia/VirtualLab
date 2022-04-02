@@ -216,22 +216,19 @@
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Add</label>
                     <div class="col-sm-2">
-                      <input type="checkbox" name="can_add" class="form-control form-control-border" id="can_add"
-                             value='{{ can_add }}' />
+                      <input type="checkbox" name="can_add" class="form-control form-control-border" id="can_add" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Update</label>
                     <div class="col-sm-2">
-                      <input type="checkbox" name="can_change" class="form-control form-control-border" id="can_change"
-                             value="{{ can_change }}" />
+                      <input type="checkbox" name="can_change" class="form-control form-control-border" id="can_change" />
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Delete</label>
                     <div class="col-sm-2">
-                      <input type="checkbox" name="can_delete" class="form-control form-control-border" id="can_delete"
-                             value="{{ can_delete }}" />
+                      <input type="checkbox" name="can_delete" class="form-control form-control-border" id="can_delete" />
                     </div>
                   </div>
                 </div>
@@ -476,5 +473,24 @@
   });
 
 
+</script>
+<script>
+  let can_add_checkbox = document.getElementById('can_add');
+<!--  console.log(can_add_checkbox.checked = true);-->
+  if({{can_add}} === 1) {
+    can_add_checkbox.checked = true;
+  }
+  let can_change_checkbox = document.getElementById('can_change');
+  if({{can_change}} === 1) {
+    can_change_checkbox.checked = true;
+  }
+  let can_delete_checkbox = document.getElementById('can_delete');
+  if({{can_delete}} === 1) {
+    can_delete_checkbox.checked = true;
+  }
+  console.log({{can_view}});
+  console.log({{can_add}});
+  console.log({{can_change}});
+  console.log({{can_delete}});
 </script>
 {% endblock customScript %}
