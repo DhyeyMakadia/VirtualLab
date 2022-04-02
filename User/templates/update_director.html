@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title1 %}
+<title>LJ VirtualLab | Update Director</title>
+{% endblock title1 %}
+
+{% block Name %}
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Update Director</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'dashboard' %}" style="color: grey;">University</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'view_director' %}" style="color: grey;">View_Director</a></li>
+          <li class="breadcrumb-item active">Update_Director</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block NewContent %}
+<section class="content">
+  <div class="container-fluid">
+    {% if error %}
+    <div class="text-danger">{{ error }}</div>
+    {% endif %}
+    <div class="row">
+      <div class="col-md-3">
+
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile table-responsive">
+            <div class="text-center">
+              Updating Profile of<br><br>
+            </div>
+            {% if update_director.admin_image %}
+            <div class="text-center">
+              <img class="profile-user-img img-fluid img-circle" src="{{ update_director.admin_image.url }}"
+                alt="User profile picture">
+            </div>
+            {% endif %}
+            <h3 class="profile-username text-center">{{ update_director.admin_name }}</h3>
+<!--            {% if update_director.permissions_admin_id %}-->
+<!--            <p class="text-muted text-center">({{ update_director.permissions_admin_id.get }})</p>-->
+<!--            {% endif %}-->
+
+            <div class="card-body table-responsive">
+
+              <hr>
+
+              <strong><i class="far fa-file-alt mr-1"></i> Email</strong>
+              <br>
+              <p class="text-muted">{{ update_director.account_id.email }}</p>
+
+              <hr>
+
+              <strong><i class="fas fa-pencil-alt mr-1"></i> Contact No.</strong>
+              <br>
+              <p class="text-muted">{{ update_director.admin_contact_number }}</p>
+
+<!--              <hr>-->
+
+<!--              {% if update_permissions %}-->
+<!--              <strong># Permissions</strong><br>-->
+<!--              {% endif %}-->
+
+<!--              {% if can_view %}-->
+<!--              <span class="badge bg-success">View</span>-->
+<!--              {% else %}-->
+<!--              <span class="badge bg-danger">View</span>-->
+<!--              {% endif %}-->
+
+<!--              {% if can_add %}-->
+<!--              <span class="badge bg-success">Insert</span>-->
+<!--              {% else %}-->
+<!--              <span class="badge bg-danger">Insert</span>-->
+<!--              {% endif %}-->
+
+<!--              {% if can_change %}-->
+<!--              <span class="badge bg-success">Update</span>-->
+<!--              {% else %}-->
+<!--              <span class="badge bg-danger">Update</span>-->
+<!--              {% endif %}-->
+
+<!--              {% if can_delete %}-->
+<!--              <span class="badge bg-success">Delete</span>-->
+<!--              {% else %}-->
+<!--              <span class="badge bg-danger">Delete</span>-->
+<!--              {% endif %}-->
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <form method="POST" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
+          {% csrf_token %}
+          <div class="card card-primary">
+            <div class="card-header">
+              <div class="nav nav-pills">
+                <span class="nav-item">Update Profile</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">University Name</label>
+                  <p>{{ university.university_name }}</p>
+<!--                  <div class="col-sm-10">-->
+<!--                    <input type="text" name="nm1" class="form-control form-control-border" id="inputName"-->
+<!--                      value="{{ update_director.admin_name }}" placeholder="Admin Name" required>-->
+<!--                  </div>-->
+                </div>
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Director Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="nm1" class="form-control form-control-border" id="inputName"
+                      value="{{ update_director.admin_name }}" placeholder="Director Name" required>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputName" class="col-sm-2 col-form-label">Contact No.</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="cno1" class="form-control form-control-border" id="inputContactNo"
+                      value="{{ update_director.admin_contact_number }}" placeholder="Contact No.">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputImage" class="col-sm-2 col-form-label">Profile</label>
+                  <div class="col-sm-10">
+                    <div>
+                      {% if update_director.admin_image %}
+                      <img src="{{update_director.admin_image.url}}" width="100px">
+                      {% endif %}
+                    </div>
+                    <input type="file" name="prof1" class="form-control form-control-border" id="inputImage"
+                      placeholder="Profile">
+                  </div>
+                </div>
+<!--                <div>-->
+<!--                  <label class="col-form-label">Permissions:</label>-->
+<!--                  <div class="form-group row">-->
+<!--                    <label class="col-sm-2 col-form-label">Add</label>-->
+<!--                    <div class="col-sm-2">-->
+<!--                      <input type="checkbox" name="can_add" class="form-control form-control-border" id="can_add" />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="form-group row">-->
+<!--                    <label class="col-sm-2 col-form-label">Update</label>-->
+<!--                    <div class="col-sm-2">-->
+<!--                      <input type="checkbox" name="can_change" class="form-control form-control-border" id="can_change" />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="form-group row">-->
+<!--                    <label class="col-sm-2 col-form-label">Delete</label>-->
+<!--                    <div class="col-sm-2">-->
+<!--                      <input type="checkbox" name="can_delete" class="form-control form-control-border" id="can_delete" />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+                </div>
+              </div>
+            </div>
+<!--          </div>-->
+          <div class="col-sm-10 pl-0 pb-2">
+            <button type="submit" class="btn btn-success">Update Profile</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block customScript %}
+<script type="text/javascript">
+  // -----Select-All-Queries----- //
+
+  // University
+  $('#select-all-univ').click(function() {
+    if($(this).val() == 'check_all'){                         //Checks all 
+      $('#sel-university option').prop('selected', true);
+      $(this).val('uncheck_all');
+      $('#sel-university').trigger('change');
+    }
+    else{                                                     //Unchecks all
+      $('#sel-university option').prop('selected', false);
+      $(this).val('check_all');
+      $('#sel-university').trigger('change');
+
+      if($('#select-all-institute').val() == 'uncheck_all'){
+        $('#select-all-institute').trigger('click');
+      }
+    }
+    });
+
+  // Institute
+  $('#select-all-institute').click(function() {
+    if($(this).val() == 'check_all'){
+      $('#sel-institute option').prop('selected', true);
+      $(this).val('uncheck_all');
+      $('#sel-institute').trigger('change');
+    }
+    else{
+      $('#sel-institute option').prop('selected', false);
+      $(this).val('check_all');
+      $('#sel-institute').trigger('change');
+
+      if($('#select-all-dept').val() == 'uncheck_all'){
+        $('#select-all-dept').trigger('click');
+      }
+    }
+    });
+
+  // Department
+  $('#select-all-dept').click(function() {
+    if($(this).val() == 'check_all'){
+      $('#sel-department option').prop('selected', true);
+      $(this).val('uncheck_all');
+      $('#sel-department').trigger('change');
+    }
+    else{
+      $('#sel-department option').prop('selected', false);
+      $(this).val('check_all');
+      $('#sel-department').trigger('change');
+
+      if($('#select-all-courses').val() == 'uncheck_all'){
+        $('#select-all-courses').trigger('click');
+      }
+    }
+    });
+
+  // Courses
+  $('#select-all-courses').click(function() {
+    if($(this).val() == 'check_all'){
+      $('#sel-courses option').prop('selected', true);
+      $(this).val('uncheck_all');
+    }
+    else{
+      $('#sel-courses option').prop('selected', false);
+      $(this).val('check_all');
+    }
+    });
+
+  // -----AJAX-Queries---- //
+  $("#sel-university").change(function(){
+    var univ_id = $(this).val();
+    
+    $.ajax({
+      url: "{% url 'update_institute' %}",
+      data: {'univ_id':univ_id},
+      
+      success:function(data){ $('#sel-institute').html(data); }
+    });
+
+    if ($("#sel-university option:checked").length == $('#sel-university option').length) {
+       $('#select-all-univ').prop('checked', true);
+       $('#select-all-univ').val('uncheck_all');
+      }
+      else{
+        $('#select-all-univ').prop('checked', false);
+        $('#select-all-univ').val('check_all');
+    }
+  });
+
+  $("#sel-institute").change(function(){
+    var institute_id = $(this).val();
+    
+    $.ajax({
+      url: "{% url 'update_department' %}",
+      data: {'institute_id':institute_id},
+      
+      success:function(data){ $('#sel-department').html(data); }
+    });
+
+    if ($("#sel-institute option:checked").length == $('#sel-institute option').length) {
+       $('#select-all-institute').prop('checked', true);
+       $('#select-all-institute').val('uncheck_all');
+      }
+      else{
+        $('#select-all-institute').prop('checked', false);
+        $('#select-all-institute').val('check_all');
+    }
+  });
+
+  $("#sel-department").change(function(){
+    var department_id = $(this).val();
+
+    $.ajax({
+      url: "{% url 'update_courses' %}",
+      data: {'department_id':department_id},
+
+      success:function(data){ $('#sel-courses').html(data); }
+    });
+
+    if ($("#sel-department option:checked").length == $('#sel-department option').length) {
+       $('#select-all-dept').prop('checked', true);
+       $('#select-all-dept').val('uncheck_all');
+      }
+      else{
+        $('#select-all-dept').prop('checked', false);
+        $('#select-all-dept').val('check_all');
+    }
+  });
+
+  $("#sel-courses").change(function(){
+    if ($("#sel-courses option:checked").length == $('#sel-courses option').length) {
+       $('#select-all-courses').prop('checked', true);
+       $('#select-all-courses').val('uncheck_all');
+      }
+      else{
+        $('#select-all-courses').prop('checked', false);
+        $('#select-all-courses').val('check_all');
+    }
+  });
+
+
+</script>
+<script>
+<!--  let can_add_checkbox = document.getElementById('can_add');-->
+<!--  console.log(can_add_checkbox.checked = true);-->
+<!--  if({{can_add}} === 1) {-->
+<!--    can_add_checkbox.checked = true;-->
+<!--  }-->
+<!--  let can_change_checkbox = document.getElementById('can_change');-->
+<!--  if({{can_change}} === 1) {-->
+<!--    can_change_checkbox.checked = true;-->
+<!--  }-->
+<!--  let can_delete_checkbox = document.getElementById('can_delete');-->
+<!--  if({{can_delete}} === 1) {-->
+<!--    can_delete_checkbox.checked = true;-->
+<!--  }-->
+<!--  console.log({{can_view}});-->
+<!--  console.log({{can_add}});-->
+<!--  console.log({{can_change}});-->
+<!--  console.log({{can_delete}});-->
+</script>
+{% endblock customScript %}
