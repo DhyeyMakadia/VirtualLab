@@ -664,12 +664,12 @@ def update_admin(request, key):
     User_Admin = TblAdmin.objects.get(account_id=user)
     univ = TblUniversity.objects.all()
     Update_Admin = TblAdmin.objects.get(id=key)
+    admin_list = TblAdmin.objects.filter(account_id__in=Account.objects.filter(is_staff=True))
     # RESTRICTED TO UPDATE OWN PROFILE
     # if User_Admin.id == id:
     #     return redirect('view_admin')
     # PERMISSION TO UPDATE
     if not user.has_perm('User.change_account'):
-        admin_list = TblAdmin.objects.filter(account_id__in=Account.objects.filter(is_staff=True))
         err = "You are not authorized to update any admin."
         return render(request, 'view_admin.html',
                       {'Users': user,
@@ -691,19 +691,18 @@ def update_admin(request, key):
         if profile_photo is not None:
             Update_Admin.admin_image = profile_photo
         if can_add is not None:
-            give_permission_for_model(user, 'add_account', Account)
+            give_permission_for_model(Update_Admin.account_id, 'add_account', Account)
         else:
-            remove_permission(user, 'add_account', Account)
+            remove_permission(Update_Admin.account_id, 'add_account', Account)
         if can_change is not None:
-            give_permission_for_model(user, 'change_account', Account)
+            give_permission_for_model(Update_Admin.account_id, 'change_account', Account)
         else:
-            remove_permission(user, 'change_account', Account)
+            remove_permission(Update_Admin.account_id, 'change_account', Account)
         if can_delete is not None:
-            give_permission_for_model(user, 'delete_account', Account)
+            give_permission_for_model(Update_Admin.account_id, 'delete_account', Account)
         else:
-            remove_permission(user, 'delete_account', Account)
+            remove_permission(Update_Admin.account_id, 'delete_account', Account)
         Update_Admin.save()
-        admin_list = TblAdmin.objects.filter(account_id__in=Account.objects.filter(is_staff=True))
         return render(request, 'view_admin.html',
                       {'Users': user,
                        'admin': User_Admin,
@@ -724,22 +723,210 @@ def update_admin(request, key):
 
 @login_required
 def update_director(request, key):
-    pass
+    err = str()
+    user = request.user
+    User_Admin = TblAdmin.objects.get(account_id=user)
+    univ = TblUniversity.objects.all()
+    updateDirector = TblAdmin.objects.get(id=key)
+    director_list = Account.objects.filter(groups__name='director')
+    director_list_admin = TblAdmin.objects.filter(account_id__in=director_list)
+    university = None
+    if get_objects_for_user(updateDirector.account_id, 'University.view_tbluniversity').exists():
+        university = get_objects_for_user(updateDirector.account_id, 'University.view_tbluniversity')[0]
+    if not user.is_staff or not user.has_perm('User.change_account'):
+        err = "You are not authorized to update any director."
+        return render(request, 'view_director.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'director_list_admin': director_list_admin})
+    if request.POST:
+        name = request.POST['nm1']
+        contact_no = request.POST['cno1']
+        profile_photo = request.FILES.get('prof1')
+        if not updateDirector.admin_name == name:
+            updateDirector.admin_name = name
+        if not updateDirector.admin_contact_number == contact_no:
+            updateDirector.admin_contact_number = contact_no
+        if profile_photo is not None:
+            updateDirector.admin_image = profile_photo
+        updateDirector.save()
+        return render(request, 'view_director.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'director_list_admin': director_list_admin})
+    return render(request, 'update_director.html',
+                  {'Users': user,
+                   'admin': User_Admin,
+                   'univ': univ,
+                   'update_director': updateDirector,
+                   'university': university,
+                   'error': err})
 
 
 @login_required
 def update_principal(request, key):
-    pass
+    err = str()
+    user = request.user
+    User_Admin = TblAdmin.objects.get(account_id=user)
+    univ = TblUniversity.objects.all()
+    updatePrincipal = TblAdmin.objects.get(id=key)
+    principal_list = Account.objects.filter(groups__name='principal')
+    principal_list_admin = TblAdmin.objects.filter(account_id__in=principal_list)
+    university = None
+    institute = None
+    if get_objects_for_user(updatePrincipal.account_id, 'University.view_tbluniversity').exists():
+        university = get_objects_for_user(updatePrincipal.account_id, 'University.view_tbluniversity')[0]
+    if get_objects_for_user(updatePrincipal.account_id, 'University.view_tblinstitutes').exists():
+        institute = get_objects_for_user(updatePrincipal.account_id, 'University.view_tblinstitutes')[0]
+    if not user.is_staff or not user.has_perm('User.change_account'):
+        err = "You are not authorized to update any principal."
+        return render(request, 'view_principal.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'principal_list_admin': principal_list_admin})
+    if request.POST:
+        name = request.POST['nm1']
+        contact_no = request.POST['cno1']
+        profile_photo = request.FILES.get('prof1')
+        if not updatePrincipal.admin_name == name:
+            updatePrincipal.admin_name = name
+        if not updatePrincipal.admin_contact_number == contact_no:
+            updatePrincipal.admin_contact_number = contact_no
+        if profile_photo is not None:
+            updatePrincipal.admin_image = profile_photo
+        updatePrincipal.save()
+        return render(request, 'view_principal.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'principal_list_admin': principal_list_admin})
+    return render(request, 'update_principal.html',
+                  {'Users': user,
+                   'admin': User_Admin,
+                   'univ': univ,
+                   'update_principal': updatePrincipal,
+                   'university': university,
+                   'institute': institute,
+                   'error': err})
 
 
 @login_required
 def update_hod(request, key):
-    pass
+    err = str()
+    user = request.user
+    User_Admin = TblAdmin.objects.get(account_id=user)
+    univ = TblUniversity.objects.all()
+    updateHod = TblAdmin.objects.get(id=key)
+    hod_list = Account.objects.filter(groups__name='hod')
+    hod_list_admin = TblAdmin.objects.filter(account_id__in=hod_list)
+    university = None
+    institute = None
+    department = None
+    if get_objects_for_user(updateHod.account_id, 'University.view_tbluniversity').exists():
+        university = get_objects_for_user(updateHod.account_id, 'University.view_tbluniversity')[0]
+    if get_objects_for_user(updateHod.account_id, 'University.view_tblinstitutes').exists():
+        institute = get_objects_for_user(updateHod.account_id, 'University.view_tblinstitutes')[0]
+    if get_objects_for_user(updateHod.account_id, 'University.view_tbldepartments').exists():
+        department = get_objects_for_user(updateHod.account_id, 'University.view_tbldepartments')[0]
+    if not user.is_staff or not user.has_perm('User.change_account'):
+        err = "You are not authorized to update any hod."
+        return render(request, 'view_hod.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'hod_list_admin': hod_list_admin})
+    if request.POST:
+        name = request.POST['nm1']
+        contact_no = request.POST['cno1']
+        profile_photo = request.FILES.get('prof1')
+        if not updateHod.admin_name == name:
+            updateHod.admin_name = name
+        if not updateHod.admin_contact_number == contact_no:
+            updateHod.admin_contact_number = contact_no
+        if profile_photo is not None:
+            updateHod.admin_image = profile_photo
+        updateHod.save()
+        return render(request, 'view_hod.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'hod_list_admin': hod_list_admin})
+    return render(request, 'update_hod.html',
+                  {'Users': user,
+                   'admin': User_Admin,
+                   'univ': univ,
+                   'update_hod': updateHod,
+                   'university': university,
+                   'institute': institute,
+                   'department': department,
+                   'error': err})
 
 
 @login_required
 def update_faculty(request, key):
-    pass
+    err = str()
+    user = request.user
+    User_Admin = TblAdmin.objects.get(account_id=user)
+    univ = TblUniversity.objects.all()
+    updateFaculty = TblAdmin.objects.get(id=key)
+    faculty_list = Account.objects.filter(groups__name='faculty')
+    faculty_list_admin = TblAdmin.objects.filter(account_id__in=faculty_list)
+    university = None
+    institute = None
+    department = None
+    course = None
+    if get_objects_for_user(updateFaculty.account_id, 'University.view_tbluniversity').exists():
+        university = get_objects_for_user(updateFaculty.account_id, 'University.view_tbluniversity')[0]
+    if get_objects_for_user(updateFaculty.account_id, 'University.view_tblinstitutes').exists():
+        institute = get_objects_for_user(updateFaculty.account_id, 'University.view_tblinstitutes')[0]
+    if get_objects_for_user(updateFaculty.account_id, 'University.view_tbldepartments').exists():
+        department = get_objects_for_user(updateFaculty.account_id, 'University.view_tbldepartments')[0]
+    if get_objects_for_user(updateFaculty.account_id, 'University.view_tblcourses').exists():
+        course = get_objects_for_user(updateFaculty.account_id, 'University.view_tblcourses')[0]
+    if not user.is_staff or not user.has_perm('User.change_account'):
+        err = "You are not authorized to update any faculty."
+        return render(request, 'view_faculty.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'faculty_list_admin': faculty_list_admin})
+    if request.POST:
+        name = request.POST['nm1']
+        contact_no = request.POST['cno1']
+        profile_photo = request.FILES.get('prof1')
+        if not updateFaculty.admin_name == name:
+            updateFaculty.admin_name = name
+        if not updateFaculty.admin_contact_number == contact_no:
+            updateFaculty.admin_contact_number = contact_no
+        if profile_photo is not None:
+            updateFaculty.admin_image = profile_photo
+        updateFaculty.save()
+        return render(request, 'view_faculty.html',
+                      {'Users': user,
+                       'admin': User_Admin,
+                       'univ': univ,
+                       'error': err,
+                       'faculty_list_admin': faculty_list_admin})
+    return render(request, 'update_faculty.html',
+                  {'Users': user,
+                   'admin': User_Admin,
+                   'univ': univ,
+                   'update_faculty': updateFaculty,
+                   'university': university,
+                   'institute': institute,
+                   'department': department,
+                   'course': course,
+                   'error': err})
 
 
 def update_institute(request):
@@ -840,25 +1027,38 @@ def view_requests(request):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
-    New_Request = TblUsers.objects.filter(is_approved=False)
-    # PERMISSION TO VIEW
-    if not User_Permissions.can_view:
+    new_request = None
+    if user.is_staff:
+        new_request = TblUsers.objects.filter(is_approved=False)
+    elif user.groups.filter(name='director').exists():
+        if get_objects_for_user(user, 'University.view_tbluniversity').exists():
+            new_request = TblUsers.objects.filter(is_approved=False) & TblUsers.objects.filter(
+                institute_id__in=get_objects_for_user(user, 'University.view_tblinstitutes'))
+    elif user.groups.filter(name='principal').exists():
+        if get_objects_for_user(user, 'University.view_tblinstitutes').exists():
+            new_request = TblUsers.objects.filter(is_approved=False) & TblUsers.objects.filter(
+                institute_id__in=get_objects_for_user(user, 'University.view_tblinstitutes'))
+    elif user.groups.filter(name='hod').exists():
+        if get_objects_for_user(user, 'University.view_tbldepartments').exists():
+            new_request = TblUsers.objects.filter(is_approved=False) & TblUsers.objects.filter(
+                department_id__in=get_objects_for_user(user, 'University.view_tbldepartments'))
+    if not user.has_perm('User.change_account'):
         return redirect('dashboard')
     return render(request, 'view_student_new_request.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
-                   'new_request': New_Request})
+                  {'Users': user,
+                   'admin': User_Admin,
+                   'univ': univ,
+                   'error': err,
+                   'new_request': new_request})
 
 
 @login_required
 def approve_student(request, id):
     user = request.user
-    User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     Student = TblUsers.objects.get(id=id)
     # PERMISSION TO UPDATE
-    if not User_Permissions.can_edit:
+    if not user.has_perm('User.change_account') or not TblUsers.objects.filter(account_id=user).exists():
         return redirect('dashboard')
     Student.is_approved = True
     Student.save()
@@ -868,10 +1068,8 @@ def approve_student(request, id):
 @login_required
 def decline_student(request, id):
     user = request.user
-    User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     # PERMISSION TO DELETE
-    if not User_Permissions.can_delete:
+    if not user.has_perm('User.delete_account'):
         return redirect('view_requests')
     else:
         Del_Student = Account.objects.get(id=id)
@@ -884,25 +1082,28 @@ def view_accepted_students(request):
     err = str()
     user = request.user
     User_Admin = TblAdmin.objects.get(account_id=user)
-    User_Permissions = TblPermissions.objects.get(admin_id=User_Admin)
     univ = TblUniversity.objects.all()
-    Accepted_Students = TblUsers.objects.filter(is_approved=True)
+    accepted_students = None
+    if user.is_staff:
+        accepted_students = TblUsers.objects.filter(is_approved=True)
+    elif user.groups.filter(name='director').exists():
+        if get_objects_for_user(user, 'University.view_tbluniversity').exists():
+            accepted_students = TblUsers.objects.filter(is_approved=True) & TblUsers.objects.filter(
+                institute_id__in=get_objects_for_user(user, 'University.view_tblinstitutes'))
+    elif user.groups.filter(name='principal').exists():
+        if get_objects_for_user(user, 'University.view_tblinstitutes').exists():
+            accepted_students = TblUsers.objects.filter(is_approved=True) & TblUsers.objects.filter(
+                institute_id__in=get_objects_for_user(user, 'University.view_tblinstitutes'))
+    elif user.groups.filter(name='hod').exists():
+        if get_objects_for_user(user, 'University.view_tbldepartments').exists():
+            accepted_students = TblUsers.objects.filter(is_approved=True) & TblUsers.objects.filter(
+                department_id__in=get_objects_for_user(user, 'University.view_tbldepartments'))
     # PERMISSION TO VIEW
-    if not User_Permissions.can_view:
+    if not user.has_perm('User.view_account'):
         return redirect('dashboard')
     return render(request, 'view_accepted_students.html',
-                  {'Users': user, 'admin': User_Admin, 'univ': univ, 'permissions': User_Permissions, 'error': err,
-                   'accepted_students': Accepted_Students})
-
-# @check_authentication
-# def print_permissions(request):
-#     print(request.user)
-#     print([request.user.has_perm(p.content_type.app_label + '.' + p.codename) for p in
-#            Permission.objects.filter(content_type__app_label='User',
-#                                      content_type__model='account')])
-#     print(request.user.user_permissions.all())
-#     print([p.content_type.app_label for p in request.user.user_permissions.all()])
-#     print([request.user.has_perm(
-#         ('User' if p.content_type.model == 'account' else p.content_type.model) + '.' + p.codename) for p in
-#         request.user.user_permissions.all()])
-#     return HttpResponse('Hello')
+                  {'Users': user,
+                   'admin': User_Admin,
+                   'univ': univ,
+                   'error': err,
+                   'accepted_students': accepted_students})
